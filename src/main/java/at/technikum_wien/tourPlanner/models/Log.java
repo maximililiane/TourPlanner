@@ -1,4 +1,4 @@
-package at.technikum_wien.tourplanner.DataClasses;
+package at.technikum_wien.tourPlanner.models;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,7 @@ public class Log {
     public Log(String logMessage, String tourID) {
         LogMessage = logMessage;
         TourID = tourID;
-        date= LocalDateTime.now();
+        date = LocalDateTime.now();
     }
 
     public LocalDateTime getDate() {

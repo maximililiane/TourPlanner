@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="at.technikum_wien.tourPlanner.view.SearchBarController">
+    <userData>
+        <fx:reference source="controller"/>
+    </userData>
+    <TextField fx:id="searchTextField" HBox.hgrow="ALWAYS"/>
+    <!--    <Button fx:id="searchButton" text="%SearchBar_Search" onAction="#onSearchButton"/>-->
+    <Button fx:id="searchButton" text="search" onAction="#onSearchButton"/>
+</HBox>

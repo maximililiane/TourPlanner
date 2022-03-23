@@ -1,4 +1,4 @@
-package at.technikum_wien.tourplanner.DataClasses;
+package at.technikum_wien.tourPlanner.models;
 
 import java.time.LocalTime;
 
@@ -15,7 +15,9 @@ public class Tour {
     double length;
     boolean childFriendly;
 
-    public Tour(String name, String uid, String startingPoint, String endPoint, String transportType, String descriptionLong, String descriptionShort, int popularity, LocalTime estimatedTime, double length, boolean childFriendly) {
+    public Tour(String name, String uid, String startingPoint, String endPoint, String transportType,
+                String descriptionLong, String descriptionShort, int popularity, LocalTime estimatedTime,
+                double length, boolean childFriendly) {
         this.name = name;
         this.uid = uid;
         this.startingPoint = startingPoint;

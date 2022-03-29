@@ -1,2 +1,4 @@
-package at.technikum_wien.tourPlanner.view;public class ListViewController {
+package at.technikum_wien.tourPlanner.view;
+
+public class ListViewController {
 }

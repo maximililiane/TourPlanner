@@ -17,8 +17,8 @@ public class FXMLDependencyInjection {
 
     public static FXMLLoader getLoader(String location, Locale locale) {
         return new FXMLLoader(
-                FXMLDependencyInjection.class.getResource("/at/technikum_wien/tourPlanner/" + location),
-                ResourceBundle.getBundle("at.technikum_wien.tourPlanner." + "gui_strings", locale),
+                FXMLDependencyInjection.class.getResource("/at/technikum_wien/tourPlanner/view/" + location),
+                ResourceBundle.getBundle("at.technikum_wien.tourPlanner.view." + "gui_strings", locale),
                 new JavaFXBuilderFactory(),
                 controllerClass -> ControllerFactory.getInstance().create(controllerClass)
         );

@@ -2,68 +2,22 @@ package at.technikum_wien.tourPlanner.models;
 
 import java.time.LocalTime;
 
-public class Tour {
-    String name;
-    String uid;
-    String startingPoint;
-    String endPoint;
+public class Tour extends ListViewTour{
     String transportType;
     String descriptionLong;
     String descriptionShort;
     int popularity;
-    LocalTime estimatedTime;
     double length;
     boolean childFriendly;
 
-    public Tour(String name, String uid, String startingPoint, String endPoint, String transportType,
-                String descriptionLong, String descriptionShort, int popularity, LocalTime estimatedTime,
-                double length, boolean childFriendly) {
-        this.name = name;
-        this.uid = uid;
-        this.startingPoint = startingPoint;
-        this.endPoint = endPoint;
+    public Tour(String name, String startingPoint, String destination, LocalTime duration, String uid, String transportType, String descriptionLong, String descriptionShort, int popularity, double length, boolean childFriendly) {
+        super(name, startingPoint, destination, duration, uid);
         this.transportType = transportType;
         this.descriptionLong = descriptionLong;
         this.descriptionShort = descriptionShort;
         this.popularity = popularity;
-        this.estimatedTime = estimatedTime;
         this.length = length;
         this.childFriendly = childFriendly;
-    }
-
-    public Tour() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getStartingPoint() {
-        return startingPoint;
-    }
-
-    public void setStartingPoint(String startingPoint) {
-        this.startingPoint = startingPoint;
-    }
-
-    public String getEndPoint() {
-        return endPoint;
-    }
-
-    public void setEndPoint(String endPoint) {
-        this.endPoint = endPoint;
     }
 
     public String getTransportType() {
@@ -96,14 +50,6 @@ public class Tour {
 
     public void setPopularity(int popularity) {
         this.popularity = popularity;
-    }
-
-    public LocalTime getEstimatedTime() {
-        return estimatedTime;
-    }
-
-    public void setEstimatedTime(LocalTime estimatedTime) {
-        this.estimatedTime = estimatedTime;
     }
 
     public double getLength() {

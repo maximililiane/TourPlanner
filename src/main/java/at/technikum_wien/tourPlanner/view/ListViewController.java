@@ -4,12 +4,10 @@ import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
 import at.technikum_wien.tourPlanner.viewModel.ListViewModel;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,10 +16,15 @@ public class ListViewController {
 
     @FXML
     public TableView tourTable;
+    @FXML
     public TableColumn uidColumn;
+    @FXML
     public TableColumn nameColumn;
+    @FXML
     public TableColumn fromColumn;
+    @FXML
     public TableColumn toColumn;
+    @FXML
     public TableColumn durationColumn;
 
     public ListViewTour test= new ListViewTour("testname", "startingpint", "destination", "time", "1234");
@@ -31,7 +34,6 @@ public class ListViewController {
 
     @FXML
     public void addRow(){
-        initializeTable();
         LinkedList<ListViewTour> l= new LinkedList<>();
         l.add(test);
         l.add(test2);
@@ -40,28 +42,16 @@ public class ListViewController {
 
     public ListViewController(ListViewModel listViewModel){
         this.listViewModel=listViewModel;
+
+    }
+    @FXML
+    public void initialize(){
         initializeTable();
-
-    }
-
-    private void addListToTable(List<ListViewTour> list){
-        for (ListViewTour t : list){
-            System.out.println(t.getUid());
-            addTourToTable(t);
-        }
-
-    }
-
-    private void addTourToTable(ListViewTour t){
-
-        ListViewRow dataRow= new ListViewRow(t);
-        tourTable.getItems().add(dataRow);
     }
 
     public void initializeTable(){
 
-        createColumns();
-        tourTable.getColumns().addAll(uidColumn, nameColumn, fromColumn, toColumn, durationColumn);
+        associateColumns();
         tourTable.setRowFactory(tv -> {
             TableRow<ListViewRow> row = new TableRow<>();
             CustomContextMenu cm= new CustomContextMenu();
@@ -88,19 +78,27 @@ public class ListViewController {
         });
     }
 
-    public void createColumns(){
-
-        uidColumn= new TableColumn("uid");
-        nameColumn= new TableColumn("name");
-        fromColumn= new TableColumn("from");
-        toColumn= new TableColumn("to");
-        durationColumn= new TableColumn("duration");
+    public void associateColumns(){
 
         uidColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("uid"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("name"));
         fromColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("startingPoint"));
         toColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("destination"));
         durationColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("estimatedTime"));
+    }
+
+    private void addListToTable(List<ListViewTour> list){
+        for (ListViewTour t : list){
+            System.out.println(t.getUid());
+            addTourToTable(t);
+        }
+
+    }
+
+    private void addTourToTable(ListViewTour t){
+
+        ListViewRow dataRow= new ListViewRow(t);
+        tourTable.getItems().add(dataRow);
     }
 
     private void detailsButtonPressed(String uid){

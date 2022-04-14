@@ -7,4 +7,6 @@ module at.technikum_wien.tourplanner {
     exports at.technikum_wien.tourPlanner;
     exports at.technikum_wien.tourPlanner.view;
     opens at.technikum_wien.tourPlanner.view to javafx.fxml;
+    exports at.technikum_wien.tourPlanner.listViewUtils;
+    opens at.technikum_wien.tourPlanner.listViewUtils to javafx.base;
 }

@@ -1,19 +1,17 @@
 package at.technikum_wien.tourPlanner.models;
 
-import java.time.LocalTime;
-
 public class ListViewTour {
     private String name;
     private String startingPoint;
     private String destination;
-    private String estimatedTime;
+    private String duration;
     private String uid;
 
-    public ListViewTour(String name, String startingPoint, String destination, String duration, String uid) {
+    public ListViewTour(String uid, String name, String startingPoint, String destination, String duration) {
         this.name = name;
         this.startingPoint = startingPoint;
         this.destination = destination;
-        this.estimatedTime = duration;
+        this.duration = duration;
         this.uid=uid;
     }
 
@@ -49,12 +47,11 @@ public class ListViewTour {
         this.destination = destination;
     }
 
-
-    public String getEstimatedTime() {
-        return estimatedTime;
+    public String getDuration() {
+        return duration;
     }
 
-    public void setEstimatedTime(String estimatedTime) {
-        this.estimatedTime = estimatedTime;
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }

@@ -1,4 +1,5 @@
 package at.technikum_wien.tourPlanner.view;
+import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.listViewUtils.CustomContextMenu;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
@@ -32,21 +33,14 @@ public class ListViewController {
 
     private final ListViewModel listViewModel;
 
-    @FXML
-    public void addRow(){
-        LinkedList<ListViewTour> l= new LinkedList<>();
-        l.add(test);
-        l.add(test2);
-        addListToTable(l);
-    }
-
     public ListViewController(ListViewModel listViewModel){
         this.listViewModel=listViewModel;
-
     }
+
     @FXML
     public void initialize(){
         initializeTable();
+        addListToTable(listViewModel.getList());
     }
 
     public void initializeTable(){

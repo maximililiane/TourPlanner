@@ -58,33 +58,4 @@ public class DataBaseConnector {
         return l;
     }
 
-/*
-    public void changeCoins(String username, int coinChange) throws SQLException{
-        PreparedStatement ps;
-        int updatedCoins;
-
-        updatedCoins= getCoins(username) + coinChange;
-
-        ps= connection.prepareStatement("UPDATE users SET coins=? WHERE username=?");
-        ps.setInt(1, updatedCoins);
-        ps.setString(2, username);
-        ps.executeUpdate();
-
-    }
-
-    public int getCoins(String username) throws SQLException{
-        PreparedStatement ps;
-        ResultSet rs;
-        int coins;
-
-        ps=connection.prepareStatement("SELECT coins FROM users WHERE username=?");
-        ps.setString(1, username);
-        rs=ps.executeQuery();
-        rs.next();
-        coins= rs.getInt(1);
-        rs.close();
-        return coins;
-    }
-*/
-
 }

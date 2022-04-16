@@ -1,5 +1,6 @@
 package at.technikum_wien.tourPlanner.view;
 
+import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.viewModel.DescriptionViewModel;
 import at.technikum_wien.tourPlanner.viewModel.ListViewModel;
 import at.technikum_wien.tourPlanner.viewModel.MainWindowViewModel;
@@ -10,13 +11,15 @@ public class ControllerFactory {
     private final SearchBarViewModel searchBarViewModel;
     private final DescriptionViewModel descriptionViewModel;
     private final ListViewModel listViewModel;
+    private final Injector injector;
 
 
     public ControllerFactory() {
+        injector= new Injector();
         searchBarViewModel = new SearchBarViewModel();
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel);
         descriptionViewModel = new DescriptionViewModel();
-        listViewModel= new ListViewModel();
+        listViewModel= new ListViewModel(injector);
     }
 
     //

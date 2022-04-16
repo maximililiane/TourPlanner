@@ -9,7 +9,8 @@ public interface TourPlannerProvider {
 
     public void subscribeToTours(TourPlannerSubscriber t);
     public void subscribeToLogs(TourPlannerSubscriber t);
-    public void unsubscribe(TourPlannerSubscriber t);
+    public void unsubscribeTours(TourPlannerSubscriber t);
+    public void unsubscribeLogs(TourPlannerSubscriber t);
     public void notifyTourSubscribers(LinkedList<Tour> l);
     public void notifyLogSubscribers(LinkedList<Log> l);
 

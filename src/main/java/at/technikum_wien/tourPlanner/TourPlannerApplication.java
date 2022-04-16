@@ -1,6 +1,7 @@
 package at.technikum_wien.tourPlanner;
 
 import at.technikum_wien.tourPlanner.database.DataBaseConnector;
+import at.technikum_wien.tourPlanner.proxyUtils.DBProxy;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,15 +25,7 @@ public class TourPlannerApplication extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
-        DataBaseConnector db= Injector.getDBConnector();
-        try {
-            db.connect();
-            System.out.println(db.getTours());
-            db.disconnect();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        launch();
 
     }
 }

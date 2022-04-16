@@ -16,5 +16,4 @@
          <TableColumn fx:id="durationColumn" prefWidth="75.0" text="DURATION" />
       </columns>
    </TableView>
-   <Button mnemonicParsing="false" onAction="#addRow" text="Button" />
 </AnchorPane>

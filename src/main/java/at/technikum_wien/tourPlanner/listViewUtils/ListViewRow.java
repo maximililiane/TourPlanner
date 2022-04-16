@@ -17,7 +17,7 @@ public class ListViewRow {
         this.name = new SimpleStringProperty(t.getName());
         this.startingPoint = new SimpleStringProperty(t.getStartingPoint());
         this.destination = new SimpleStringProperty(t.getDestination());
-        this.estimatedTime = new SimpleStringProperty(t.getEstimatedTime());
+        this.estimatedTime = new SimpleStringProperty(t.getDuration());
         this.uid = new SimpleStringProperty(t.getUid());
     }
 

@@ -35,10 +35,8 @@ public class BoundingBox {
 
     @Override
     public String toString() {
-        return "BoundingBox{" +
-                "upperLeft=" + upperLeft +
-                ", lowerRight=" + lowerRight +
-                '}';
+        return "boundingBox=" + upperLeft.getLat() + "," + upperLeft.getLng() + "," +
+                lowerRight.getLat() + "," + lowerRight.getLng();
     }
 }
 

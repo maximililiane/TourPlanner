@@ -19,8 +19,9 @@ public class MapQuestApi extends Mapper {
     }
 
     // GET route from MapQuest API
-    public void getRoute(String from, String to) {
+    public RouteResponse getRoute(String from, String to) {
         try {
+            // TODO: encode URI?
             String baseUri = "http://www.mapquestapi.com/directions/v2/route?key=" + MKEY;
 
             // prepare URI
@@ -46,9 +47,50 @@ public class MapQuestApi extends Mapper {
             // parse get request into RouteResponse
             RouteResponse routeResponse = toObject(response.body(), RouteResponse.class);
             System.out.println(routeResponse);
+
+            return routeResponse;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    // Get map jpg from MapQuest API
+    public byte[] getMap(RouteResponse route) {
+        try {
+            String baseUri = "http://www.mapquestapi.com/staticmap/v5/map?key=" + MKEY;
+
+            //prepare URI
+            StringBuilder uriBuilder = new StringBuilder();
+            uriBuilder.append(baseUri);
+            // TODO: change size?
+            uriBuilder.append("&size=640,480");
+            uriBuilder.append("&defaultMarker=none");
+            uriBuilder.append("&zoom=11");
+            uriBuilder.append("&rand=737758036");
+            uriBuilder.append("&session=").append(route.getRoute().getSessionId());
+            uriBuilder.append("&").append(route.getRoute().getBoundingBox());
+
+            URI uri = URI.create(uriBuilder.toString());
+
+            // prepare request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .GET()
+                    .build();
+
+            // prepare client
+            HttpClient client = HttpClient.newHttpClient();
+
+            // send get request
+            HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+
+            byte[] byteArray = response.body();
+            return byteArray;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

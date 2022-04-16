@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
-            xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/11.0.2"
             fx:controller="at.technikum_wien.tourPlanner.view.DescriptionWindowController">
    <children>
-      <Pane layoutX="20.0" layoutY="28.0" prefHeight="358.0" prefWidth="563.0">
+      <Pane prefHeight="400.0" prefWidth="600.0">
          <children>
             <Label text="Description View"/>
+            <ImageView fx:id="mapImage" fitHeight="323.0" fitWidth="544.0" layoutX="27.0" layoutY="41.0"
+                       pickOnBounds="true" preserveRatio="true"/>
          </children>
       </Pane>
    </children>

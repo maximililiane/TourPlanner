@@ -7,11 +7,11 @@ public class Tour extends ListViewTour{
     String descriptionLong;
     String descriptionShort;
     int popularity;
-    double length;
-    boolean childFriendly;
+    float length;
+    int childFriendly;
 
-    public Tour(String name, String startingPoint, String destination, LocalTime duration, String uid, String transportType, String descriptionLong, String descriptionShort, int popularity, double length, boolean childFriendly) {
-        super(name, startingPoint, destination, duration, uid);
+    public Tour(String uid, String name, String startingPoint, String destination, String duration,  String transportType, String descriptionLong, String descriptionShort, int popularity, float length, int childFriendly) {
+        super(uid, name, startingPoint, destination, duration);
         this.transportType = transportType;
         this.descriptionLong = descriptionLong;
         this.descriptionShort = descriptionShort;
@@ -52,19 +52,23 @@ public class Tour extends ListViewTour{
         this.popularity = popularity;
     }
 
-    public double getLength() {
+    public float getLength() {
         return length;
     }
 
-    public void setLength(double length) {
+    public void setLength(float length) {
         this.length = length;
     }
 
-    public boolean isChildFriendly() {
+    public int isChildFriendly() {
         return childFriendly;
     }
 
-    public void setChildFriendly(boolean childFriendly) {
+    public void setChildFriendly(int childFriendly) {
         this.childFriendly = childFriendly;
+    }
+
+    public ListViewTour getListViewTour(){
+        return new ListViewTour(getUid(), getName(), getStartingPoint(), getDestination(), getDuration());
     }
 }

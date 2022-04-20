@@ -7,11 +7,10 @@ import java.util.LinkedList;
 
 public interface TourPlannerProvider {
 
-    public void subscribeToTours(TourPlannerSubscriber t);
-    public void subscribeToLogs(TourPlannerSubscriber t);
-    public void unsubscribeTours(TourPlannerSubscriber t);
-    public void unsubscribeLogs(TourPlannerSubscriber t);
+    public void subscribeToTours(TourSubscriber t);
+    public void subscribeToLogs(LogSubscriber t);
+    public void unsubscribeTours(TourSubscriber t);
+    public void unsubscribeLogs(LogSubscriber t);
     public void notifyTourSubscribers(LinkedList<Tour> l);
     public void notifyLogSubscribers(LinkedList<Log> l);
-
 }

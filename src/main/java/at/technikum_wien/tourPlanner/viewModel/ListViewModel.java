@@ -4,14 +4,14 @@ import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.proxyUtils.DBProxy;
-import at.technikum_wien.tourPlanner.proxyUtils.TourPlannerSubscriber;
-import javafx.beans.property.ListProperty;
+import at.technikum_wien.tourPlanner.proxyUtils.TourSubscriber;
 
 import java.util.LinkedList;
 
-public class ListViewModel implements TourPlannerSubscriber {
+public class ListViewModel implements TourSubscriber {
     private LinkedList<ListViewTour> list= new LinkedList<ListViewTour>();
     private DBProxy dbProxy;
+
     public LinkedList<ListViewTour> getList() {
         return list;
     }

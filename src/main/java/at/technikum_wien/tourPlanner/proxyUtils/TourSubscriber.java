@@ -4,6 +4,6 @@ import at.technikum_wien.tourPlanner.models.Tour;
 
 import java.util.LinkedList;
 
-public interface TourPlannerSubscriber {
+public interface TourSubscriber {
     public void notify(LinkedList<Tour> l);
 }

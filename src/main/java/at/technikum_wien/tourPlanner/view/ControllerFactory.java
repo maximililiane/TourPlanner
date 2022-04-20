@@ -20,6 +20,7 @@ public class ControllerFactory {
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel);
         descriptionViewModel = new DescriptionViewModel();
         listViewModel= new ListViewModel(injector);
+
     }
 
     //

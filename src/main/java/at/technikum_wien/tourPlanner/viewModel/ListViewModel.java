@@ -9,8 +9,16 @@ import at.technikum_wien.tourPlanner.proxyUtils.TourSubscriber;
 import java.util.LinkedList;
 
 public class ListViewModel implements TourSubscriber {
+
     private LinkedList<ListViewTour> list= new LinkedList<ListViewTour>();
     private DBProxy dbProxy;
+
+    public ListViewModel(DBProxy proxy) {
+        this.list = new LinkedList<>();
+        dbProxy= proxy;
+        dbProxy.subscribeToTours(this);
+        dbProxy.getTours();
+    }
 
     public LinkedList<ListViewTour> getList() {
         return list;
@@ -18,27 +26,26 @@ public class ListViewModel implements TourSubscriber {
     public void addItem(ListViewTour item){
         list.add(item);
     }
-    public void setList(LinkedList<ListViewTour> l){
-        list=l;
+    public void setList(LinkedList<Tour> l){
+        LinkedList<ListViewTour> newList= convertTourToListViewTour(l);
+        list= newList;
     }
 
     public DBProxy getDbProxy() {
         return dbProxy;
     }
 
-    public ListViewModel(Injector injector) {
-        this.list = new LinkedList<>();
-        dbProxy= injector.getProxy();
-        dbProxy.subscribeToTours(this);
-        dbProxy.getTours();
-    }
 
     @Override
     public void notify(LinkedList<Tour> l) {
+        setList(l);
+    }
+
+    private LinkedList<ListViewTour> convertTourToListViewTour(LinkedList<Tour> list){
         LinkedList<ListViewTour> newList= new LinkedList<>();
-        for(ListViewTour t : l){
+        for(ListViewTour t : list){
             newList.add(t);
         }
-        setList(newList);
+        return newList;
     }
 }

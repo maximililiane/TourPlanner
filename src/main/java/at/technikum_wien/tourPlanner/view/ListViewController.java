@@ -1,5 +1,4 @@
 package at.technikum_wien.tourPlanner.view;
-import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.listViewUtils.CustomContextMenu;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
@@ -9,8 +8,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.util.LinkedList;
 import java.util.List;
 
 public class ListViewController {
@@ -27,9 +24,6 @@ public class ListViewController {
     public TableColumn toColumn;
     @FXML
     public TableColumn durationColumn;
-
-    public ListViewTour test= new ListViewTour("testname", "startingpint", "destination", "time", "1234");
-    public ListViewTour test2= new ListViewTour("testname", "startingpint", "destination", "time", "4567");
 
     private final ListViewModel listViewModel;
 
@@ -83,7 +77,6 @@ public class ListViewController {
 
     private void addListToTable(List<ListViewTour> list){
         for (ListViewTour t : list){
-            System.out.println(t.getUid());
             addTourToTable(t);
         }
 

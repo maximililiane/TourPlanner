@@ -19,7 +19,7 @@ public class ControllerFactory {
         searchBarViewModel = new SearchBarViewModel();
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel);
         descriptionViewModel = new DescriptionViewModel();
-        listViewModel= new ListViewModel(injector);
+        listViewModel= new ListViewModel(injector.getProxy());
 
     }
 

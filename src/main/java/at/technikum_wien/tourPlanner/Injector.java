@@ -9,7 +9,7 @@ public class Injector {
     DBProxy proxy;
 
     public Injector() {
-        proxy= new DBProxy();
+        proxy = new DBProxy();
     }
 
     public static DataBaseConnector getDBConnector() {

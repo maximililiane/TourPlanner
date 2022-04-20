@@ -1,31 +1,37 @@
 package at.technikum_wien.tourPlanner.database;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DataBaseSetup {
-    /*public static void setUp() throws SQLException {
-        Connection connection= DriverManager.getConnection(DBAuthentication.getDBLink(), DBAuthentication.getDBUser(), DBAuthentication.getDBPassword());
-        createUserTable(connection);
+
+    public static void setUp() throws SQLException {
+        Connection connection = DriverManager.getConnection(DBAuthentication.getDBLink(), DBAuthentication.getDBUser(), DBAuthentication.getDBPassword());
+        try {
+            createTourTable(connection);
+            //TODO: createLogTable()
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         connection.close();
     }
 
-    private static void createUserTable(Connection connection){
-        PreparedStatement ps;
-        try{
-            ps=connection.prepareStatement("CREATE TABLE " + TableNames.getUserListTableName() +" (username varchar(255) not null , password varchar(255) not null, coins int default 20, elo int default 100, wins int default 0, losses int default 0, battleready int default 0, collection varchar(255), token varchar(255), name varchar(255) default 'EMPTY_NAME', bio varchar(255) default 'EMPTY BIO', image varchar(255) default 'EMPTY IMAGE')");
-            ps.executeUpdate();
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        try{
-            ps=connection.prepareStatement("CREATE UNIQUE INDEX users_username_uindex ON users (username);");
-            ps.executeUpdate();
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-    }*/
+    private static void createTourTable(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getTourTableName() + "( " +
+                "uid VARCHAR(256) NOT NULL, " +
+                "tourName VARCHAR(256) NOT NULL, " +
+                "description VARCHAR(256) NOT NULL, " +
+                "startingPoint VARCHAR(256) NOT NULL, " +
+                "destination VARCHAR(256) NOT NULL, " +
+                "distance FLOAT NOT NULL, " +
+                "duration VARCHAR(256) NOT NULL, " +
+                "transportType VARCHAR(256) NOT NULL, " +
+                "mapImage BYTEA NOT NULL, " +
+                "childFriendliness INTEGER NOT NULL, " +
+                "popularity INTEGER NOT NULL, " +
+                "PRIMARY KEY(uid))";
+        statement.executeUpdate(createSql);
+        statement.close();
+    }
 }

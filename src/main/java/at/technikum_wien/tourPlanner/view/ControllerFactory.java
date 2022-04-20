@@ -31,7 +31,7 @@ public class ControllerFactory {
         } else if (controllerClass == SearchBarController.class) {
             return new SearchBarController(searchBarViewModel);
         } else if (controllerClass == DescriptionWindowController.class) {
-            return new DescriptionWindowController(descriptionViewModel);
+            return new DescriptionWindowController(injector, descriptionViewModel);
         } else if (controllerClass== ListViewController.class){
             return new ListViewController(listViewModel);
         }

@@ -2,22 +2,23 @@ package at.technikum_wien.tourPlanner.models;
 
 import java.time.LocalTime;
 
-public class Tour extends ListViewTour{
+public class Tour extends ListViewTour {
     String transportType;
-    String descriptionLong;
-    String descriptionShort;
+    String description;
     int popularity;
     float length;
     int childFriendly;
+    byte[] mapImage;
 
-    public Tour(String uid, String name, String startingPoint, String destination, String duration,  String transportType, String descriptionLong, String descriptionShort, int popularity, float length, int childFriendly) {
+    public Tour(String uid, String name, String description, String startingPoint, String destination, float length,
+                String duration, String transportType, byte[] mapImage, int childFriendly, int popularity) {
         super(uid, name, startingPoint, destination, duration);
         this.transportType = transportType;
-        this.descriptionLong = descriptionLong;
-        this.descriptionShort = descriptionShort;
+        this.description = description;
         this.popularity = popularity;
         this.length = length;
         this.childFriendly = childFriendly;
+        this.mapImage = mapImage;
     }
 
     public String getTransportType() {
@@ -28,21 +29,14 @@ public class Tour extends ListViewTour{
         this.transportType = transportType;
     }
 
-    public String getDescriptionLong() {
-        return descriptionLong;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptionLong(String descriptionLong) {
-        this.descriptionLong = descriptionLong;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getDescriptionShort() {
-        return descriptionShort;
-    }
-
-    public void setDescriptionShort(String descriptionShort) {
-        this.descriptionShort = descriptionShort;
-    }
 
     public int getPopularity() {
         return popularity;
@@ -68,7 +62,19 @@ public class Tour extends ListViewTour{
         this.childFriendly = childFriendly;
     }
 
-    public ListViewTour getListViewTour(){
+    public int getChildFriendly() {
+        return childFriendly;
+    }
+
+    public byte[] getMapImage() {
+        return mapImage;
+    }
+
+    public void setMapImage(byte[] mapImage) {
+        this.mapImage = mapImage;
+    }
+
+    public ListViewTour getListViewTour() {
         return new ListViewTour(getUid(), getName(), getStartingPoint(), getDestination(), getDuration());
     }
 }

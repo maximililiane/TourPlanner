@@ -2,27 +2,28 @@ package at.technikum_wien.tourPlanner.proxyUtils;
 
 import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.database.DataBaseConnector;
+import at.technikum_wien.tourPlanner.database.DataBaseSetup;
 import at.technikum_wien.tourPlanner.models.Log;
 import at.technikum_wien.tourPlanner.models.Tour;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-public class DBProxy implements TourPlannerProvider{
+public class DBProxy implements TourPlannerProvider {
     DataBaseConnector db;
     LinkedList<TourPlannerSubscriber> tourSubscribers;
     LinkedList<TourPlannerSubscriber> logSubscribers;
 
 
     public DBProxy() {
-        this.db= Injector.getDBConnector();
-        tourSubscribers= new LinkedList<>();
-        logSubscribers= new LinkedList<>();
+        this.db = Injector.getDBConnector();
+        tourSubscribers = new LinkedList<>();
+        logSubscribers = new LinkedList<>();
         try {
             db.connect();
         } catch (SQLException e) {
             e.printStackTrace();
-        };
+        }
     }
 
     @Override
@@ -39,30 +40,42 @@ public class DBProxy implements TourPlannerProvider{
     public void unsubscribeTours(TourPlannerSubscriber t) {
         tourSubscribers.remove(t);
     }
+
     @Override
-    public void unsubscribeLogs(TourPlannerSubscriber t){
+    public void unsubscribeLogs(TourPlannerSubscriber t) {
         logSubscribers.remove(t);
     }
 
     @Override
     public void notifyTourSubscribers(LinkedList<Tour> l) {
-        for(TourPlannerSubscriber t : tourSubscribers){
+        for (TourPlannerSubscriber t : tourSubscribers) {
             t.notify(l);
         }
     }
 
     @Override
     public void notifyLogSubscribers(LinkedList<Log> l) {
-        for (TourPlannerSubscriber t : logSubscribers){
+        for (TourPlannerSubscriber t : logSubscribers) {
             t.notify();
         }
     }
 
-    public void getTours(){
+    public void getTours() {
         try {
             notifyTourSubscribers(db.getTours());
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    //TODO: REMOVE THIS - THIS IS TEMPORARY!!!
+    public LinkedList<Tour> getToursTemporary() {
+        LinkedList<Tour> tours = new LinkedList<>();
+        try {
+            tours = db.getTours();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tours;
     }
 }

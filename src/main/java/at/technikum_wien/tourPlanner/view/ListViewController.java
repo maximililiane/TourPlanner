@@ -2,15 +2,20 @@ package at.technikum_wien.tourPlanner.view;
 import at.technikum_wien.tourPlanner.listViewUtils.CustomContextMenu;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
+import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.proxyUtils.TourProvider;
+import at.technikum_wien.tourPlanner.proxyUtils.TourSubscriber;
 import at.technikum_wien.tourPlanner.viewModel.ListViewModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.LinkedList;
 import java.util.List;
 
-public class ListViewController {
+public class ListViewController implements TourSubscriber{
 
     @FXML
     public TableView tourTable;
@@ -29,12 +34,13 @@ public class ListViewController {
 
     public ListViewController(ListViewModel listViewModel){
         this.listViewModel=listViewModel;
+        listViewModel.subscribeToTours(this);
     }
 
     @FXML
     public void initialize(){
         initializeTable();
-        addListToTable(listViewModel.getList());
+        setListToTable(listViewModel.getList());
     }
 
     public void initializeTable(){
@@ -75,17 +81,23 @@ public class ListViewController {
         durationColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("estimatedTime"));
     }
 
-    private void addListToTable(List<ListViewTour> list){
-        for (ListViewTour t : list){
-            addTourToTable(t);
+    private void addListToTable(List<Tour> list){
+        for (Tour t : list){
+            addTourToTable(t.getListViewTour());
         }
-
     }
 
     private void addTourToTable(ListViewTour t){
-
         ListViewRow dataRow= new ListViewRow(t);
         tourTable.getItems().add(dataRow);
+    }
+    private void setListToTable(LinkedList<Tour> list){
+        tourTable.getItems().removeAll(tourTable.getItems());
+        for(Tour t : list){
+            addTourToTable(t.getListViewTour());
+            System.out.println(t.toString());
+        }
+
     }
 
     private void detailsButtonPressed(String uid){
@@ -104,4 +116,8 @@ public class ListViewController {
         //TODO: edit Tour
     }
 
+    @Override
+    public void notify(LinkedList<Tour> l) {
+        setListToTable(l);
+    }
 }

@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class ListViewModelTest {
 
     static ListViewModel listViewModel;
-    static ListViewTour tour;
+    static Tour tour;
     static LinkedList<Tour> list;
     @BeforeAll
     static void initialSetup(){
-        tour= Mockito.mock(ListViewTour.class);
+        tour= Mockito.mock(Tour.class);
         list= new LinkedList<Tour>();
         list.add(Mockito.mock(Tour.class));
         list.add(Mockito.mock(Tour.class));

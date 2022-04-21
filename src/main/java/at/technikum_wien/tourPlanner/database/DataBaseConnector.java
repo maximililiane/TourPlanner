@@ -52,7 +52,8 @@ public class DataBaseConnector {
             descShort=rs.getString(8);
             popularity=rs.getInt(9);
             length=rs.getFloat(10);
-            childFriendly=11;//rs.getInt(11);
+            childFriendly=rs.getInt(11);
+            System.out.println("name: " + name);
             l.add(new Tour(uid, name, startingPoint, destination, duration, transportType, descLong, descShort, popularity, length, childFriendly));
         }
         return l;

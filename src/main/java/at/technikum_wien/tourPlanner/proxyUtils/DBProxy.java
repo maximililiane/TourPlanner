@@ -7,7 +7,7 @@ import at.technikum_wien.tourPlanner.models.Tour;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-public class DBProxy implements TourPlannerProvider{
+public class DBProxy implements TourProvider, LogProvider{
     DataBaseConnector db;
     LinkedList<TourSubscriber> tourSubscribers;
     LinkedList<LogSubscriber> logSubscribers;

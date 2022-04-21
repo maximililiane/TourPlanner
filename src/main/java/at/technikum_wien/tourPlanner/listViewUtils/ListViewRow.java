@@ -21,6 +21,17 @@ public class ListViewRow {
         this.uid = new SimpleStringProperty(t.getUid());
     }
 
+    @Override
+    public String toString() {
+        return "ListViewRow{" +
+                "name=" + name.get() +
+                ", startingPoint=" + startingPoint.get() +
+                ", destination=" + destination.get() +
+                ", estimatedTime=" + estimatedTime.get() +
+                ", uid=" + uid.get() +
+                '}';
+    }
+
     public String getName() {
         return name.get();
     }

@@ -2,39 +2,53 @@ package at.technikum_wien.tourPlanner.models;
 
 import java.time.LocalTime;
 
-public class Tour {
+public class Tour{
     private String uid;
     private String name;
     private String startingPoint;
     private String destination;
     private String duration;
-    String transportType;
-    String description;
-    int popularity;
-    float length;
-    int childFriendly;
-    byte[] mapImage;
+    private String transportType;
+    private String descriptionLong;
+    private String descriptionShort;
+    private int popularity;
+    private float length;
+    private int childFriendly;
 
-    public Tour(String uid, String name, String startingPoint, String destination, String duration, String transportType, String description, int popularity, float length, int childFriendly, byte[] mapImage) {
+    public Tour(String uid, String name, String startingPoint, String destination, String duration, String transportType, String descriptionLong, String descriptionShort, int popularity, float length, int childFriendly) {
         this.uid = uid;
         this.name = name;
         this.startingPoint = startingPoint;
         this.destination = destination;
         this.duration = duration;
         this.transportType = transportType;
-        this.description = description;
+        this.descriptionLong = descriptionLong;
+        this.descriptionShort = descriptionShort;
         this.popularity = popularity;
         this.length = length;
         this.childFriendly = childFriendly;
-        this.mapImage = mapImage;
     }
 
-    public String getUid() {
-        return uid;
+    public ListViewTour getListViewTour(){
+        return new ListViewTour(getUid(), getName(), getStartingPoint(), getDestination(), getDuration());
+
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    @Override
+    public String toString() {
+        return "Tour{" +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", startingPoint='" + startingPoint + '\'' +
+                ", destination='" + destination + '\'' +
+                ", duration='" + duration + '\'' +
+                ", transportType='" + transportType + '\'' +
+                ", descriptionLong='" + descriptionLong + '\'' +
+                ", descriptionShort='" + descriptionShort + '\'' +
+                ", popularity=" + popularity +
+                ", length=" + length +
+                ", childFriendly=" + childFriendly +
+                '}';
     }
 
     public String getName() {
@@ -69,6 +83,14 @@ public class Tour {
         this.duration = duration;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public String getTransportType() {
         return transportType;
     }
@@ -77,12 +99,20 @@ public class Tour {
         this.transportType = transportType;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionLong() {
+        return descriptionLong;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionLong(String descriptionLong) {
+        this.descriptionLong = descriptionLong;
+    }
+
+    public String getDescriptionShort() {
+        return descriptionShort;
+    }
+
+    public void setDescriptionShort(String descriptionShort) {
+        this.descriptionShort = descriptionShort;
     }
 
     public int getPopularity() {
@@ -107,17 +137,5 @@ public class Tour {
 
     public void setChildFriendly(int childFriendly) {
         this.childFriendly = childFriendly;
-    }
-
-    public byte[] getMapImage() {
-        return mapImage;
-    }
-
-    public void setMapImage(byte[] mapImage) {
-        this.mapImage = mapImage;
-    }
-
-    public ListViewTour getListViewTour() {
-        return new ListViewTour(uid, name, startingPoint, destination, duration);
     }
 }

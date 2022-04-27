@@ -16,6 +16,7 @@ public class DataBaseSetup {
         connection.close();
     }
 
+    // TODO: change mapImage to link where mapImage is
     private static void createTourTable(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getTourTableName() + "( " +

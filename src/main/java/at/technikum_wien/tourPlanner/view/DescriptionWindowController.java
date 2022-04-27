@@ -38,10 +38,8 @@ public class DescriptionWindowController implements Initializable {
     public Label estimatedTimeLabel;
     public Label transportTypeLabel;
     public Label descriptionLabel;
-    private Injector injector;
 
-    public DescriptionWindowController(Injector injector, DescriptionViewModel descriptionViewModel) {
-        this.injector = injector;
+    public DescriptionWindowController(DescriptionViewModel descriptionViewModel) {
         this.descriptionViewModel = descriptionViewModel;
 
     }
@@ -105,9 +103,7 @@ public class DescriptionWindowController implements Initializable {
     }
 
     private ObservableList<Tour> getTours() {
-        //TODO: move database call to DescriptionWindowViewModel
-        LinkedList<Tour> tours = injector.getProxy().getToursTemporary();
-        return FXCollections.observableArrayList(tours);
+        return descriptionViewModel.getTours();
     }
 
 }

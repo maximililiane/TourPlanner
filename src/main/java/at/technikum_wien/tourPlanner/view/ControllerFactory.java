@@ -18,8 +18,8 @@ public class ControllerFactory {
         injector= new Injector();
         searchBarViewModel = new SearchBarViewModel();
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel);
-        descriptionViewModel = new DescriptionViewModel();
-        listViewModel= new ListViewModel(injector);
+        descriptionViewModel = new DescriptionViewModel(injector);
+        listViewModel = new ListViewModel(injector);
     }
 
     //
@@ -31,7 +31,7 @@ public class ControllerFactory {
         } else if (controllerClass == SearchBarController.class) {
             return new SearchBarController(searchBarViewModel);
         } else if (controllerClass == DescriptionWindowController.class) {
-            return new DescriptionWindowController(injector, descriptionViewModel);
+            return new DescriptionWindowController(descriptionViewModel);
         } else if (controllerClass== ListViewController.class){
             return new ListViewController(listViewModel);
         }

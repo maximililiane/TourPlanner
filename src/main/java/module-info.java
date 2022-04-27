@@ -6,6 +6,10 @@ module at.technikum_wien.tourplanner {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
+//    TODO: insert these requires when dependencies have been added to pom.xml file
+//    requires itextpdf;
+//    requires java.desktop;
+//    requires org.apache.logging.log4j;
 
 
     opens at.technikum_wien.tourPlanner to javafx.fxml;

@@ -10,33 +10,36 @@ import javafx.beans.property.ListProperty;
 import java.util.LinkedList;
 
 public class ListViewModel implements TourPlannerSubscriber {
-    private LinkedList<ListViewTour> list= new LinkedList<ListViewTour>();
+    private LinkedList<ListViewTour> list = new LinkedList<ListViewTour>();
     private DBProxy dbProxy;
+
     public LinkedList<ListViewTour> getList() {
         return list;
     }
-    public void addItem(ListViewTour item){
-        list.add(item);
+
+    public ListViewModel(Injector injector) {
+        this.list = new LinkedList<>();
+        dbProxy = injector.getProxy();
+        dbProxy.subscribeToTours(this);
+        dbProxy.getTours();
     }
-    public void setList(LinkedList<ListViewTour> l){
-        list=l;
+
+    public void addItem(ListViewTour item) {
+        list.add(item);
     }
 
     public DBProxy getDbProxy() {
         return dbProxy;
     }
 
-    public ListViewModel(Injector injector) {
-        this.list = new LinkedList<>();
-        dbProxy= injector.getProxy();
-        dbProxy.subscribeToTours(this);
-        dbProxy.getTours();
+    public void setList(LinkedList<ListViewTour> l) {
+        list = l;
     }
 
     @Override
     public void notify(LinkedList<Tour> l) {
-        LinkedList<ListViewTour> newList= new LinkedList<>();
-        for(ListViewTour t : l){
+        LinkedList<ListViewTour> newList = new LinkedList<>();
+        for (ListViewTour t : l) {
             newList.add(t);
         }
         setList(newList);

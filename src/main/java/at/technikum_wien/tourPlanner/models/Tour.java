@@ -2,7 +2,12 @@ package at.technikum_wien.tourPlanner.models;
 
 import java.time.LocalTime;
 
-public class Tour extends ListViewTour {
+public class Tour {
+    private String uid;
+    private String name;
+    private String startingPoint;
+    private String destination;
+    private String duration;
     String transportType;
     String description;
     int popularity;
@@ -10,15 +15,58 @@ public class Tour extends ListViewTour {
     int childFriendly;
     byte[] mapImage;
 
-    public Tour(String uid, String name, String description, String startingPoint, String destination, float length,
-                String duration, String transportType, byte[] mapImage, int childFriendly, int popularity) {
-        super(uid, name, startingPoint, destination, duration);
+    public Tour(String uid, String name, String startingPoint, String destination, String duration, String transportType, String description, int popularity, float length, int childFriendly, byte[] mapImage) {
+        this.uid = uid;
+        this.name = name;
+        this.startingPoint = startingPoint;
+        this.destination = destination;
+        this.duration = duration;
         this.transportType = transportType;
         this.description = description;
         this.popularity = popularity;
         this.length = length;
         this.childFriendly = childFriendly;
         this.mapImage = mapImage;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStartingPoint() {
+        return startingPoint;
+    }
+
+    public void setStartingPoint(String startingPoint) {
+        this.startingPoint = startingPoint;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public String getTransportType() {
@@ -37,7 +85,6 @@ public class Tour extends ListViewTour {
         this.description = description;
     }
 
-
     public int getPopularity() {
         return popularity;
     }
@@ -54,16 +101,12 @@ public class Tour extends ListViewTour {
         this.length = length;
     }
 
-    public int isChildFriendly() {
+    public int getChildFriendly() {
         return childFriendly;
     }
 
     public void setChildFriendly(int childFriendly) {
         this.childFriendly = childFriendly;
-    }
-
-    public int getChildFriendly() {
-        return childFriendly;
     }
 
     public byte[] getMapImage() {
@@ -75,6 +118,6 @@ public class Tour extends ListViewTour {
     }
 
     public ListViewTour getListViewTour() {
-        return new ListViewTour(getUid(), getName(), getStartingPoint(), getDestination(), getDuration());
+        return new ListViewTour(uid, name, startingPoint, destination, duration);
     }
 }

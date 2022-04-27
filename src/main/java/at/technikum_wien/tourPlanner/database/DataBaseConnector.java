@@ -59,8 +59,7 @@ public class DataBaseConnector {
             mapImage = rs.getBytes(9);
             childFriendliness = rs.getInt(10);
             popularity = rs.getInt(11);
-            l.add(new Tour(uid, name, description, startingPoint, destination, distance, duration, transportType,
-                    mapImage, childFriendliness, popularity));
+            l.add(new Tour(uid, name, startingPoint, destination, duration, transportType, description, popularity, distance, childFriendliness, mapImage));
         }
         return l;
 

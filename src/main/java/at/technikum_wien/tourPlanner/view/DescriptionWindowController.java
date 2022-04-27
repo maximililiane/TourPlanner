@@ -91,7 +91,7 @@ public class DescriptionWindowController implements Initializable {
             public void changed(ObservableValue<? extends Tour> observableValue, Tour oldTour, Tour newTour) {
                 titleLabel.setText(newTour.getName());
                 popularityLabel.setText(String.valueOf(newTour.getPopularity()));
-                childFriendlinessLabel.setText(String.valueOf(newTour.isChildFriendly()));
+                childFriendlinessLabel.setText(String.valueOf(newTour.getChildFriendly()));
                 fromLabel.setText(newTour.getStartingPoint());
                 toLabel.setText(newTour.getDestination());
                 distanceLabel.setText(String.valueOf(newTour.getLength()));

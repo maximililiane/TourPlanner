@@ -73,4 +73,15 @@ public class DBProxy implements TourProvider, LogProvider{
     public LinkedList<LogSubscriber> getLogSubscribers() {
         return logSubscribers;
     }
+
+    //TODO: REMOVE THIS - THIS IS TEMPORARY!!!
+    public LinkedList<Tour> getToursTemporary() {
+        LinkedList<Tour> tours = new LinkedList<>();
+        try {
+            tours = db.getTours();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tours;
+    }
 }

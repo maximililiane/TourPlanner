@@ -4,44 +4,60 @@ import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.proxyUtils.DBProxy;
-import at.technikum_wien.tourPlanner.proxyUtils.TourPlannerSubscriber;
-import javafx.beans.property.ListProperty;
+import at.technikum_wien.tourPlanner.proxyUtils.TourProvider;
+import at.technikum_wien.tourPlanner.proxyUtils.TourSubscriber;
 
 import java.util.LinkedList;
 
-public class ListViewModel implements TourPlannerSubscriber {
-    private LinkedList<ListViewTour> list = new LinkedList<ListViewTour>();
+public class ListViewModel implements TourProvider, TourSubscriber {
+
+    private LinkedList<Tour> list= new LinkedList<Tour>();
     private DBProxy dbProxy;
+    private LinkedList<TourSubscriber> subscribers;
 
-    public LinkedList<ListViewTour> getList() {
-        return list;
-    }
-
-    public ListViewModel(Injector injector) {
+    public ListViewModel(DBProxy proxy) {
         this.list = new LinkedList<>();
-        dbProxy = injector.getProxy();
+        dbProxy= proxy;
+        subscribers= new LinkedList<TourSubscriber>();
         dbProxy.subscribeToTours(this);
         dbProxy.getTours();
     }
 
-    public void addItem(ListViewTour item) {
+    public LinkedList<Tour> getList() {
+        return list;
+    }
+    public void addItem(Tour item){
         list.add(item);
+    }
+    public void setList(LinkedList<Tour> list){
+        this.list=list;
     }
 
     public DBProxy getDbProxy() {
         return dbProxy;
     }
 
-    public void setList(LinkedList<ListViewTour> l) {
-        list = l;
-    }
 
     @Override
     public void notify(LinkedList<Tour> l) {
-        LinkedList<ListViewTour> newList = new LinkedList<>();
-        for (ListViewTour t : l) {
-            newList.add(t);
+        setList(l);
+        notifyTourSubscribers(l);
+    }
+
+    @Override
+    public void subscribeToTours(TourSubscriber t) {
+        subscribers.add(t);
+    }
+
+    @Override
+    public void unsubscribeTours(TourSubscriber t) {
+        subscribers.remove(t);
+    }
+
+    @Override
+    public void notifyTourSubscribers(LinkedList<Tour> l) {
+        for (TourSubscriber t : subscribers){
+            t.notify(l);
         }
-        setList(newList);
     }
 }

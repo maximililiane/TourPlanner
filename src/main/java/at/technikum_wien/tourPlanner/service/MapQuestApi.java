@@ -57,6 +57,7 @@ public class MapQuestApi extends Mapper {
 
     // Get map jpg from MapQuest API
     //TODO: only boundingBox and sessionId as parameters
+    //TODO: image is saved in a folder and not a byte array
     public byte[] getMap(RouteResponse route) {
         try {
             String baseUri = "http://www.mapquestapi.com/staticmap/v5/map?key=" + MKEY;

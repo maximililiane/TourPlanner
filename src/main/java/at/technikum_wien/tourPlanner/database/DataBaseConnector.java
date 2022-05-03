@@ -30,7 +30,7 @@ public class DataBaseConnector {
         this.connection.close();
     }
 
-    //TODO: move to TourDatabase class for repository pattern
+    //TODO: move to TourRepository class for repository pattern
     public LinkedList<Tour> getTours() throws SQLException {
         PreparedStatement ps;
         LinkedList<Tour> l = new LinkedList<>();

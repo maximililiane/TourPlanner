@@ -1,12 +1,16 @@
 package at.technikum_wien.tourPlanner.database;
 
 
+import at.technikum_wien.tourPlanner.Injector;
+import at.technikum_wien.tourPlanner.configuration.Configuration;
+
 import java.sql.*;
 
 public class DataBaseSetup {
 
     public static void setUp() throws SQLException {
-        Connection connection = DriverManager.getConnection(DBAuthentication.getDBLink(), DBAuthentication.getDBUser(), DBAuthentication.getDBPassword());
+        Configuration conf= Injector.getConfig("app.properties");
+        Connection connection = DriverManager.getConnection(conf.get("db.dbLink"), conf.get("db.user"), conf.get("db.password"));
         try {
             createTourTable(connection);
             //TODO: createLogTable()

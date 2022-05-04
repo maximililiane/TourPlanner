@@ -1,5 +1,7 @@
 package at.technikum_wien.tourPlanner.database;
 
+import at.technikum_wien.tourPlanner.Injector;
+import at.technikum_wien.tourPlanner.configuration.Configuration;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.models.Tour;
 
@@ -16,9 +18,10 @@ public class DataBaseConnector {
     private final String DB_PASSWORD;
 
     public DataBaseConnector() {
-        this.DB_URL = DBAuthentication.getDBLink();
-        this.DB_USER = DBAuthentication.getDBUser();
-        this.DB_PASSWORD = DBAuthentication.getDBPassword();
+        Configuration conf= Injector.getConfig("app.properties");
+        this.DB_URL = conf.get("db.dbLink");
+        this.DB_USER = conf.get("db.user");
+        this.DB_PASSWORD = conf.get("db.password");
     }
 
     public void connect() throws SQLException {

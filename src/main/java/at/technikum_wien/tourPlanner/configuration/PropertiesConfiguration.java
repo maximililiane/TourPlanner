@@ -20,7 +20,7 @@ public class PropertiesConfiguration implements Configuration {
         appProperties= new Properties();
         appProperties.load(appConfigPath.openStream());
 
-        appProperties.list(System.out);
+        //appProperties.list(System.out);
     }
 
     public String get(String key){

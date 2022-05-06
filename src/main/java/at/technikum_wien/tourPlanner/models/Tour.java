@@ -13,10 +13,10 @@ public class Tour {
     int popularity;
     float length;
     int childFriendly;
-    byte[] mapImage;
+    String mapImage;
 
 
-    public Tour(String uid, String name, String startingPoint, String destination, String duration, String transportType, String description, int popularity, float length, int childFriendly, byte[] mapImage) {
+    public Tour(String uid, String name, String startingPoint, String destination, String duration, String transportType, String description, int popularity, float length, int childFriendly, String mapImage) {
         this.uid = uid;
         this.name = name;
         this.startingPoint = startingPoint;
@@ -110,11 +110,11 @@ public class Tour {
         this.childFriendly = childFriendly;
     }
 
-    public byte[] getMapImage() {
+    public String getMapImage() {
         return mapImage;
     }
 
-    public void setMapImage(byte[] mapImage) {
+    public void setMapImage(String mapImage) {
         this.mapImage = mapImage;
     }
 

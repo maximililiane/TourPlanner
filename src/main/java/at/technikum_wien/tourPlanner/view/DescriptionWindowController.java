@@ -52,7 +52,7 @@ public class DescriptionWindowController implements Initializable {
 
         updateListView();
 
-        //TODO: dynamic image
+        //TODO: change this
         MapQuestApi mapQuestApi = new MapQuestApi();
         RouteResponse response = mapQuestApi.getRoute("Wien", "Zeiselmauer,%20Austria");
         byte[] buffer = mapQuestApi.getMap(response);

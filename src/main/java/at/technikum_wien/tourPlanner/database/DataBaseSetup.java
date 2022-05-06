@@ -9,7 +9,7 @@ import java.sql.*;
 public class DataBaseSetup {
 
     public static void setUp() throws SQLException {
-        Configuration conf= Injector.getConfig("app.properties");
+        Configuration conf = Injector.getConfig("app.properties");
         Connection connection = DriverManager.getConnection(conf.get("db.dbLink"), conf.get("db.user"), conf.get("db.password"));
         try {
             createTourTable(connection);
@@ -20,7 +20,6 @@ public class DataBaseSetup {
         connection.close();
     }
 
-    // TODO: change mapImage to link where mapImage is
     private static void createTourTable(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getTourTableName() + "( " +
@@ -32,11 +31,12 @@ public class DataBaseSetup {
                 "distance FLOAT NOT NULL, " +
                 "duration VARCHAR(256) NOT NULL, " +
                 "transportType VARCHAR(256) NOT NULL, " +
-                "mapImage BYTEA NOT NULL, " +
+                "mapImage VARCHAR(256) NOT NULL, " +
                 "childFriendliness INTEGER NOT NULL, " +
                 "popularity INTEGER NOT NULL, " +
                 "PRIMARY KEY(uid))";
         statement.executeUpdate(createSql);
         statement.close();
     }
+
 }

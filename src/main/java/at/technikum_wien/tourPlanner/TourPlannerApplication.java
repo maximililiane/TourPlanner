@@ -1,15 +1,11 @@
 package at.technikum_wien.tourPlanner;
 
-import at.technikum_wien.tourPlanner.database.DataBaseConnector;
-import at.technikum_wien.tourPlanner.proxyUtils.DBProxy;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import at.technikum_wien.tourPlanner.Injector;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Locale;
 
 public class TourPlannerApplication extends Application {

@@ -1,19 +1,19 @@
 package at.technikum_wien.tourPlanner.proxyUtils;
 
-import at.technikum_wien.tourPlanner.database.DataBaseConnector;
-import at.technikum_wien.tourPlanner.models.Log;
+import at.technikum_wien.tourPlanner.database.DatabaseConnector;
+import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.models.Tour;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class DBProxy implements TourProvider, LogProvider {
-    DataBaseConnector db;
+    DatabaseConnector db;
     LinkedList<TourSubscriber> tourSubscribers;
     LinkedList<LogSubscriber> logSubscribers;
 
 
-    public DBProxy(DataBaseConnector db) {
+    public DBProxy(DatabaseConnector db) {
         this.db = db;
         tourSubscribers = new LinkedList<>();
         logSubscribers = new LinkedList<>();
@@ -52,7 +52,7 @@ public class DBProxy implements TourProvider, LogProvider {
     }
 
     @Override
-    public void notifyLogSubscribers(LinkedList<Log> l) {
+    public void notifyLogSubscribers(LinkedList<TourLog> l) {
         for (LogSubscriber t : logSubscribers) {
             t.notify(l);
         }

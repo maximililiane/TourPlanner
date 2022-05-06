@@ -1,7 +1,7 @@
 package at.technikum_wien.tourPlanner.proxyUtils;
 
-import at.technikum_wien.tourPlanner.database.DataBaseConnector;
-import at.technikum_wien.tourPlanner.models.Log;
+import at.technikum_wien.tourPlanner.database.DatabaseConnector;
+import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.models.Tour;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -14,20 +14,20 @@ class DBProxyTest {
     static TourSubscriber tourSubscriber;
     static LogSubscriber logSubscriber;
     static LinkedList<Tour> tourList;
-    static LinkedList<Log> logList;
+    static LinkedList<TourLog> logList;
 
     @BeforeAll
-    public static void initialSetup(){
+    public static void initialSetup() {
         tourList = new LinkedList<Tour>();
         tourList.add(Mockito.mock(Tour.class));
-        logList= new LinkedList<Log>();
-        logList.add(Mockito.mock(Log.class));
+        logList = new LinkedList<TourLog>();
+        logList.add(Mockito.mock(TourLog.class));
         tourSubscriber = Mockito.mock(TourSubscriber.class);
-        logSubscriber= Mockito.mock(LogSubscriber.class);
+        logSubscriber = Mockito.mock(LogSubscriber.class);
     }
     @BeforeEach
     public void testSetup(){
-         dbProxy= new DBProxy(Mockito.mock(DataBaseConnector.class));
+        dbProxy = new DBProxy(Mockito.mock(DatabaseConnector.class));
     }
 
 

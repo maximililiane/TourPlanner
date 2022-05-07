@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.log;
+package at.technikum_wien.tourPlanner.logger;
 
 public class Log4jWrapper implements LoggerWrapper{
 

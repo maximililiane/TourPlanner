@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.service;
+package at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

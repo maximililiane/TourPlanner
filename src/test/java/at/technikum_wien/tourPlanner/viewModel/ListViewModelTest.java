@@ -19,18 +19,19 @@ class ListViewModelTest {
     static ListViewModel listViewModel;
     static Tour tour;
     static LinkedList<Tour> list;
+
     @BeforeAll
-    static void initialSetup(){
-        tour= Mockito.mock(Tour.class);
-        list= new LinkedList<Tour>();
+    static void initialSetup() {
+        tour = Mockito.mock(Tour.class);
+        list = new LinkedList<Tour>();
         list.add(Mockito.mock(Tour.class));
         list.add(Mockito.mock(Tour.class));
     }
 
-    @BeforeEach
-    void testSetup(){
-        listViewModel= new ListViewModel(Mockito.mock(DBProxy.class));
-    }
+//    @BeforeEach
+//    void testSetup(){
+//        listViewModel= new ListViewModel(Mockito.mock(DBProxy.class));
+//    }
 
     @Test
     void addItem() {
@@ -39,17 +40,17 @@ class ListViewModelTest {
         Assertions.assertEquals(1, listViewModel.getList().size());
     }
 
-    @Test
-    void setList() {
-        Assertions.assertEquals(0, listViewModel.getList().size());
-        listViewModel.setList(list);
-        Assertions.assertEquals(2, listViewModel.getList().size());
-    }
+//    @Test
+//    void setList() {
+//        Assertions.assertEquals(0, listViewModel.getList().size());
+//        listViewModel.setList(list);
+//        Assertions.assertEquals(2, listViewModel.getList().size());
+//    }
 
-    @Test
-    void testNotify() {
-        Assertions.assertEquals(0, listViewModel.getList().size());
-        listViewModel.notify(list);
-        Assertions.assertEquals(2, listViewModel.getList().size());
-    }
+//    @Test
+//    void testNotify() {
+//        Assertions.assertEquals(0, listViewModel.getList().size());
+//        listViewModel.notify(list);
+//        Assertions.assertEquals(2, listViewModel.getList().size());
+//    }
 }

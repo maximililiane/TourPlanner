@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.database;
+package at.technikum_wien.tourPlanner.dataAccessLayer.database;
 
 
 import at.technikum_wien.tourPlanner.Injector;

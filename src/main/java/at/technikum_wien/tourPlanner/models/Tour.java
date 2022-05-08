@@ -1,5 +1,7 @@
 package at.technikum_wien.tourPlanner.models;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.time.LocalTime;
 
 public class Tour {
@@ -8,15 +10,17 @@ public class Tour {
     private String startingPoint;
     private String destination;
     private String duration;
-    String transportType;
-    String description;
-    int popularity;
-    float length;
-    int childFriendly;
-    String mapImage;
+    private String transportType;
+    private String description;
+    private int popularity;
+    private float length;
+    private int childFriendly;
+    private String mapImage;
 
 
-    public Tour(String uid, String name, String startingPoint, String destination, String duration, String transportType, String description, int popularity, float length, int childFriendly, String mapImage) {
+    public Tour(String uid, String name, String startingPoint, String destination, String duration,
+                String transportType, String description, int popularity, float length, int childFriendly,
+                String mapImage) {
         this.uid = uid;
         this.name = name;
         this.startingPoint = startingPoint;
@@ -28,6 +32,20 @@ public class Tour {
         this.length = length;
         this.childFriendly = childFriendly;
         this.mapImage = mapImage;
+    }
+
+    // used when adding new tour via gui
+    public Tour(String name, String startingPoint, String destination, String duration, String transportType,
+                String description, float length) {
+        this.uid = DigestUtils.sha256Hex(name);
+        this.name = name;
+        this.startingPoint = startingPoint;
+        this.destination = destination;
+        this.duration = duration;
+        this.transportType = transportType;
+        this.description = description;
+        this.length = length;
+        this.popularity = 0; // popularity = 0 because it doesn't have any logs yet
     }
 
     public String getUid() {

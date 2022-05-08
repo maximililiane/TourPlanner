@@ -38,6 +38,16 @@ public class TourService {
         }
     }
 
+    public void addTour(Tour tour) {
+        // the given tour has no map image or childFriendliness value, so it needs one
+
+        // TODO: save image
+        tour.setMapImage("");
+
+        // TODO: calculate childFriendliness
+
+    }
+
 
     public ObservableList<Tour> getObservableTourList() {
         return this.tours;

@@ -60,9 +60,42 @@ public class TourRepository {
         preparedStatement.executeUpdate();
     }
 
-    //TODO: implement getTourById(String id)
-    //TODO: implement editTour(Tour tour)
-    //TODO: implement deleteTourById(String id)
-    //TODO: implement addTour(Tour tour)
+    public void editTour(Tour tour) throws SQLException {
+        String sql = "UPDATE " + TABLE_NAME + " SET tourname = ?, description = ?, startingPoint = ?, destination = ?, " +
+                "distance = ?, duration = ?, transporttype = ?, mapimage = ?, childfriendliness = ?, popularity = ? " +
+                "WHERE uid = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, tour.getName());
+        preparedStatement.setString(2, tour.getDescription());
+        preparedStatement.setString(3, tour.getStartingPoint());
+        preparedStatement.setString(4, tour.getDestination());
+        preparedStatement.setFloat(5, tour.getLength());
+        preparedStatement.setString(6, tour.getDuration());
+        preparedStatement.setString(7, tour.getTransportType());
+        preparedStatement.setString(8, tour.getMapImage());
+        preparedStatement.setInt(9, tour.getChildFriendly());
+        preparedStatement.setInt(10, tour.getPopularity());
+        preparedStatement.setString(11, tour.getUid());
+        preparedStatement.executeUpdate();
+    }
+
+    public void addTour(Tour tour) throws SQLException {
+        String sql = "INSERT INTO " + TABLE_NAME + "(uid, tourname, description, startingpoint, destination, distance," +
+                "duration, transporttype, mapimage, childfriendliness, popularity VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, tour.getUid());
+        preparedStatement.setString(2, tour.getName());
+        preparedStatement.setString(3, tour.getDescription());
+        preparedStatement.setString(4, tour.getStartingPoint());
+        preparedStatement.setString(5, tour.getDestination());
+        preparedStatement.setFloat(6, tour.getLength());
+        preparedStatement.setString(7, tour.getDuration());
+        preparedStatement.setString(8, tour.getTransportType());
+        preparedStatement.setString(9, tour.getMapImage());
+        preparedStatement.setInt(10, tour.getChildFriendly());
+        preparedStatement.setInt(11, tour.getPopularity());
+        preparedStatement.executeUpdate();
+    }
+
     //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour
 }

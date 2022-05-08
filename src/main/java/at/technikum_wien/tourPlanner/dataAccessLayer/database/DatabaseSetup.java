@@ -34,6 +34,7 @@ public class DatabaseSetup {
                 "mapImage VARCHAR(256) NOT NULL, " +
                 "childFriendliness INTEGER NOT NULL, " +
                 "popularity INTEGER NOT NULL, " +
+                "UNIQUE (tourName), " +
                 "PRIMARY KEY(uid))";
         statement.executeUpdate(createSql);
         statement.close();

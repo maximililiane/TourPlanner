@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.log;
+package at.technikum_wien.tourPlanner.logging;
 
 public interface LoggerWrapper {
 

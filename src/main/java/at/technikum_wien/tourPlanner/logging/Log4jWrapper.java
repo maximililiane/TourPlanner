@@ -3,10 +3,10 @@ package at.technikum_wien.tourPlanner.logging;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Log4jWrapper implements LoggerWrapper{
+public class Log4jWrapper implements LoggerWrapper {
 
     private Logger logger;
-    private BaseStateLogger state= new UnitializedLogger();
+    private BaseStateLogger state = new UninitializedLogger();
 
     @Override
     public void debug(String message) {
@@ -33,7 +33,7 @@ public class Log4jWrapper implements LoggerWrapper{
         this.state.error(message);
     }
 
-    public void initialize(){
-        this.state= new InitializedLogger(LogManager.getLogger(this.getClass().getName()));
+    public void initialize() {
+        this.state = new InitializedLogger(LogManager.getLogger(this.getClass().getName()));
     }
 }

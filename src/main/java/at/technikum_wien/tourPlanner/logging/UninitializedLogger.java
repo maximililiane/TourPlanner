@@ -1,6 +1,6 @@
 package at.technikum_wien.tourPlanner.logging;
 
-public class UnitializedLogger extends BaseStateLogger{
+public class UninitializedLogger extends BaseStateLogger {
     @Override
     public void debug(String message) {
         printUninitializedWarning();

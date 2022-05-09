@@ -81,7 +81,7 @@ public class TourRepository {
 
     public int addTour(Tour tour) throws SQLException {
         String sql = "INSERT INTO " + TABLE_NAME + "(tourname, description, startingpoint, destination, distance," +
-                "duration, transporttype, mapimage, childfriendliness, popularity VALUES (?,?,?,?,?,?,?,?,?,?)";
+                "duration, transporttype, mapimage, childfriendliness, popularity) VALUES (?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, tour.getName());
         preparedStatement.setString(2, tour.getDescription());

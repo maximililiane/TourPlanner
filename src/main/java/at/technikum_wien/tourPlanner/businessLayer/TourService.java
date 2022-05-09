@@ -69,10 +69,6 @@ public class TourService {
         }
     }
 
-    public Image getImage(int tourId) {
-        String imagePath = "images/" + tourId + ".jpeg";
-        return new Image(imagePath);
-    }
 
     // write image into images folder, return name of file that image is in
     private String saveImage(int tourId, String startingPoint, String destination) {

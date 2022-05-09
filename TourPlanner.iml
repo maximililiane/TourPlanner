@@ -25,6 +25,7 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:11.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:11.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:11.0.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:3.5.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy:1.10.15" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.10.15" level="project" />

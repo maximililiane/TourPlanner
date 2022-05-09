@@ -1,6 +1,8 @@
-package at.technikum_wien.tourPlanner.service;
+package at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService;
 
 
+import at.technikum_wien.tourPlanner.Injector;
+import at.technikum_wien.tourPlanner.configuration.Configuration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 
 import java.io.IOException;
@@ -12,17 +14,19 @@ import java.net.http.HttpResponse;
 
 public class MapQuestApi extends Mapper {
 
-    private final String MKEY = "BaprjXoFO6rXxKBbL6M2F0tAG3oXJJ7Y";
+    private final String API_KEY;
 
     public MapQuestApi() {
         super();
+        Configuration configuration = Injector.getConfig("app.properties");
+        this.API_KEY = configuration.get("mapQuest.key");
     }
 
     // GET route from MapQuest API
     public RouteResponse getRoute(String from, String to) {
         try {
             // TODO: encode URI?
-            String baseUri = "http://www.mapquestapi.com/directions/v2/route?key=" + MKEY;
+            String baseUri = "http://www.mapquestapi.com/directions/v2/route?key=" + API_KEY;
 
             // prepare URI
             StringBuilder uriBuilder = new StringBuilder();
@@ -60,7 +64,7 @@ public class MapQuestApi extends Mapper {
     //TODO: image is saved in a folder and not a byte array
     public byte[] getMap(RouteResponse route) {
         try {
-            String baseUri = "http://www.mapquestapi.com/staticmap/v5/map?key=" + MKEY;
+            String baseUri = "http://www.mapquestapi.com/staticmap/v5/map?key=" + API_KEY;
 
             //prepare URI
             StringBuilder uriBuilder = new StringBuilder();

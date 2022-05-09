@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.database;
+package at.technikum_wien.tourPlanner.dataAccessLayer.database;
 
 
 import at.technikum_wien.tourPlanner.Injector;
@@ -34,6 +34,7 @@ public class DatabaseSetup {
                 "mapImage VARCHAR(256) NOT NULL, " +
                 "childFriendliness INTEGER NOT NULL, " +
                 "popularity INTEGER NOT NULL, " +
+                "UNIQUE (tourName), " +
                 "PRIMARY KEY(uid))";
         statement.executeUpdate(createSql);
         statement.close();

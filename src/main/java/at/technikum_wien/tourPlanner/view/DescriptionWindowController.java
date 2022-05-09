@@ -116,6 +116,7 @@ public class DescriptionWindowController implements Initializable {
                     estimatedTimeLabel.setText("");
                     transportTypeLabel.setText("");
                     descriptionLabel.setText("");
+                    mapImage.setImage(null);
                 }
             }
         });

@@ -18,7 +18,7 @@ public class ListViewRow {
         this.startingPoint = new SimpleStringProperty(t.getStartingPoint());
         this.destination = new SimpleStringProperty(t.getDestination());
         this.estimatedTime = new SimpleStringProperty(t.getDuration());
-        this.uid = new SimpleStringProperty(t.getUid());
+        this.uid = new SimpleStringProperty(Integer.toString(t.getUid()));
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TourRepository {
         LinkedList<Tour> returnList = new LinkedList<>();
         preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME);
         ResultSet resultSet = preparedStatement.executeQuery();
-        String uid;
+        int uid;
         String name;
         String startingPoint;
         String destination;
@@ -35,7 +35,7 @@ public class TourRepository {
         int popularity;
         int childFriendliness;
         while (resultSet.next()) {
-            uid = resultSet.getString(1);
+            uid = resultSet.getInt(1);
             name = resultSet.getString(2);
             description = resultSet.getString(3);
             startingPoint = resultSet.getString(4);
@@ -53,10 +53,10 @@ public class TourRepository {
 
     }
 
-    public void deleteTour(String name) throws SQLException {
-        String sql = "DELETE FROM " + TABLE_NAME + " WHERE tourname = ?";
+    public void deleteTour(int uid) throws SQLException {
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE uid = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, name);
+        preparedStatement.setInt(1, uid);
         preparedStatement.executeUpdate();
     }
 
@@ -75,26 +75,36 @@ public class TourRepository {
         preparedStatement.setString(8, tour.getMapImage());
         preparedStatement.setInt(9, tour.getChildFriendly());
         preparedStatement.setInt(10, tour.getPopularity());
-        preparedStatement.setString(11, tour.getUid());
+        preparedStatement.setInt(11, tour.getUid());
         preparedStatement.executeUpdate();
     }
 
-    public void addTour(Tour tour) throws SQLException {
-        String sql = "INSERT INTO " + TABLE_NAME + "(uid, tourname, description, startingpoint, destination, distance," +
-                "duration, transporttype, mapimage, childfriendliness, popularity VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    public int addTour(Tour tour) throws SQLException {
+        String sql = "INSERT INTO " + TABLE_NAME + "(tourname, description, startingpoint, destination, distance," +
+                "duration, transporttype, mapimage, childfriendliness, popularity VALUES (?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, tour.getUid());
-        preparedStatement.setString(2, tour.getName());
-        preparedStatement.setString(3, tour.getDescription());
-        preparedStatement.setString(4, tour.getStartingPoint());
-        preparedStatement.setString(5, tour.getDestination());
-        preparedStatement.setFloat(6, tour.getLength());
-        preparedStatement.setString(7, tour.getDuration());
-        preparedStatement.setString(8, tour.getTransportType());
-        preparedStatement.setString(9, tour.getMapImage());
-        preparedStatement.setInt(10, tour.getChildFriendly());
-        preparedStatement.setInt(11, tour.getPopularity());
+        preparedStatement.setString(1, tour.getName());
+        preparedStatement.setString(2, tour.getDescription());
+        preparedStatement.setString(3, tour.getStartingPoint());
+        preparedStatement.setString(4, tour.getDestination());
+        preparedStatement.setFloat(5, tour.getLength());
+        preparedStatement.setString(6, tour.getDuration());
+        preparedStatement.setString(7, tour.getTransportType());
+        preparedStatement.setString(8, tour.getMapImage());
+        preparedStatement.setInt(9, tour.getChildFriendly());
+        preparedStatement.setInt(10, tour.getPopularity());
         preparedStatement.executeUpdate();
+
+        // get serialized UID from database
+        String getTourIdSql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?";
+        PreparedStatement getTourIdStatement = connection.prepareStatement(getTourIdSql);
+        getTourIdStatement.setString(1, tour.getName());
+        ResultSet resultSet = getTourIdStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+
+        return -1;
     }
 
     //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour

@@ -1,10 +1,16 @@
 package at.technikum_wien.tourPlanner.businessLayer;
 
+import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.MapQuestApi;
+import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
 import at.technikum_wien.tourPlanner.models.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
@@ -16,6 +22,9 @@ public class TourService {
     public TourService(TourRepository tourRepository) {
         this.tourRepository = tourRepository;
         this.tours = FXCollections.observableList(getTours());
+
+//        saveImage(1, "Vienna", "Bratislava");
+//        saveImage(2, "Berlin", "Madrid");
     }
 
     public LinkedList<Tour> getTours() {
@@ -27,24 +36,58 @@ public class TourService {
         return null;
     }
 
+
+    public void addTour(Tour tour) {
+        // the given tour has no map image or childFriendliness value, so it needs one
+        tour.setMapImage(saveImage(tour.getUid(), tour.getStartingPoint(), tour.getDestination()));
+
+        // TODO: calculate childFriendliness
+        tour.setChildFriendly(0);
+
+        try {
+            int tourId = tourRepository.addTour(tour);
+            tour.setUid(tourId);
+            tours.add(tour);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteTour(String name) {
-        if (tours.stream().anyMatch(tour -> tour.getName().equals(name))) {
+        Tour tour = tours.stream()
+                .filter(t -> t.getName().equals(name))
+                .findAny()
+                .orElse(null);
+
+        if (tour != null) {
             try {
-                tourRepository.deleteTour(name);
-                tours.removeIf(tour -> tour.getName().equals(name));
+                tourRepository.deleteTour(tour.getUid());
+                tours.removeIf(t -> t.getUid() == (tour.getUid()));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void addTour(Tour tour) {
-        // the given tour has no map image or childFriendliness value, so it needs one
+    public Image getImage(int tourId) {
+        String imagePath = "images/" + tourId + ".jpeg";
+        return new Image(imagePath);
+    }
 
-        // TODO: save image
-        tour.setMapImage("");
+    // write image into images folder, return name of file that image is in
+    private String saveImage(int tourId, String startingPoint, String destination) {
+        MapQuestApi mapQuestApi = new MapQuestApi();
+        RouteResponse response = mapQuestApi.getRoute(startingPoint, destination);
+        BufferedImage mapImage = mapQuestApi.getMap(response.getRoute().getBoundingBox(), response.getRoute().getSessionId());
 
-        // TODO: calculate childFriendliness
+        try {
+            File outputFile = new File("images/" + tourId + ".jpeg");
+            ImageIO.write(mapImage, "jpeg", outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Integer.toString(tourId) + ".jpeg";
 
     }
 

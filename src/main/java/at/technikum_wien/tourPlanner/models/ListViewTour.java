@@ -1,13 +1,13 @@
 package at.technikum_wien.tourPlanner.models;
 
 public class ListViewTour {
-    private String uid;
+    private int uid;
     private String name;
     private String startingPoint;
     private String destination;
     private String duration;
 
-    public ListViewTour(String uid, String name, String startingPoint, String destination, String duration) {
+    public ListViewTour(int uid, String name, String startingPoint, String destination, String duration) {
         this.uid = uid;
         this.name = name;
         this.startingPoint = startingPoint;
@@ -15,11 +15,11 @@ public class ListViewTour {
         this.duration = duration;
     }
 
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 

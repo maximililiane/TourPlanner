@@ -59,13 +59,6 @@ public class DescriptionWindowController implements Initializable {
         setUpListView();
 
         updateListView();
-
-        //TODO: change this
-        MapQuestApi mapQuestApi = new MapQuestApi();
-        RouteResponse response = mapQuestApi.getRoute("Wien", "Zeiselmauer,%20Austria");
-        byte[] buffer = mapQuestApi.getMap(response);
-
-        mapImage.setImage(new Image(new ByteArrayInputStream(buffer)));
     }
 
     public void deleteTour() {
@@ -111,6 +104,7 @@ public class DescriptionWindowController implements Initializable {
                     estimatedTimeLabel.setText(newTour.getDuration());
                     transportTypeLabel.setText(newTour.getTransportType());
                     descriptionLabel.setText(newTour.getDescription());
+                    mapImage.setImage(new Image("file:images/" + newTour.getMapImage()));
                 } else {
                     // there are no more tours left in the database
                     titleLabel.setText("");

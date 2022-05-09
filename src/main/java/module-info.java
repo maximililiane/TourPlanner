@@ -7,9 +7,9 @@ module at.technikum_wien.tourplanner {
     requires com.fasterxml.jackson.databind;
     requires java.sql;
     requires org.apache.commons.codec;
+    requires java.desktop;
 //    TODO: insert these requires when dependencies have been added to pom.xml file
 //    requires itextpdf;
-//    requires java.desktop;
 //    requires org.apache.logging.log4j;
 
 

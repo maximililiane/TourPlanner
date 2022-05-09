@@ -6,5 +6,10 @@ Maximiliane:
 3.5h MapQuestApi getRoute
 1.5h MapQuestApi getMap
 3.5h create description window in xml file, implement DescriptionWindowController, update database tables
+0.5h Logger Basis
+2h change Tour Model, add Tour Log table to database
+4h change buisness layer, add repository pattern
+1h add CRUD tour database methods
+3h change tour UID from String to serial int, adjust MapQuestApi methods, save Image dynamically
 
 Julian:

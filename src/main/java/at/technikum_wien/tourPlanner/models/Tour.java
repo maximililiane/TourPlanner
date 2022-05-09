@@ -5,7 +5,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.time.LocalTime;
 
 public class Tour {
-    private String uid;
+    private int uid;
     private String name;
     private String startingPoint;
     private String destination;
@@ -18,7 +18,7 @@ public class Tour {
     private String mapImage;
 
 
-    public Tour(String uid, String name, String startingPoint, String destination, String duration,
+    public Tour(int uid, String name, String startingPoint, String destination, String duration,
                 String transportType, String description, int popularity, float length, int childFriendly,
                 String mapImage) {
         this.uid = uid;
@@ -37,7 +37,6 @@ public class Tour {
     // used when adding new tour via gui
     public Tour(String name, String startingPoint, String destination, String duration, String transportType,
                 String description, float length) {
-        this.uid = DigestUtils.sha256Hex(name);
         this.name = name;
         this.startingPoint = startingPoint;
         this.destination = destination;
@@ -48,11 +47,11 @@ public class Tour {
         this.popularity = 0; // popularity = 0 because it doesn't have any logs yet
     }
 
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 

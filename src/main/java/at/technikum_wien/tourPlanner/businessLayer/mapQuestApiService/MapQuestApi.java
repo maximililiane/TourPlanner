@@ -3,8 +3,12 @@ package at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService;
 
 import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.configuration.Configuration;
+import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.BoundingBox;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -22,6 +26,7 @@ public class MapQuestApi extends Mapper {
         this.API_KEY = configuration.get("mapQuest.key");
     }
 
+    // TODO: add threading
     // GET route from MapQuest API
     public RouteResponse getRoute(String from, String to) {
         try {
@@ -60,9 +65,7 @@ public class MapQuestApi extends Mapper {
     }
 
     // Get map jpg from MapQuest API
-    //TODO: only boundingBox and sessionId as parameters
-    //TODO: image is saved in a folder and not a byte array
-    public byte[] getMap(RouteResponse route) {
+    public BufferedImage getMap(BoundingBox boundingBox, String sessionId) {
         try {
             String baseUri = "http://www.mapquestapi.com/staticmap/v5/map?key=" + API_KEY;
 
@@ -74,8 +77,8 @@ public class MapQuestApi extends Mapper {
             uriBuilder.append("&defaultMarker=none");
             uriBuilder.append("&zoom=11");
             uriBuilder.append("&rand=737758036");
-            uriBuilder.append("&session=").append(route.getRoute().getSessionId());
-            uriBuilder.append("&").append(route.getRoute().getBoundingBox());
+            uriBuilder.append("&session=").append(sessionId);
+            uriBuilder.append("&").append(boundingBox);
 
             URI uri = URI.create(uriBuilder.toString());
 
@@ -91,8 +94,11 @@ public class MapQuestApi extends Mapper {
             // send get request
             HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
 
+            // jpeg image is saved as byte[] in the response, get this
             byte[] byteArray = response.body();
-            return byteArray;
+
+            // byte[] -> BufferedImage
+            return ImageIO.read(new ByteArrayInputStream(byteArray));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

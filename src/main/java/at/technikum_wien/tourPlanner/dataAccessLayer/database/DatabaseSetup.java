@@ -23,7 +23,7 @@ public class DatabaseSetup {
     private static void createTourTable(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getTourTableName() + "( " +
-                "uid VARCHAR(256) NOT NULL, " +
+                "uid SERIAL, " +
                 "tourName VARCHAR(256) NOT NULL, " +
                 "description VARCHAR(256) NOT NULL, " +
                 "startingPoint VARCHAR(256) NOT NULL, " +
@@ -44,7 +44,7 @@ public class DatabaseSetup {
         Statement statement = connection.createStatement();
         String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getLogTableName() + "(" +
                 "uid VARCHAR(256) NOT NULL, " +
-                "tourId VARCHAR(256) NOT NULL, " +
+                "tourId INTEGER NOT NULL, " +
                 "date DATE NOT NULL, " +
                 "comment VARCHAR(256) NOT NULL, " +
                 "difficulty INTEGER NOT NULL, " +

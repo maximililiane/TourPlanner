@@ -34,4 +34,8 @@ public class DescriptionViewModel {
         tourService.deleteTour(name);
     }
 
+    public void saveReport(Tour tour) {
+        tourService.saveReport(tour);
+    }
+
 }

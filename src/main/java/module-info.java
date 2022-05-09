@@ -7,12 +7,10 @@ module at.technikum_wien.tourplanner {
     requires com.fasterxml.jackson.databind;
     requires java.sql;
     requires org.apache.logging.log4j;
-    requires org.apache.commons.codec;
     requires java.desktop;
-//    TODO: insert these requires when dependencies have been added to pom.xml file
-//    requires itextpdf;
-//    requires org.apache.logging.log4j;
-
+    requires io;
+    requires kernel;
+    requires layout;
 
     opens at.technikum_wien.tourPlanner to javafx.fxml;
     opens at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest to com.fasterxml.jackson.databind;

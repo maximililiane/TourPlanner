@@ -1,13 +1,12 @@
 package at.technikum_wien.tourPlanner.businessLayer;
 
 import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.MapQuestApi;
+import at.technikum_wien.tourPlanner.businessLayer.pdfGeneration.PdfGeneration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
 import at.technikum_wien.tourPlanner.models.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -23,8 +22,9 @@ public class TourService {
         this.tourRepository = tourRepository;
         this.tours = FXCollections.observableList(getTours());
 
-//        saveImage(1, "Vienna", "Bratislava");
-//        saveImage(2, "Berlin", "Madrid");
+        // TODO: delete test data once addTour has been implemented
+        saveImage(1, "Vienna", "Bratislava");
+        saveImage(2, "Berlin", "Madrid");
     }
 
     public LinkedList<Tour> getTours() {
@@ -77,6 +77,12 @@ public class TourService {
         BufferedImage mapImage = mapQuestApi.getMap(response.getRoute().getBoundingBox(), response.getRoute().getSessionId());
 
         try {
+            // check if file directory where images should be saved exists
+            File imageDirectory = new File("images/");
+            if (!imageDirectory.exists()) {
+                imageDirectory.mkdir();
+            }
+
             File outputFile = new File("images/" + tourId + ".jpeg");
             ImageIO.write(mapImage, "jpeg", outputFile);
         } catch (IOException e) {
@@ -85,6 +91,14 @@ public class TourService {
 
         return Integer.toString(tourId) + ".jpeg";
 
+    }
+
+    public void saveReport(Tour tour) {
+        try {
+            PdfGeneration.generateTourReport(tour);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

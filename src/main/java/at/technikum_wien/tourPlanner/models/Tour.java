@@ -1,8 +1,5 @@
 package at.technikum_wien.tourPlanner.models;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
-import java.time.LocalTime;
 
 public class Tour {
     private int uid;

@@ -25,9 +25,11 @@ import java.util.ResourceBundle;
 public class DescriptionWindowController implements Initializable {
 
     private final DescriptionViewModel descriptionViewModel;
-    public Button deleteButton;
-    public Label popularityLabel;
     @FXML
+    public Button deleteButton;
+    public Button saveReportButton;
+    private Tour selectedTour;
+    public Label popularityLabel;
     public ImageView mapImage;
     public Label titleLabel;
     public ListView<Tour> tourListView;
@@ -40,8 +42,10 @@ public class DescriptionWindowController implements Initializable {
     public Label descriptionLabel;
     private ObservableList<Tour> tourObservableList;
 
+
     public DescriptionWindowController(DescriptionViewModel descriptionViewModel) {
         this.descriptionViewModel = descriptionViewModel;
+        this.selectedTour = null;
     }
 
     @Override
@@ -63,6 +67,10 @@ public class DescriptionWindowController implements Initializable {
 
     public void deleteTour() {
         descriptionViewModel.deleteTour(titleLabel.getText());
+    }
+
+    public void saveReport() {
+        descriptionViewModel.saveReport(selectedTour);
     }
 
     private void setUpListView() {
@@ -95,6 +103,7 @@ public class DescriptionWindowController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Tour> observableValue, Tour oldTour, Tour newTour) {
                 if (newTour != null) {
+                    selectedTour = newTour;
                     titleLabel.setText(newTour.getName());
                     popularityLabel.setText(String.valueOf(newTour.getPopularity()));
                     childFriendlinessLabel.setText(String.valueOf(newTour.getChildFriendly()));

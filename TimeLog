@@ -11,5 +11,6 @@ Maximiliane:
 4h change buisness layer, add repository pattern
 1h add CRUD tour database methods
 3h change tour UID from String to serial int, adjust MapQuestApi methods, save Image dynamically
+2h implement foundation for PDFGeneration
 
 Julian:

@@ -41,10 +41,12 @@
                 <Label layoutX="158.0" layoutY="201.0" text="Description"/>
                 <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="157.0" layoutY="218.0" prefHeight="170.0"
                        prefWidth="432.0" wrapText="true"/>
-                <Button fx:id="deleteButton" layoutX="375.0" layoutY="14.0" mnemonicParsing="false" text="delete tour"
-                        onAction="#deleteTour"/>
+                <Button fx:id="deleteButton" layoutX="375.0" layoutY="14.0" mnemonicParsing="false"
+                        onAction="#deleteTour" text="delete tour"/>
+                <Button fx:id="saveReportButton" layoutX="296.0" layoutY="14.0" mnemonicParsing="false"
+                        onAction="#saveReport" text="save report"/>
 
             </children>
-      </Pane>
-   </children>
+        </Pane>
+    </children>
 </AnchorPane>

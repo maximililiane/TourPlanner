@@ -23,8 +23,8 @@ public class TourService {
         this.tours = FXCollections.observableList(getTours());
 
         // TODO: delete test data once addTour has been implemented
-        saveImage(1, "Vienna", "Bratislava");
-        saveImage(2, "Berlin", "Madrid");
+        // saveImage(1, "Vienna", "Bratislava");
+        // saveImage(2, "Berlin", "Madrid");
     }
 
     public LinkedList<Tour> getTours() {

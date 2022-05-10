@@ -1,14 +1,11 @@
 package at.technikum_wien.tourPlanner.view;
 
-import at.technikum_wien.tourPlanner.Injector;
+import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
 import at.technikum_wien.tourPlanner.dataAccessLayer.database.DatabaseConnector;
-import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.LogRepository;
+import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourLogRepository;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
-import at.technikum_wien.tourPlanner.viewModel.DescriptionViewModel;
-import at.technikum_wien.tourPlanner.viewModel.ListViewModel;
-import at.technikum_wien.tourPlanner.viewModel.MainWindowViewModel;
-import at.technikum_wien.tourPlanner.viewModel.SearchBarViewModel;
+import at.technikum_wien.tourPlanner.viewModel.*;
 
 import java.sql.SQLException;
 
@@ -17,19 +14,24 @@ public class ControllerFactory {
     private final SearchBarViewModel searchBarViewModel;
     private final DescriptionViewModel descriptionViewModel;
     private final ListViewModel listViewModel;
+    private final TourLogViewModel tourLogViewModel;
     private TourRepository tourRepository;
-    private LogRepository logRepository;
+    private TourLogRepository tourLogRepository;
     // private final Injector injector;
 
 
     public ControllerFactory() {
         setUpDatabase();
         TourService tourService = new TourService(tourRepository);
+        TourLogService tourLogService = new TourLogService(tourLogRepository);
         // this.injector = new Injector();
+        // TODO: Injector.getLogger() into the constructors
         this.searchBarViewModel = new SearchBarViewModel();
         this.mainWindowViewModel = new MainWindowViewModel(searchBarViewModel);
         this.descriptionViewModel = new DescriptionViewModel(tourService);
         this.listViewModel = new ListViewModel(tourService);
+        this.tourLogViewModel = new TourLogViewModel(tourLogService);
+
     }
 
     private void setUpDatabase() {
@@ -40,7 +42,7 @@ public class ControllerFactory {
             e.printStackTrace();
         }
         this.tourRepository = new TourRepository(databaseConnector.getConnection());
-        //TODO: this.logRepository = new LogRepository(databaseConnector.getConnection());
+        this.tourLogRepository = new TourLogRepository(databaseConnector.getConnection());
     }
 
     //

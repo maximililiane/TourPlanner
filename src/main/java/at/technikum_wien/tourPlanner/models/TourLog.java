@@ -6,15 +6,15 @@ import java.util.Date;
 
 public class TourLog {
 
-    private String uid;
-    private String tourID;
-    private Date date;
+    private int uid;
+    private int tourID;
+    private String date; //TODO: change type
     private String comment;
     private int difficulty;
     private String totalTime; //TODO: maybe change this data type
     private int rating;
 
-    public TourLog(String uid, String tourID, Date date, String comment, int difficulty, String totalTime, int rating) {
+    public TourLog(int uid, int tourID, String date, String comment, int difficulty, String totalTime, int rating) {
         this.uid = uid;
         this.tourID = tourID;
         this.date = date;
@@ -24,27 +24,27 @@ public class TourLog {
         this.rating = rating;
     }
 
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
-    public String getTourID() {
+    public int getTourID() {
         return tourID;
     }
 
-    public void setTourID(String tourID) {
+    public void setTourID(int tourID) {
         this.tourID = tourID;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

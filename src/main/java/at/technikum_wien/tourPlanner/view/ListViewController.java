@@ -107,7 +107,6 @@ public class ListViewController {
         tourTable.getItems().removeAll(tourTable.getItems());
         for (Tour t : list) {
             addTourToTable(t.getListViewTour());
-            System.out.println(t.toString());
         }
 
     }

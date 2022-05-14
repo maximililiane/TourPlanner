@@ -57,6 +57,8 @@ public class ControllerFactory {
             return new DescriptionWindowController(descriptionViewModel);
         } else if (controllerClass == ListViewController.class) {
             return new ListViewController(listViewModel);
+        }else if (controllerClass == TourLogWindowController.class){
+            return new TourLogWindowController(tourLogViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }

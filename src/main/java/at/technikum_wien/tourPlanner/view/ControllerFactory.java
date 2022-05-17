@@ -17,15 +17,11 @@ public class ControllerFactory {
     private final TourLogViewModel tourLogViewModel;
     private TourRepository tourRepository;
     private TourLogRepository tourLogRepository;
-    // private final Injector injector;
-
 
     public ControllerFactory() {
         setUpDatabase();
         TourService tourService = new TourService(tourRepository);
-        TourLogService tourLogService = new TourLogService(tourLogRepository);
-        // this.injector = new Injector();
-        // TODO: Injector.getLogger() into the constructors
+        TourLogService tourLogService = new TourLogService(tourRepository, tourLogRepository);
         this.searchBarViewModel = new SearchBarViewModel();
         this.mainWindowViewModel = new MainWindowViewModel(searchBarViewModel);
         this.descriptionViewModel = new DescriptionViewModel(tourService);

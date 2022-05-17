@@ -8,22 +8,24 @@ import javafx.collections.ObservableList;
 public class TourLogViewModel {
 
     private TourLogService tourLogService;
-    private ObservableList<TourLog> list;
+    private ObservableList<TourLog> logs;
+    private ObservableList<Tour> tours;
 
     public TourLogViewModel(TourLogService tourLogService) {
         this.tourLogService = tourLogService;
-        this.list = tourLogService.getObservableLogList();
+        this.logs = tourLogService.getObservableLogList();
+        this.tours = tourLogService.getObservableTourList();
     }
 
     public ObservableList<TourLog> getList() {
-        return list;
+        return logs;
     }
 
-    public void setList(ObservableList<TourLog> list) {
-        this.list = list;
+    public void setList(ObservableList<TourLog> logs) {
+        this.logs = logs;
     }
 
     public void addItem(TourLog item) {
-        list.add(item);
+        logs.add(item);
     }
 }

@@ -1,6 +1,7 @@
 package at.technikum_wien.tourPlanner.businessLayer;
 
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourLogRepository;
+import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.FXCollections;
@@ -12,11 +13,15 @@ import java.util.LinkedList;
 public class TourLogService {
 
     private final TourLogRepository tourLogRepository;
+    private final TourRepository tourRepository;
     private ObservableList<TourLog> logs;
+    private ObservableList<Tour> tours;
 
-    public TourLogService(TourLogRepository tourLogRepository) {
+    public TourLogService(TourRepository tourRepository, TourLogRepository tourLogRepository) {
         this.tourLogRepository = tourLogRepository;
-        this.logs= FXCollections.observableList(getLogs());
+        this.tourRepository = tourRepository;
+        this.logs = FXCollections.observableList(getLogs());
+        this.tours = FXCollections.observableList(getTours());
     }
 
     public LinkedList<TourLog> getLogs() {
@@ -28,8 +33,21 @@ public class TourLogService {
         return null;
     }
 
-    public ObservableList<TourLog> getObservableLogList(){
+    public LinkedList<Tour> getTours() {
+        try {
+            return tourRepository.getTours();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ObservableList<TourLog> getObservableLogList() {
         return this.logs;
+    }
+
+    public ObservableList<Tour> getObservableTourList() {
+        return this.tours;
     }
 
 }

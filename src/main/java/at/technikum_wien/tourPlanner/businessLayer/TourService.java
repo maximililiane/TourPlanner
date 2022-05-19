@@ -5,7 +5,6 @@ import at.technikum_wien.tourPlanner.businessLayer.pdfGeneration.PdfGeneration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
 import at.technikum_wien.tourPlanner.models.Tour;
-import at.technikum_wien.tourPlanner.models.TransportMode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.imageio.ImageIO;
@@ -50,6 +49,7 @@ public class TourService {
 
         // TODO: calculate childFriendliness
         tourWithMapQuestApiInfo.setChildFriendly(0);
+        tourWithMapQuestApiInfo.setPopularity(0);
 
         try {
             tourRepository.addTour(tourWithMapQuestApiInfo);
@@ -72,6 +72,37 @@ public class TourService {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void editTour(Tour tour) {
+        Tour oldTour = tours.stream()
+                .filter(t -> t.getUid() == tour.getUid())
+                .findAny().get();
+        tours.remove(oldTour);
+
+        try {
+            // route hasn't been changed
+            if (oldTour.getStartingPoint().equals(tour.getStartingPoint()) && oldTour.getDestination().equals(tour.getDestination()) &&
+                    oldTour.getTransportType() == tour.getTransportType()) {
+                oldTour.setName(tour.getName());
+                oldTour.setDuration(tour.getDescription());
+                tourRepository.editTour(oldTour);
+                tours.add(oldTour);
+            } else {
+
+                // route has been changed
+                Tour tourWithMapQuestApiInfo = saveImage(tour);
+
+                // TODO: calculate childFriendliness
+                tourWithMapQuestApiInfo.setChildFriendly(0);
+                tourWithMapQuestApiInfo.setPopularity(0);
+
+                tourRepository.editTour(tourWithMapQuestApiInfo);
+                tours.add(tourWithMapQuestApiInfo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

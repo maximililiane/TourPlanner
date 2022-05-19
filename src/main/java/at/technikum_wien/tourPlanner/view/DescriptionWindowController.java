@@ -3,18 +3,19 @@ package at.technikum_wien.tourPlanner.view;
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.viewModel.DescriptionViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -23,6 +24,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DescriptionWindowController implements Initializable {
@@ -32,6 +34,9 @@ public class DescriptionWindowController implements Initializable {
     public Button deleteButton;
     public Button saveReportButton;
     public Button saveTourButton;
+    public Button editButton;
+    public Button updateTourButton;
+    public Button cancelButton;
     private Tour selectedTour;
     public Label popularityLabel;
     public ImageView mapImage;
@@ -67,6 +72,7 @@ public class DescriptionWindowController implements Initializable {
         setUpListView();
 
         updateListView();
+
     }
 
     public void deleteTour() {
@@ -78,7 +84,6 @@ public class DescriptionWindowController implements Initializable {
     }
 
     public void openAddTourWindow() {
-
         try {
             Parent root = FXMLDependencyInjection.load("addTourWindow.fxml", Locale.ENGLISH);
             Scene scene = new Scene(root);
@@ -89,7 +94,30 @@ public class DescriptionWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void openEditTourWindow() {
+        Tour tour = tourListView.getSelectionModel().getSelectedItem();
+        try {
+            FXMLLoader loader = FXMLDependencyInjection.getLoader("editTourWindow.fxml", Locale.ENGLISH);
+            Parent root = loader.load();
+            EditTourWindowController editTourWindowController = loader.getController();
+
+            editTourWindowController.tourId.setText(Integer.toString(tour.getUid()));
+            editTourWindowController.tourNameTextField.setText(tour.getName());
+            editTourWindowController.descriptionTextField.setText(tour.getDescription());
+            editTourWindowController.fromTextField.setText(tour.getStartingPoint());
+            editTourWindowController.toTextField.setText(tour.getDestination());
+            editTourWindowController.transportTypeLabel.setText(tour.getTransportType().name() + ")");
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Tour Planner");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUpListView() {

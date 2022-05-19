@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/11.0.2"
+            fx:controller="at.technikum_wien.tourPlanner.view.EditTourWindowController">
+    <Label alignment="CENTER" layoutX="57.0" layoutY="23.0" prefHeight="26.0" prefWidth="486.0" text="Edit Tour">
+        <font>
+            <Font size="18.0"/>
+        </font>
+    </Label>
+    <Label layoutX="25.0" layoutY="50.0" text="Name">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="tourNameTextField" layoutX="25.0" layoutY="70.0" prefHeight="26.0" prefWidth="550.0"
+               promptText="Enter tour name" HBox.hgrow="ALWAYS"/>
+    <Label layoutX="25.0" layoutY="106.0" text="From">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="fromTextField" layoutX="25.0" layoutY="126.0" prefHeight="26.0" prefWidth="550.0"
+               promptText="Enter starting point" HBox.hgrow="ALWAYS"/>
+    <Label layoutX="25.0" layoutY="164.0" text="To">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="toTextField" layoutX="25.0" layoutY="184.0" prefHeight="26.0" prefWidth="550.0"
+               promptText="Enter destination" HBox.hgrow="ALWAYS"/>
+    <Label layoutX="27.0" layoutY="225.0" text="Description">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="descriptionTextField" alignment="TOP_LEFT" layoutX="25.0" layoutY="245.0" prefHeight="100.0"
+               prefWidth="550.0" promptText="Enter tour description" HBox.hgrow="ALWAYS"/>
+    <Label layoutX="27.0" layoutY="357.0" prefHeight="20.0" prefWidth="150.0" text="Transport Type (before: ">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <ChoiceBox fx:id="transportModeCheckBox" layoutX="25.0" layoutY="377.0" prefWidth="150.0"/>
+    <Button fx:id="editTourButton" layoutX="140.0" layoutY="429.0" mnemonicParsing="false" onAction="#editTour"
+            text="edit tour"/>
+    <Button fx:id="cancelButton" layoutX="410.0" layoutY="429.0" mnemonicParsing="false" onAction="#closeWindow"
+            text="cancel"/>
+    <Label fx:id="hintLabel" layoutX="66.0" layoutY="455.0" text="Please fill out all fields to update the tour"
+           textFill="#ed7070"/>
+    <Label fx:id="tourId" layoutX="25.0" layoutY="50.0"/>
+    <Label fx:id="transportTypeLabel" layoutX="175.0" layoutY="357.0" prefHeight="20.0" prefWidth="129.0">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+</AnchorPane>

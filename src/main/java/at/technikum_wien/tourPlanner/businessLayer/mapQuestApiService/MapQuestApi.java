@@ -39,6 +39,7 @@ public class MapQuestApi extends Mapper {
             uriBuilder.append(baseUri);
             uriBuilder.append("&from=").append(from);
             uriBuilder.append("&to=").append(to);
+            uriBuilder.append("&routeType=").append(transportMode.name());
 
             URI uri = URI.create(uriBuilder.toString());
 

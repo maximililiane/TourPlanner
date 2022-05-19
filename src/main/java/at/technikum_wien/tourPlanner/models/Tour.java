@@ -39,7 +39,6 @@ public class Tour {
         this.destination = destination;
         this.transportType = transportType;
         this.description = description;
-        this.popularity = 0; // popularity = 0 because it doesn't have any logs yet
     }
 
     public int getUid() {

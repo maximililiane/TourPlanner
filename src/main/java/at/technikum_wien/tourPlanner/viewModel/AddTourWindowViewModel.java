@@ -31,6 +31,10 @@ public class AddTourWindowViewModel {
         return nameString;
     }
 
+    public void setNameStringProperty(String tourName) {
+        nameString.set(tourName);
+    }
+
     public StringProperty fromStringProperty() {
         return fromString;
     }

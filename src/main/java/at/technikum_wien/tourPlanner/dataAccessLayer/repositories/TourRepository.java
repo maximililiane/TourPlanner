@@ -98,14 +98,14 @@ public class TourRepository {
     }
 
     public int getNextTourId() throws SQLException {
-        int nextId = -1;
+        int nextId = 0;
         PreparedStatement preparedStatement;
-        preparedStatement = connection.prepareStatement("Select nextval(pg_get_serial_sequence('TOURS', 'uid')) as new_id");
+        preparedStatement = connection.prepareStatement("SELECT MAX(uid) FROM " + TABLE_NAME);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             nextId = resultSet.getInt(1);
         }
-        return nextId;
+        return nextId + 1;
     }
 
     //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour

@@ -51,7 +51,7 @@ public class PdfGeneration {
         document.add(new Paragraph("Description: " + tour.getDescription()));
         document.add(new Paragraph("Starting Point: " + tour.getStartingPoint()));
         document.add(new Paragraph("Destination: " + tour.getDestination()));
-        document.add(new Paragraph("Transport Type: " + tour.getTransportType()));
+        document.add(new Paragraph("Transport Type: " + tour.getTransportType().name()));
         document.add(new Paragraph("Tour Distance: " + tour.getLength()));
         document.add(new Paragraph("Estimated Time: " + tour.getDuration()));
 

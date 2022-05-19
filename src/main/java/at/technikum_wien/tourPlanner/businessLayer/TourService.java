@@ -5,6 +5,7 @@ import at.technikum_wien.tourPlanner.businessLayer.pdfGeneration.PdfGeneration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
 import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.models.TransportMode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.imageio.ImageIO;
@@ -22,9 +23,6 @@ public class TourService {
         this.tourRepository = tourRepository;
         this.tours = FXCollections.observableList(getTours());
 
-        // TODO: delete test data once addTour has been implemented
-        // saveImage(1, "Vienna", "Bratislava");
-        // saveImage(2, "Berlin", "Madrid");
     }
 
     public LinkedList<Tour> getTours() {
@@ -38,16 +36,24 @@ public class TourService {
 
 
     public void addTour(Tour tour) {
+        // TODO: validate user input
+
+        // get tourID from database
+        try {
+            tour.setUid(tourRepository.getNextTourId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         // the given tour has no map image or childFriendliness value, so it needs one
-        tour.setMapImage(saveImage(tour.getUid(), tour.getStartingPoint(), tour.getDestination()));
+        Tour tourWithMapQuestApiInfo = saveImage(tour);
 
         // TODO: calculate childFriendliness
-        tour.setChildFriendly(0);
+        tourWithMapQuestApiInfo.setChildFriendly(0);
 
         try {
-            int tourId = tourRepository.addTour(tour);
-            tour.setUid(tourId);
-            tours.add(tour);
+            tourRepository.addTour(tourWithMapQuestApiInfo);
+            tours.add(tourWithMapQuestApiInfo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,9 +77,9 @@ public class TourService {
 
 
     // write image into images folder, return name of file that image is in
-    private String saveImage(int tourId, String startingPoint, String destination) {
+    private Tour saveImage(Tour tour) {
         MapQuestApi mapQuestApi = new MapQuestApi();
-        RouteResponse response = mapQuestApi.getRoute(startingPoint, destination);
+        RouteResponse response = mapQuestApi.getRoute(tour.getStartingPoint(), tour.getDestination(), tour.getTransportType());
         BufferedImage mapImage = mapQuestApi.getMap(response.getRoute().getBoundingBox(), response.getRoute().getSessionId());
 
         try {
@@ -83,14 +89,17 @@ public class TourService {
                 imageDirectory.mkdir();
             }
 
-            File outputFile = new File("images/" + tourId + ".jpeg");
+            File outputFile = new File("images/" + tour.getUid() + ".jpeg");
             ImageIO.write(mapImage, "jpeg", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return Integer.toString(tourId) + ".jpeg";
+        tour.setDuration(response.getRoute().getFormattedTime());
+        tour.setLength(response.getRoute().getDistance());
+        tour.setMapImage(tour.getUid() + ".jpeg");
 
+        return tour;
     }
 
     public void saveReport(Tour tour) {

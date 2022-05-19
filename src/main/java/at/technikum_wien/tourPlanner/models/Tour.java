@@ -7,16 +7,16 @@ public class Tour {
     private String startingPoint;
     private String destination;
     private String duration;
-    private String transportType;
+    private TransportMode transportType;
     private String description;
     private int popularity;
-    private float length;
+    private double length;
     private int childFriendly;
     private String mapImage;
 
 
     public Tour(int uid, String name, String startingPoint, String destination, String duration,
-                String transportType, String description, int popularity, float length, int childFriendly,
+                TransportMode transportType, String description, int popularity, double length, int childFriendly,
                 String mapImage) {
         this.uid = uid;
         this.name = name;
@@ -32,15 +32,13 @@ public class Tour {
     }
 
     // used when adding new tour via gui
-    public Tour(String name, String startingPoint, String destination, String duration, String transportType,
-                String description, float length) {
+    public Tour(String name, String startingPoint, String destination, TransportMode transportType,
+                String description) {
         this.name = name;
         this.startingPoint = startingPoint;
         this.destination = destination;
-        this.duration = duration;
         this.transportType = transportType;
         this.description = description;
-        this.length = length;
         this.popularity = 0; // popularity = 0 because it doesn't have any logs yet
     }
 
@@ -84,11 +82,11 @@ public class Tour {
         this.duration = duration;
     }
 
-    public String getTransportType() {
+    public TransportMode getTransportType() {
         return transportType;
     }
 
-    public void setTransportType(String transportType) {
+    public void setTransportType(TransportMode transportType) {
         this.transportType = transportType;
     }
 
@@ -108,11 +106,11 @@ public class Tour {
         this.popularity = popularity;
     }
 
-    public float getLength() {
+    public double getLength() {
         return length;
     }
 
-    public void setLength(float length) {
+    public void setLength(double length) {
         this.length = length;
     }
 

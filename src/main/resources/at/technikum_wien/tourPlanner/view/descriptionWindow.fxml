@@ -32,7 +32,7 @@
                 <Label layoutX="158.0" layoutY="101.0" prefHeight="17.0" prefWidth="19.0" text="To:"/>
                 <Label fx:id="toLabel" layoutX="175.0" layoutY="101.0" prefHeight="17.0" prefWidth="60.0"/>
                 <Label layoutX="158.0" layoutY="118.0" text="Distance:"/>
-                <Label fx:id="distanceLabel" layoutX="207.0" layoutY="119.0" prefHeight="17.0" prefWidth="30.0"/>
+                <Label fx:id="distanceLabel" layoutX="207.0" layoutY="119.0" prefHeight="17.0" prefWidth="82.0"/>
                 <Label layoutX="158.0" layoutY="135.0" text="Estimated Time:"/>
                 <Label fx:id="estimatedTimeLabel" layoutX="242.0" layoutY="135.0" prefHeight="17.0" prefWidth="56.0"/>
                 <Label layoutX="158.0" layoutY="152.0" text="Transport Type:"/>
@@ -45,6 +45,8 @@
                         onAction="#deleteTour" text="delete tour"/>
                 <Button fx:id="saveReportButton" layoutX="296.0" layoutY="14.0" mnemonicParsing="false"
                         onAction="#saveReport" text="save report"/>
+                <Button fx:id="saveTourButton" layoutX="231.0" layoutY="14.0" mnemonicParsing="false"
+                        onAction="#openAddTourWindow" text="add tour"/>
 
             </children>
         </Pane>

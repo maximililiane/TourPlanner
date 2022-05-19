@@ -15,6 +15,7 @@ public class ControllerFactory {
     private final DescriptionViewModel descriptionViewModel;
     private final ListViewModel listViewModel;
     private final TourLogViewModel tourLogViewModel;
+    private final AddTourWindowViewModel addTourWindowViewModel;
     private TourRepository tourRepository;
     private TourLogRepository tourLogRepository;
 
@@ -27,6 +28,7 @@ public class ControllerFactory {
         this.descriptionViewModel = new DescriptionViewModel(tourService);
         this.listViewModel = new ListViewModel(tourService);
         this.tourLogViewModel = new TourLogViewModel(tourLogService);
+        this.addTourWindowViewModel = new AddTourWindowViewModel(tourService);
 
     }
 
@@ -53,8 +55,10 @@ public class ControllerFactory {
             return new DescriptionWindowController(descriptionViewModel);
         } else if (controllerClass == ListViewController.class) {
             return new ListViewController(listViewModel);
-        }else if (controllerClass == TourLogWindowController.class){
+        } else if (controllerClass == TourLogWindowController.class) {
             return new TourLogWindowController(tourLogViewModel);
+        } else if (controllerClass == AddTourWindowController.class) {
+            return new AddTourWindowController(addTourWindowViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }

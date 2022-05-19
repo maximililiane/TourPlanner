@@ -2,6 +2,7 @@ package at.technikum_wien.tourPlanner.dataAccessLayer.repositories;
 
 import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableNames;
 import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.models.TransportMode;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,8 +29,8 @@ public class TourRepository {
         String startingPoint;
         String destination;
         String duration;
-        float distance;
-        String transportType;
+        double distance;
+        TransportMode transportType;
         String description;
         String mapImage;
         int popularity;
@@ -40,9 +41,9 @@ public class TourRepository {
             description = resultSet.getString(3);
             startingPoint = resultSet.getString(4);
             destination = resultSet.getString(5);
-            distance = resultSet.getFloat(6);
+            distance = resultSet.getDouble(6);
             duration = resultSet.getString(7);
-            transportType = resultSet.getString(8);
+            transportType = TransportMode.valueOf(resultSet.getString(8)); // TODO: change enum handling?
             mapImage = resultSet.getString(9);
             childFriendliness = resultSet.getInt(10);
             popularity = resultSet.getInt(11);
@@ -69,9 +70,9 @@ public class TourRepository {
         preparedStatement.setString(2, tour.getDescription());
         preparedStatement.setString(3, tour.getStartingPoint());
         preparedStatement.setString(4, tour.getDestination());
-        preparedStatement.setFloat(5, tour.getLength());
+        preparedStatement.setDouble(5, tour.getLength());
         preparedStatement.setString(6, tour.getDuration());
-        preparedStatement.setString(7, tour.getTransportType());
+        preparedStatement.setString(7, tour.getTransportType().name());
         preparedStatement.setString(8, tour.getMapImage());
         preparedStatement.setInt(9, tour.getChildFriendly());
         preparedStatement.setInt(10, tour.getPopularity());
@@ -79,7 +80,7 @@ public class TourRepository {
         preparedStatement.executeUpdate();
     }
 
-    public int addTour(Tour tour) throws SQLException {
+    public void addTour(Tour tour) throws SQLException {
         String sql = "INSERT INTO " + TABLE_NAME + "(tourname, description, startingpoint, destination, distance," +
                 "duration, transporttype, mapimage, childfriendliness, popularity) VALUES (?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -87,24 +88,24 @@ public class TourRepository {
         preparedStatement.setString(2, tour.getDescription());
         preparedStatement.setString(3, tour.getStartingPoint());
         preparedStatement.setString(4, tour.getDestination());
-        preparedStatement.setFloat(5, tour.getLength());
+        preparedStatement.setDouble(5, tour.getLength());
         preparedStatement.setString(6, tour.getDuration());
-        preparedStatement.setString(7, tour.getTransportType());
+        preparedStatement.setString(7, tour.getTransportType().name());
         preparedStatement.setString(8, tour.getMapImage());
         preparedStatement.setInt(9, tour.getChildFriendly());
         preparedStatement.setInt(10, tour.getPopularity());
         preparedStatement.executeUpdate();
+    }
 
-        // get serialized UID from database
-        String getTourIdSql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?";
-        PreparedStatement getTourIdStatement = connection.prepareStatement(getTourIdSql);
-        getTourIdStatement.setString(1, tour.getName());
-        ResultSet resultSet = getTourIdStatement.executeQuery();
+    public int getNextTourId() throws SQLException {
+        int nextId = -1;
+        PreparedStatement preparedStatement;
+        preparedStatement = connection.prepareStatement("Select nextval(pg_get_serial_sequence('TOURS', 'uid')) as new_id");
+        ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            return resultSet.getInt(1);
+            nextId = resultSet.getInt(1);
         }
-
-        return -1;
+        return nextId;
     }
 
     //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour

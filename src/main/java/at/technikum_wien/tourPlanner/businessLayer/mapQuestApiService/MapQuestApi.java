@@ -5,6 +5,7 @@ import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.configuration.Configuration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.BoundingBox;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
+import at.technikum_wien.tourPlanner.models.TransportMode;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -28,7 +29,7 @@ public class MapQuestApi extends Mapper {
 
     // TODO: add threading
     // GET route from MapQuest API
-    public RouteResponse getRoute(String from, String to) {
+    public RouteResponse getRoute(String from, String to, TransportMode transportMode) {
         try {
             // TODO: encode URI?
             String baseUri = "http://www.mapquestapi.com/directions/v2/route?key=" + API_KEY;

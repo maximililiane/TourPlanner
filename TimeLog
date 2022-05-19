@@ -12,5 +12,6 @@ Maximiliane:
 1h add CRUD tour database methods
 3h change tour UID from String to serial int, adjust MapQuestApi methods, save Image dynamically
 2h implement foundation for PDFGeneration
+3.5h add tour via UI - without input validation
 
 Julian:

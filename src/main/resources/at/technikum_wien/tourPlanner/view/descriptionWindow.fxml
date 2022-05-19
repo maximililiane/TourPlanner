@@ -9,43 +9,107 @@
             xmlns="http://javafx.com/javafx/11.0.2"
             fx:controller="at.technikum_wien.tourPlanner.view.DescriptionWindowController">
     <children>
-        <Pane prefHeight="400.0" prefWidth="600.0">
+        <Pane prefHeight="550.0" prefWidth="900.0">
             <children>
-                <ImageView fx:id="mapImage" fitHeight="133.0" fitWidth="210.0" layoutX="376.0" layoutY="50.0"
+                <ImageView fx:id="mapImage" fitHeight="280.0" fitWidth="418.0" layoutX="458.0" layoutY="52.0"
                            pickOnBounds="true" preserveRatio="true"/>
-                <ListView fx:id="tourListView" prefHeight="400.0" prefWidth="150.0"/>
-                <Separator layoutX="150.0" layoutY="40.0" prefHeight="2.0" prefWidth="450.0"/>
-                <Label fx:id="titleLabel" layoutX="158.0" layoutY="11.0">
+                <ListView fx:id="tourListView" prefHeight="550.0" prefWidth="151.0"/>
+                <Separator layoutX="150.0" layoutY="40.0" prefHeight="3.0" prefWidth="752.0"/>
+                <Label fx:id="titleLabel" layoutX="156.0" layoutY="12.0" prefHeight="30.0" prefWidth="358.0">
                     <font>
                         <Font name="System Bold" size="20.0"/>
                     </font>
                 </Label>
-                <Button layoutX="454.0" layoutY="14.0" mnemonicParsing="false" text="edit tour"/>
-                <Button layoutX="523.0" layoutY="14.0" mnemonicParsing="false" text="show logs"/>
-                <Label layoutX="158.0" layoutY="50.0" text="Popularity:"/>
-                <Label fx:id="popularityLabel" layoutX="218.0" layoutY="50.0"/>
-                <Label layoutX="158.0" layoutY="67.0" text="Child-friendliness:"/>
-                <Label fx:id="childFriendlinessLabel" layoutX="262.0" layoutY="67.0" prefHeight="17.0"
-                       prefWidth="56.0"/>
-                <Label layoutX="158.0" layoutY="84.0" text="From:"/>
-                <Label fx:id="fromLabel" layoutX="188.0" layoutY="84.0" prefHeight="17.0" prefWidth="82.0"/>
-                <Label layoutX="158.0" layoutY="101.0" prefHeight="17.0" prefWidth="19.0" text="To:"/>
-                <Label fx:id="toLabel" layoutX="175.0" layoutY="101.0" prefHeight="17.0" prefWidth="60.0"/>
-                <Label layoutX="158.0" layoutY="118.0" text="Distance:"/>
-                <Label fx:id="distanceLabel" layoutX="207.0" layoutY="119.0" prefHeight="17.0" prefWidth="82.0"/>
-                <Label layoutX="158.0" layoutY="135.0" text="Estimated Time:"/>
-                <Label fx:id="estimatedTimeLabel" layoutX="242.0" layoutY="135.0" prefHeight="17.0" prefWidth="56.0"/>
-                <Label layoutX="158.0" layoutY="152.0" text="Transport Type:"/>
-                <Label fx:id="transportTypeLabel" layoutX="242.0" layoutY="152.0" prefHeight="17.0" prefWidth="56.0"/>
-                <Separator layoutX="150.0" layoutY="198.0" prefHeight="2.0" prefWidth="450.0"/>
-                <Label layoutX="158.0" layoutY="201.0" text="Description"/>
-                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="157.0" layoutY="218.0" prefHeight="170.0"
-                       prefWidth="432.0" wrapText="true"/>
-                <Button fx:id="deleteButton" layoutX="375.0" layoutY="14.0" mnemonicParsing="false"
+                <Button layoutX="749.0" layoutY="14.0" mnemonicParsing="false" text="edit tour"/>
+                <Button layoutX="818.0" layoutY="14.0" mnemonicParsing="false" text="show logs"/>
+                <Label layoutX="160.0" layoutY="43.0" text="Popularity:">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="popularityLabel" layoutX="160.0" layoutY="63.0" prefHeight="20.0" prefWidth="290.0">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="160.0" layoutY="87.0" text="Child-friendliness:">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="childFriendlinessLabel" layoutX="160.0" layoutY="109.0" prefHeight="20.0"
+                       prefWidth="290.0">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="160.0" layoutY="129.0" text="From:">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="fromLabel" layoutX="160.0" layoutY="149.0" prefHeight="20.0" prefWidth="290.0">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="160.0" layoutY="169.0" prefHeight="20.0" prefWidth="38.0" text="To:">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="toLabel" layoutX="160.0" layoutY="189.0" prefHeight="20.0" prefWidth="290.0">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="160.0" layoutY="209.0" text="Distance:">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="distanceLabel" layoutX="160.0" layoutY="229.0" prefHeight="20.0" prefWidth="290.0">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="160.0" layoutY="252.0" text="Estimated Time:">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="estimatedTimeLabel" layoutX="160.0" layoutY="272.0" prefHeight="20.0" prefWidth="290.0">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="160.0" layoutY="292.0" text="Transport Type:">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="transportTypeLabel" layoutX="160.0" layoutY="312.0" prefHeight="20.0" prefWidth="290.0">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Separator layoutX="150.0" layoutY="340.0" prefHeight="3.0" prefWidth="752.0"/>
+                <Label layoutX="160.0" layoutY="342.0" text="Description">
+                    <font>
+                        <Font name="System Bold" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="157.0" layoutY="362.0" prefHeight="170.0"
+                       prefWidth="739.0" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Button fx:id="deleteButton" layoutX="670.0" layoutY="14.0" mnemonicParsing="false"
                         onAction="#deleteTour" text="delete tour"/>
-                <Button fx:id="saveReportButton" layoutX="296.0" layoutY="14.0" mnemonicParsing="false"
+                <Button fx:id="saveReportButton" layoutX="591.0" layoutY="14.0" mnemonicParsing="false"
                         onAction="#saveReport" text="save report"/>
-                <Button fx:id="saveTourButton" layoutX="231.0" layoutY="14.0" mnemonicParsing="false"
+                <Button fx:id="saveTourButton" layoutX="526.0" layoutY="14.0" mnemonicParsing="false"
                         onAction="#openAddTourWindow" text="add tour"/>
 
             </children>

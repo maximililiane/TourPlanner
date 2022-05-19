@@ -1,17 +1,31 @@
 package at.technikum_wien.tourPlanner.models;
 
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Tour {
+    @JsonAlias({"uid"})
     private int uid;
+    @JsonAlias({"name"})
     private String name;
+    @JsonAlias({"from"})
     private String startingPoint;
+    @JsonAlias({"to"})
     private String destination;
+    @JsonAlias({"duration"})
     private String duration;
+    @JsonAlias({"transportType"})
     private TransportMode transportType;
+    @JsonAlias({"description"})
     private String description;
+    @JsonAlias({"popularity"})
     private int popularity;
+    @JsonAlias({"length"})
     private double length;
+    @JsonAlias({"childFriendliness"})
     private int childFriendly;
+    @JsonAlias({"mapImage"})
     private String mapImage;
 
 
@@ -129,6 +143,7 @@ public class Tour {
         this.mapImage = mapImage;
     }
 
+    @JsonIgnore
     public ListViewTour getListViewTour() {
         return new ListViewTour(uid, name, startingPoint, destination, duration);
     }

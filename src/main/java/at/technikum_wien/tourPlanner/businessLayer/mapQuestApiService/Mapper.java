@@ -13,6 +13,18 @@ public abstract class Mapper {
         this.objectMapper = new ObjectMapper();
     }
 
+    protected String json(Object object) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        String json = null;
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     // parser json to Object for responses
     protected <T> T toObject(String json, Class<T> c) {
         ObjectMapper mapper = new ObjectMapper();

@@ -17,6 +17,7 @@ public class ControllerFactory {
     private final TourLogViewModel tourLogViewModel;
     private final AddTourWindowViewModel addTourWindowViewModel;
     private final EditTourWindowViewModel editTourWindowViewModel;
+    private final ExportDataWindowViewModel exportDataWindowViewModel;
     private TourRepository tourRepository;
     private TourLogRepository tourLogRepository;
 
@@ -25,13 +26,13 @@ public class ControllerFactory {
         TourService tourService = new TourService(tourRepository);
         TourLogService tourLogService = new TourLogService(tourRepository, tourLogRepository);
         this.searchBarViewModel = new SearchBarViewModel();
-        this.mainWindowViewModel = new MainWindowViewModel(searchBarViewModel);
+        this.mainWindowViewModel = new MainWindowViewModel();
         this.descriptionViewModel = new DescriptionViewModel(tourService);
         this.listViewModel = new ListViewModel(tourService);
         this.tourLogViewModel = new TourLogViewModel(tourLogService);
         this.addTourWindowViewModel = new AddTourWindowViewModel(tourService);
         this.editTourWindowViewModel = new EditTourWindowViewModel(tourService);
-
+        this.exportDataWindowViewModel = new ExportDataWindowViewModel(tourService);
     }
 
     private void setUpDatabase() {
@@ -63,6 +64,8 @@ public class ControllerFactory {
             return new AddTourWindowController(addTourWindowViewModel);
         } else if (controllerClass == EditTourWindowController.class) {
             return new EditTourWindowController(editTourWindowViewModel);
+        } else if (controllerClass == ExportDataWindowController.class) {
+            return new ExportDataWindowController(exportDataWindowViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }

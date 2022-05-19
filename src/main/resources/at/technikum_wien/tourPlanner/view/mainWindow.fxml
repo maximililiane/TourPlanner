@@ -4,11 +4,18 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2">
+      minWidth="-Infinity"
+      prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2"
+      fx:controller="at.technikum_wien.tourPlanner.view.MainWindowController">
     <children>
         <ToolBar prefHeight="40.0" prefWidth="200.0">
             <items>
-                <Button mnemonicParsing="false" text="File"/>
+                <MenuButton mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Import Data"/>
+                        <MenuItem mnemonicParsing="false" text="Export Data" onAction="#openExportDataWindow"/>
+                    </items>
+                </MenuButton>
             </items>
         </ToolBar>
         <TabPane prefHeight="550.0" prefWidth="900.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">

@@ -22,4 +22,5 @@ module at.technikum_wien.tourplanner {
     exports at.technikum_wien.tourPlanner;
     exports at.technikum_wien.tourPlanner.view;
     exports at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest;
+    exports at.technikum_wien.tourPlanner.models to com.fasterxml.jackson.databind;
 }

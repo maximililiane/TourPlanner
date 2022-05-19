@@ -1,6 +1,7 @@
 package at.technikum_wien.tourPlanner.businessLayer;
 
 import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.MapQuestApi;
+import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.Mapper;
 import at.technikum_wien.tourPlanner.businessLayer.pdfGeneration.PdfGeneration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
@@ -13,15 +14,15 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-public class TourService {
+public class TourService extends Mapper {
 
     private TourRepository tourRepository;
     private ObservableList<Tour> tours;
 
     public TourService(TourRepository tourRepository) {
+        super();
         this.tourRepository = tourRepository;
         this.tours = FXCollections.observableList(getTours());
-
     }
 
     public LinkedList<Tour> getTours() {
@@ -144,5 +145,22 @@ public class TourService {
 
     public ObservableList<Tour> getObservableTourList() {
         return this.tours;
+    }
+
+    public void exportData(Tour tour) {
+        try {
+            // TODO: get data folder from config
+            // check if file directory where data should be saved exists
+            File imageDirectory = new File("tours/");
+            if (!imageDirectory.exists()) {
+                imageDirectory.mkdir();
+            }
+
+            FileWriter outputFile = new FileWriter("tours/" + tour.getUid() + ".json");
+            outputFile.write(json(tour));
+            outputFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

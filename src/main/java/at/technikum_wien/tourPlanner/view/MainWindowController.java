@@ -1,14 +1,18 @@
 package at.technikum_wien.tourPlanner.view;
 
+import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.viewModel.MainWindowViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Locale;
 
 public class MainWindowController {
-
-    @FXML
-    private SearchBarController searchBarController;    // injected controller of SearchBar.fxml
 
     private final MainWindowViewModel mainViewModel;
 
@@ -16,13 +20,20 @@ public class MainWindowController {
         this.mainViewModel = mainViewModel;
     }
 
-    public MainWindowViewModel getMainViewModel() {
-        return mainViewModel;
-    }
-
     @FXML
     void initialize() {
     }
 
-    //TODO:
+    public void openExportDataWindow() {
+        try {
+            Parent root = FXMLDependencyInjection.load("exportDataWindow.fxml", Locale.ENGLISH);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Tour Planner");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

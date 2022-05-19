@@ -100,7 +100,7 @@
                         <Font name="System Bold" size="14.0"/>
                     </font>
                 </Label>
-                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="157.0" layoutY="362.0" prefHeight="137.0"
+                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="160.0" layoutY="362.0" prefHeight="137.0"
                        prefWidth="739.0" wrapText="true">
                     <font>
                         <Font size="14.0"/>

@@ -8,9 +8,12 @@ import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository
 import at.technikum_wien.tourPlanner.models.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.commons.io.FileUtils;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
@@ -159,6 +162,11 @@ public class TourService extends Mapper {
             FileWriter outputFile = new FileWriter("tours/" + tour.getUid() + ".json");
             outputFile.write(json(tour));
             outputFile.close();
+
+            // also save image separately
+            File sourceImage = new File("images/" + tour.getUid() + ".jpeg");
+            File destination = new File("tours/");
+            FileUtils.copyFileToDirectory(sourceImage, destination);
         } catch (IOException e) {
             e.printStackTrace();
         }

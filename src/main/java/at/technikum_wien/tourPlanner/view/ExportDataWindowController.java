@@ -53,7 +53,7 @@ public class ExportDataWindowController {
 
     public void exportData(ActionEvent actionEvent) {
         exportDataWindowViewModel.exportData((Tour) tourList.getSelectionModel().getSelectedItem());
-
+        closeWindow();
     }
 
     public void closeWindow() {

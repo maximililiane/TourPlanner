@@ -4,8 +4,10 @@ package at.technikum_wien.tourPlanner.models;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.List;
+
 public class Tour {
-    @JsonAlias({"uid"})
+    @JsonIgnore
     private int uid;
     @JsonAlias({"name"})
     private String name;
@@ -27,6 +29,11 @@ public class Tour {
     private int childFriendly;
     @JsonAlias({"mapImage"})
     private String mapImage;
+    @JsonAlias({"logs"})
+    private List<TourLog> logs;
+
+    public Tour() {
+    }
 
 
     public Tour(int uid, String name, String startingPoint, String destination, String duration,
@@ -141,6 +148,14 @@ public class Tour {
 
     public void setMapImage(String mapImage) {
         this.mapImage = mapImage;
+    }
+
+    public List<TourLog> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(List<TourLog> logs) {
+        this.logs = logs;
     }
 
     @JsonIgnore

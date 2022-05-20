@@ -37,6 +37,7 @@
     <orderEntry type="library" name="Maven: com.itextpdf:io:7.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:commons:7.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:layout:7.2.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:3.5.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy:1.10.15" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.10.15" level="project" />

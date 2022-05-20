@@ -32,7 +32,7 @@ public class ControllerFactory {
         this.tourLogViewModel = new TourLogViewModel(tourLogService);
         this.addTourWindowViewModel = new AddTourWindowViewModel(tourService);
         this.editTourWindowViewModel = new EditTourWindowViewModel(tourService);
-        this.exportDataWindowViewModel = new ExportDataWindowViewModel(tourService);
+        this.exportDataWindowViewModel = new ExportDataWindowViewModel(tourService, tourLogService);
     }
 
     private void setUpDatabase() {

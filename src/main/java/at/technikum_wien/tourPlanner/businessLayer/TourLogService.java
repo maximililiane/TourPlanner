@@ -7,8 +7,10 @@ import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.List;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class TourLogService {
 
@@ -22,6 +24,10 @@ public class TourLogService {
         this.tourRepository = tourRepository;
         this.logs = FXCollections.observableList(getLogs());
         this.tours = FXCollections.observableList(getTours());
+    }
+
+    public List<TourLog> getLogsByTourId(int id) {
+        return logs.stream().filter(log -> log.getTourID() == id).collect(Collectors.toList());
     }
 
     public LinkedList<TourLog> getLogs() {

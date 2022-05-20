@@ -1,18 +1,31 @@
 package at.technikum_wien.tourPlanner.models;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
 public class TourLog {
 
+    @JsonIgnore
     private int uid;
+    @JsonIgnore
     private int tourID;
+    @JsonAlias({"date"})
     private String date; //TODO: change type
+    @JsonAlias({"comment"})
     private String comment;
+    @JsonAlias({"difficulty"})
     private int difficulty;
+    @JsonAlias({"total time"})
     private String totalTime; //TODO: maybe change this data type
+    @JsonAlias({"rating"})
     private int rating;
+
+    public TourLog() {
+    }
 
     public TourLog(int uid, int tourID, String date, String comment, int difficulty, String totalTime, int rating) {
         this.uid = uid;

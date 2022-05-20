@@ -11,6 +11,7 @@ module at.technikum_wien.tourplanner {
     requires io;
     requires kernel;
     requires layout;
+    requires org.apache.commons.io;
 
     opens at.technikum_wien.tourPlanner to javafx.fxml;
     opens at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest to com.fasterxml.jackson.databind;

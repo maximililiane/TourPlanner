@@ -36,4 +36,17 @@ public class MainWindowController {
             e.printStackTrace();
         }
     }
+
+    public void openImportDataWindow() {
+        try {
+            Parent root = FXMLDependencyInjection.load("importWindow.fxml", Locale.ENGLISH);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Tour Planner");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

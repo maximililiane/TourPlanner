@@ -48,6 +48,16 @@ public class TourLogService {
         return null;
     }
 
+    public void importLogsByTourId(int id, List<TourLog> importedLogs) {
+        for (TourLog log : importedLogs) {
+            log.setTourID(id);
+            // TODO: uncomment next line once addLog() has been implemented
+            // tourLogRepository.addLog(log);
+            logs.add(log);
+            System.out.println(log);
+        }
+    }
+
     public ObservableList<TourLog> getObservableLogList() {
         return this.logs;
     }

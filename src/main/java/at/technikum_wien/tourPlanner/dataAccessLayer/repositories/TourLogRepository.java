@@ -44,7 +44,9 @@ public class TourLogRepository {
         return returnList;
 
     }
+
     //TODO: getLogById()
+    //TODO: addLog()
     //TODO: editLog()
     //TODO: deleteLog()
 

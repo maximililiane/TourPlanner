@@ -92,4 +92,17 @@ public class TourLog {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+    @Override
+    public String toString() {
+        return "TourLog{" +
+                "uid=" + uid +
+                ", tourID=" + tourID +
+                ", date='" + date + '\'' +
+                ", comment='" + comment + '\'' +
+                ", difficulty=" + difficulty +
+                ", totalTime='" + totalTime + '\'' +
+                ", rating=" + rating +
+                '}';
+    }
 }

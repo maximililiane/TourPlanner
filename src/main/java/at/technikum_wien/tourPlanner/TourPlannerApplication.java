@@ -1,5 +1,7 @@
 package at.technikum_wien.tourPlanner;
 
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -7,8 +9,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 public class TourPlannerApplication extends Application {
+
+    private static final LoggerWrapper logger = LoggerFactory.getLogger();
+
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLDependencyInjection.load("mainWindow.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
@@ -20,6 +26,7 @@ public class TourPlannerApplication extends Application {
     }
 
     public static void main(String[] args) {
+        logger.debug("Starting Tour Planner Application.");
         launch();
     }
 }

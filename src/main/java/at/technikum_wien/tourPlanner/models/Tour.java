@@ -162,4 +162,22 @@ public class Tour {
     public ListViewTour getListViewTour() {
         return new ListViewTour(uid, name, startingPoint, destination, duration);
     }
+
+    @Override
+    public String toString() {
+        return "Tour{" +
+                "uid=" + uid +
+                ", name='" + name + '\'' +
+                ", startingPoint='" + startingPoint + '\'' +
+                ", destination='" + destination + '\'' +
+                ", duration='" + duration + '\'' +
+                ", transportType=" + transportType +
+                ", description='" + description + '\'' +
+                ", popularity=" + popularity +
+                ", length=" + length +
+                ", childFriendly=" + childFriendly +
+                ", mapImage='" + mapImage + '\'' +
+                ", logs=" + logs +
+                '}';
+    }
 }

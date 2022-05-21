@@ -5,7 +5,10 @@ import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.Mapper;
 import at.technikum_wien.tourPlanner.businessLayer.pdfGeneration.PdfGeneration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.FileUtils;
@@ -21,6 +24,7 @@ public class TourService extends Mapper {
 
     private TourRepository tourRepository;
     private ObservableList<Tour> tours;
+    private static final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public TourService(TourRepository tourRepository) {
         super();
@@ -171,4 +175,30 @@ public class TourService extends Mapper {
             e.printStackTrace();
         }
     }
+
+    public Tour importData(File file) {
+        logger.debug("Importing Data from file: " + file.getName());
+
+        try {
+            Tour importedTour = getObjectMapper().readValue(file, Tour.class);
+            if (importedTour == null) {
+                logger.error("Couldn't parse imported tour.");
+                return null;
+            }
+
+            // tour names are unique in the database
+            if (tours.stream().anyMatch(t -> t.getName().equals(importedTour.getName()))) {
+                logger.info("Tour with identical name already exists. Please change the name and try again.");
+                return null;
+            }
+
+            addTour(importedTour);
+            return tours.stream().filter(t -> t.getName().equals(importedTour.getName())).findFirst().get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
+

@@ -2,7 +2,7 @@ package at.technikum_wien.tourPlanner.logging;
 
 import org.apache.logging.log4j.Logger;
 
-public class InitializedLogger extends BaseStateLogger{
+public class InitializedLogger extends BaseStateLogger {
 
     private final Logger logger;
 

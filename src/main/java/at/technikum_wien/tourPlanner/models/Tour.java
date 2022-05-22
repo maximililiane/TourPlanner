@@ -23,7 +23,7 @@ public class Tour {
     @JsonAlias({"description"})
     private String description;
     @JsonAlias({"popularity"})
-    private int popularity;
+    private int popularity; // popularity is defined by how many log entries a tour has
     @JsonAlias({"length"})
     private double length;
     @JsonAlias({"childFriendliness"})
@@ -125,8 +125,8 @@ public class Tour {
         return logs.size();
     }
 
-    public void setPopularity(int popularity) {
-        this.popularity = popularity;
+    public void setPopularity() {
+        this.popularity = logs.size();
     }
 
     public double getLength() {

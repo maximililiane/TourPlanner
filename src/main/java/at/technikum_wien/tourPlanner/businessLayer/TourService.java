@@ -55,9 +55,8 @@ public class TourService extends Mapper {
         // the given tour has no map image or childFriendliness value, so it needs one
         Tour tourWithMapQuestApiInfo = saveImage(tour);
 
-        // TODO: calculate childFriendliness
-        tourWithMapQuestApiInfo.setChildFriendly(0);
-        tourWithMapQuestApiInfo.setPopularity(0);
+        tourWithMapQuestApiInfo.setChildFriendly(calculateChildFriendliness(tour.getDuration()));
+        tourWithMapQuestApiInfo.setPopularity();
 
         try {
             tourRepository.addTour(tourWithMapQuestApiInfo);
@@ -87,7 +86,7 @@ public class TourService extends Mapper {
         Tour oldTour = tours.stream()
                 .filter(t -> t.getUid() == tour.getUid())
                 .findAny().get();
-        tours.remove(oldTour);
+        int index = tours.indexOf(oldTour);
 
         try {
             // route hasn't been changed
@@ -96,50 +95,23 @@ public class TourService extends Mapper {
                 oldTour.setName(tour.getName());
                 oldTour.setDuration(tour.getDescription());
                 tourRepository.editTour(oldTour);
-                tours.add(oldTour);
+                tours.set(index, oldTour);
             } else {
 
                 // route has been changed
                 Tour tourWithMapQuestApiInfo = saveImage(tour);
 
-                // TODO: calculate childFriendliness
-                tourWithMapQuestApiInfo.setChildFriendly(0);
-                tourWithMapQuestApiInfo.setPopularity(0);
+                tourWithMapQuestApiInfo.setChildFriendly(calculateChildFriendliness(tour.getDuration()));
+                tourWithMapQuestApiInfo.setPopularity();
 
                 tourRepository.editTour(tourWithMapQuestApiInfo);
-                tours.add(tourWithMapQuestApiInfo);
+                tours.set(index, tourWithMapQuestApiInfo);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
-    // write image into images folder, return name of file that image is in
-    private Tour saveImage(Tour tour) {
-        MapQuestApi mapQuestApi = new MapQuestApi();
-        RouteResponse response = mapQuestApi.getRoute(tour.getStartingPoint(), tour.getDestination(), tour.getTransportType());
-        BufferedImage mapImage = mapQuestApi.getMap(response.getRoute().getBoundingBox(), response.getRoute().getSessionId());
-
-        try {
-            // check if file directory where images should be saved exists
-            File imageDirectory = new File("images/");
-            if (!imageDirectory.exists()) {
-                imageDirectory.mkdir();
-            }
-
-            File outputFile = new File("images/" + tour.getUid() + ".jpeg");
-            ImageIO.write(mapImage, "jpeg", outputFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        tour.setDuration(response.getRoute().getFormattedTime());
-        tour.setLength(response.getRoute().getDistance());
-        tour.setMapImage(tour.getUid() + ".jpeg");
-
-        return tour;
-    }
 
     public void saveReport(Tour tour) {
         try {
@@ -199,6 +171,51 @@ public class TourService extends Mapper {
         }
 
         return null;
+    }
+
+    // write image into images folder, return name of file that image is in
+    private Tour saveImage(Tour tour) {
+        MapQuestApi mapQuestApi = new MapQuestApi();
+        RouteResponse response = mapQuestApi.getRoute(tour.getStartingPoint(), tour.getDestination(), tour.getTransportType());
+        BufferedImage mapImage = mapQuestApi.getMap(response.getRoute().getBoundingBox(), response.getRoute().getSessionId());
+
+        try {
+            // check if file directory where images should be saved exists
+            File imageDirectory = new File("images/");
+            if (!imageDirectory.exists()) {
+                imageDirectory.mkdir();
+            }
+
+            File outputFile = new File("images/" + tour.getUid() + ".jpeg");
+            ImageIO.write(mapImage, "jpeg", outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        tour.setDuration(response.getRoute().getFormattedTime());
+        tour.setLength(response.getRoute().getDistance());
+        tour.setMapImage(tour.getUid() + ".jpeg");
+
+        return tour;
+    }
+
+    // tour duration is stored in the format hh:mm:ss, calculate based on the hours the child friendliness of a tour
+    private int calculateChildFriendliness(String tourDuration) {
+        String[] values = tourDuration.split(":");
+
+        int hours = Integer.parseInt(values[0]);
+
+        if (hours < 2) {
+            // tour is shorter than two hours -> 100 child friendliness
+            return 100;
+        } else if (hours > 24) {
+            // tour is longer than 24 hours -> 0 child friendliness
+            return 0;
+        } else {
+            // after two hours, each tour loses 5 child friendliness points per hour
+            return (110 - (hours * 5));
+        }
+
     }
 }
 

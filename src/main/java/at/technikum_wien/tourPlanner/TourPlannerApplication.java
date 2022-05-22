@@ -26,7 +26,7 @@ public class TourPlannerApplication extends Application {
     }
 
     public static void main(String[] args) {
-        logger.debug("Starting Tour Planner Application.");
+//        logger.debug("Starting Tour Planner Application.");
         launch();
     }
 }

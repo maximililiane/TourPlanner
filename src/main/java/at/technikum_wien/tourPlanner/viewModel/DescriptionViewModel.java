@@ -26,4 +26,8 @@ public class DescriptionViewModel {
         tourService.saveReport(tour);
     }
 
+    public void saveSummaryReport(Tour tour) {
+        tourService.saveSummaryReport(tour);
+    }
+
 }

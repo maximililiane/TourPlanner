@@ -1,7 +1,5 @@
 package at.technikum_wien.tourPlanner.businessLayer.pdfGeneration;
 
-import at.technikum_wien.tourPlanner.Injector;
-import at.technikum_wien.tourPlanner.configuration.Configuration;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import com.itextpdf.io.font.constants.StandardFonts;
@@ -15,6 +13,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.UnitValue;
 
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 
@@ -40,7 +39,7 @@ public class PdfGeneration {
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
-        Paragraph tourReportHeader = new Paragraph(tour.getName() + " report")
+        Paragraph tourReportHeader = new Paragraph(tour.getName() + " Report")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(18)
                 .setBold()
@@ -55,7 +54,7 @@ public class PdfGeneration {
         document.add(new Paragraph("Tour Distance: " + tour.getLength()));
         document.add(new Paragraph("Estimated Time: " + tour.getDuration()));
 
-        Paragraph tourLogsHeader = new Paragraph(tour.getName() + " logs")
+        Paragraph tourLogsHeader = new Paragraph(tour.getName() + " Logs")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(18)
                 .setBold()
@@ -98,10 +97,80 @@ public class PdfGeneration {
 
     }
 
+    public static void generateSummaryReport(Tour tour) throws IOException {
+        // check if file directory where reports should be saved exists
+        File reportDirectory = new File("reports/");
+        if (!reportDirectory.exists()) {
+            reportDirectory.mkdir();
+        }
+
+        String pdfName = "reports/" + tour.getUid() + "-summary-report.pdf";
+
+        PdfWriter writer = new PdfWriter(pdfName);
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document = new Document(pdf);
+
+        Paragraph summaryReportHeader = new Paragraph(tour.getName() + " Summary Report")
+                .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
+                .setFontSize(18)
+                .setBold()
+                .setFontColor(ColorConstants.BLUE);
+        document.add(summaryReportHeader);
+
+        if (tour.getLogs().isEmpty()) {
+            document.add(new Paragraph(tour.getName() + " has no logs. No data can be generated."));
+        } else {
+
+            String[] averages = calculateAverages(tour.getLogs());
+            document.add(new Paragraph("Average Time: " + averages[0]));
+            document.add(new Paragraph("Average Difficulty: " + averages[1]));
+            document.add(new Paragraph("Average Rating: " + averages[2]));
+        }
+
+        document.close();
+    }
+
     private static Cell getHeaderCell(String s) {
         return new Cell().add(new Paragraph(s)).setBold().setBackgroundColor(ColorConstants.LIGHT_GRAY);
     }
 
-    // TODO: implement generateSummaryReport()
+    // [0] stores average time, [1] stores average difficulty, [3] stores average rating
+    private static String[] calculateAverages(List<TourLog> tourLogs) {
+        String[] returnArray = new String[3];
+
+        int averageDifficulty = 0;
+        int averageTime = 0;
+        float averageRating = 0;
+
+        for (TourLog log : tourLogs) {
+            // average difficulty
+            averageDifficulty += log.getDifficulty();
+
+            // average time difficulty
+            String[] values = log.getTotalTime().split(":");
+            int hours = Integer.parseInt(values[0]);
+            int minutes = Integer.parseInt(values[1]);
+
+            averageTime += ((hours * 60) + minutes);
+
+            averageRating += log.getRating();
+
+        }
+
+        averageDifficulty = averageDifficulty / tourLogs.size();
+        averageTime = averageTime / tourLogs.size();
+        averageRating = averageRating / tourLogs.size();
+
+        // parse averageTime from minutes back into hh:mm format
+        int hours = averageTime / 60;
+        int minutes = averageTime % 60;
+        String returnTime = (Integer.toString(hours) + ":" + Integer.toString(minutes));
+
+        returnArray[0] = returnTime;
+        returnArray[1] = Integer.toString(averageDifficulty);
+        returnArray[2] = Float.toString(averageRating).substring(0, 3); // return float in format X.X
+
+        return returnArray;
+    }
 
 }

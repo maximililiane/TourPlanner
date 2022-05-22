@@ -100,7 +100,7 @@
                         <Font name="System Bold" size="14.0"/>
                     </font>
                 </Label>
-                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="160.0" layoutY="362.0" prefHeight="137.0"
+                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="160.0" layoutY="362.0" prefHeight="175.0"
                        prefWidth="739.0" wrapText="true">
                     <font>
                         <Font size="14.0"/>
@@ -108,11 +108,14 @@
                 </Label>
                 <Button fx:id="deleteButton" layoutX="670.0" layoutY="14.0" mnemonicParsing="false"
                         onAction="#deleteTour" text="delete tour"/>
-                <Button fx:id="saveReportButton" layoutX="591.0" layoutY="14.0" mnemonicParsing="false"
-                        onAction="#saveReport" text="save report"/>
-                <Button fx:id="saveTourButton" layoutX="526.0" layoutY="14.0" mnemonicParsing="false"
+                <Button fx:id="saveTourButton" layoutX="499.0" layoutY="14.0" mnemonicParsing="false"
                         onAction="#openAddTourWindow" text="add tour"/>
-                <Button fx:id="cancelButton" layoutX="520.0" layoutY="511.0" mnemonicParsing="false" text="Cancel"/>
+                <MenuButton layoutX="571.0" layoutY="14.0" mnemonicParsing="false" text="save report">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#saveReport" text="tour report"/>
+                        <MenuItem mnemonicParsing="false" onAction="#saveSummaryReport" text="summary report"/>
+                    </items>
+                </MenuButton>
 
 
             </children>

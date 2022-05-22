@@ -134,6 +134,14 @@ public class TourService extends Mapper {
         }
     }
 
+    public void saveSummaryReport(Tour tour) {
+        try {
+            PdfGeneration.generateSummaryReport(tour);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public ObservableList<Tour> getObservableTourList() {
         return this.tours;
@@ -256,6 +264,9 @@ public class TourService extends Mapper {
         } else {
             distanceDifficulty = (int) ((1000 - tourDistance) / 10);
         }
+
+        averageDifficulty = averageDifficulty / tourLogs.size();
+        averageTimeDifficulty = averageTimeDifficulty / tourLogs.size();
 
         return (averageDifficulty + averageTimeDifficulty + distanceDifficulty) / 3;
 

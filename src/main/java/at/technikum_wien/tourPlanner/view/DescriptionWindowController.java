@@ -183,4 +183,7 @@ public class DescriptionWindowController implements Initializable {
         return descriptionViewModel.getTours();
     }
 
+    public void saveSummaryReport(ActionEvent actionEvent) {
+        descriptionViewModel.saveSummaryReport(selectedTour);
+    }
 }

@@ -90,6 +90,9 @@ public class DescriptionWindowController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Tour Planner");
             stage.setScene(scene);
+            stage.setMinWidth(600.0);
+            stage.setMinHeight(525.0);
+            stage.setMaxHeight(525.0);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,6 +117,9 @@ public class DescriptionWindowController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Tour Planner");
             stage.setScene(scene);
+            stage.setMinWidth(600.0);
+            stage.setMinHeight(525.0);
+            stage.setMaxHeight(525.0);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

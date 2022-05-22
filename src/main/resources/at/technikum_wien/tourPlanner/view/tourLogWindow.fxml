@@ -3,18 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="550.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/11.0.2"
             fx:controller="at.technikum_wien.tourPlanner.view.TourLogWindowController">
     <children>
-        <TableView fx:id="logTable" prefHeight="550.0" prefWidth="900.0">
+        <TableView fx:id="logTable" prefHeight="550.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
-                <TableColumn fx:id="uidColumn" prefWidth="81.33334350585938" text="UID"/>
-                <TableColumn fx:id="tourIDColumn" prefWidth="69.33332824707031" text="Tour-ID"/>
-                <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date"/>
-                <TableColumn fx:id="commentColumn" prefWidth="112.33334350585938" text="Comment"/>
-                <TableColumn fx:id="difficultyColumn" prefWidth="79.33334350585938" text="Difficulty"/>
-                <TableColumn fx:id="totalTimeColumn" prefWidth="106.33331298828125" text="total Time"/>
-                <TableColumn fx:id="ratingColumn" prefWidth="77.0" text="Rating"/>
+                <TableColumn fx:id="uidColumn" prefWidth="128.0" text="UID"/>
+                <TableColumn fx:id="tourIDColumn" prefWidth="128.0" text="Tour-ID"/>
+                <TableColumn fx:id="dateColumn" prefWidth="128.0" text="Date"/>
+                <TableColumn fx:id="commentColumn" prefWidth="128.0" text="Comment"/>
+                <TableColumn fx:id="difficultyColumn" prefWidth="128.0" text="Difficulty"/>
+                <TableColumn fx:id="totalTimeColumn" prefWidth="128.0" text="total Time"/>
+                <TableColumn fx:id="ratingColumn" prefWidth="128.0" text="Rating"/>
             </columns>
         </TableView>
    </children>

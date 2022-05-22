@@ -31,6 +31,8 @@ public class MainWindowController {
             Stage stage = new Stage();
             stage.setTitle("Tour Planner");
             stage.setScene(scene);
+            stage.setMinWidth(250.0);
+            stage.setMinHeight(400.0);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,6 +46,8 @@ public class MainWindowController {
             Stage stage = new Stage();
             stage.setTitle("Tour Planner");
             stage.setScene(scene);
+            stage.setMinWidth(250.0);
+            stage.setMinHeight(400.0);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package at.technikum_wien.tourPlanner.businessLayer.pdfGeneration;
 import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.configuration.Configuration;
 import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.models.TourLog;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -33,7 +34,7 @@ public class PdfGeneration {
             reportDirectory.mkdir();
         }
 
-        String pdfName = "reports/" + tour.getUid() + ".pdf";
+        String pdfName = "reports/" + tour.getUid() + "-report.pdf";
 
         PdfWriter writer = new PdfWriter(pdfName);
         PdfDocument pdf = new PdfDocument(writer);
@@ -41,11 +42,10 @@ public class PdfGeneration {
 
         Paragraph tourReportHeader = new Paragraph(tour.getName() + " report")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
-                .setFontSize(14)
+                .setFontSize(18)
                 .setBold()
-                .setFontColor(ColorConstants.RED);
+                .setFontColor(ColorConstants.BLUE);
         document.add(tourReportHeader);
-
 
         document.add(new Paragraph("Name: " + tour.getName()));
         document.add(new Paragraph("Description: " + tour.getDescription()));
@@ -55,8 +55,38 @@ public class PdfGeneration {
         document.add(new Paragraph("Tour Distance: " + tour.getLength()));
         document.add(new Paragraph("Estimated Time: " + tour.getDuration()));
 
-        Paragraph imageHeader = new Paragraph(tour.getName() + " route")
-                .setFont(PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN))
+        Paragraph tourLogsHeader = new Paragraph(tour.getName() + " logs")
+                .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
+                .setFontSize(18)
+                .setBold()
+                .setFontColor(ColorConstants.BLUE);
+        document.add(tourLogsHeader);
+
+        if (tour.getLogs().isEmpty()) {
+            document.add(new Paragraph("This tour has no logs."));
+        } else {
+            Table table = new Table(UnitValue.createPercentArray(5)).useAllAvailableWidth();
+            table.addHeaderCell(getHeaderCell("Date"));
+            table.addHeaderCell(getHeaderCell("Comment"));
+            table.addHeaderCell(getHeaderCell("Difficulty"));
+            table.addHeaderCell(getHeaderCell("Total time"));
+            table.addHeaderCell(getHeaderCell("Rating"));
+            table.setFontSize(14).setBackgroundColor(ColorConstants.WHITE);
+            for (TourLog log : tour.getLogs()) {
+                table.addCell(log.getDate());
+                table.addCell(log.getComment());
+                table.addCell(Integer.toString(log.getDifficulty()));
+                table.addCell(log.getTotalTime());
+                table.addCell(Integer.toString(log.getRating()));
+            }
+            document.add(table);
+
+        }
+
+        document.add(new AreaBreak());
+
+        Paragraph imageHeader = new Paragraph(tour.getName() + " Route")
+                .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(18)
                 .setBold()
                 .setFontColor(ColorConstants.GREEN);
@@ -64,15 +94,13 @@ public class PdfGeneration {
         ImageData imageData = ImageDataFactory.create("images/" + tour.getMapImage());
         document.add(new Image(imageData));
 
-        // TODO: add tour logs!
-
         document.close();
 
     }
 
-//    private static Cell getHeaderCell(String s) {
-//        return new Cell().add(new Paragraph(s)).setBold().setBackgroundColor(ColorConstants.GRAY);
-//    }
+    private static Cell getHeaderCell(String s) {
+        return new Cell().add(new Paragraph(s)).setBold().setBackgroundColor(ColorConstants.LIGHT_GRAY);
+    }
 
     // TODO: implement generateSummaryReport()
 

@@ -20,7 +20,7 @@ public class TourLog {
     @JsonAlias({"difficulty"})
     private int difficulty;
     @JsonAlias({"total time"})
-    private String totalTime; //TODO: maybe change this data type
+    private String totalTime; // stored in the format of hh:mm
     @JsonAlias({"rating"})
     private int rating;
 

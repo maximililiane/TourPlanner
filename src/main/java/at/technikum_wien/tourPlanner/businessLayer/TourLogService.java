@@ -23,7 +23,17 @@ public class TourLogService {
         this.tourLogRepository = tourLogRepository;
         this.tourRepository = tourRepository;
         this.logs = FXCollections.observableList(getLogs());
-        this.tours = FXCollections.observableList(getTours());
+        this.tours = tourRepository.getObservableTourList();
+    }
+
+    public void addTourLog(TourLog log) {
+        // TODO: implement add tour log through gui
+
+        // update tour with new log
+        Tour tour = tours.stream().filter(t -> t.getUid() == log.getTourID()).findFirst().get();
+        int index = tours.indexOf(tour);
+        tour.insertLog(log);
+        tours.set(index, tour);
     }
 
     public List<TourLog> getLogsByTourId(int id) {
@@ -54,7 +64,6 @@ public class TourLogService {
             // TODO: uncomment next line once addLog() has been implemented
             // tourLogRepository.addLog(log);
             logs.add(log);
-            System.out.println(log);
         }
     }
 

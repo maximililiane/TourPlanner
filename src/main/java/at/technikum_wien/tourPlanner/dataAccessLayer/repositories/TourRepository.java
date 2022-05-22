@@ -3,6 +3,8 @@ package at.technikum_wien.tourPlanner.dataAccessLayer.repositories;
 import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableNames;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TransportMode;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,9 +16,19 @@ public class TourRepository {
 
     private final String TABLE_NAME = TableNames.getTourTableName();
     private Connection connection;
+    private ObservableList<Tour> tours;
 
     public TourRepository(Connection connection) {
         this.connection = connection;
+        try {
+            this.tours = FXCollections.observableList(getTours());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ObservableList<Tour> getObservableTourList() {
+        return this.tours;
     }
 
     public LinkedList<Tour> getTours() throws SQLException {

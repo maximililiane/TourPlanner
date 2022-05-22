@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class TourLogRepository {
 
     private Connection connection;
-    private final String TABLE_NAME= TableNames.getLogTableName();
+    private final String TABLE_NAME = TableNames.getLogTableName();
 
     public TourLogRepository(Connection connection) {
         this.connection = connection;
@@ -39,7 +39,7 @@ public class TourLogRepository {
             difficulty = resultSet.getInt(5);
             totalTime = resultSet.getString(6);
             rating = resultSet.getInt(7);
-            returnList.add(new TourLog(uid,tourID,date,comment,difficulty,totalTime,rating));
+            returnList.add(new TourLog(uid, tourID, date, comment, difficulty, totalTime, rating));
         }
         return returnList;
 

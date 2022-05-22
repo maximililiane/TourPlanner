@@ -1,18 +1,23 @@
 package at.technikum_wien.tourPlanner.view;
+
 import at.technikum_wien.tourPlanner.LogViewUtils.LogViewRow;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.util.List;
 
 public class TourLogWindowController {
 
+    public Button addLogButton;
     private ObservableList<TourLog> logs;
 
     @FXML
@@ -34,9 +39,9 @@ public class TourLogWindowController {
 
     private final TourLogViewModel tourLogViewModel;
 
-    public TourLogWindowController(TourLogViewModel tourLogViewModel){
-        this.tourLogViewModel=tourLogViewModel;
-        this.logs= tourLogViewModel.getList();
+    public TourLogWindowController(TourLogViewModel tourLogViewModel) {
+        this.tourLogViewModel = tourLogViewModel;
+        this.logs = tourLogViewModel.getList();
         this.logs.addListener(new ListChangeListener<TourLog>() {
             @Override
             public void onChanged(Change<? extends TourLog> change) {
@@ -44,6 +49,7 @@ public class TourLogWindowController {
             }
         });
     }
+
     @FXML
     public void initialize() {
         initializeTable();

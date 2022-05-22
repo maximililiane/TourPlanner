@@ -161,6 +161,14 @@ public class Tour {
         this.logs = logs;
     }
 
+    public void insertLog(TourLog log) {
+        this.logs.add(log);
+    }
+
+    public void deleteLog(TourLog log) {
+        this.logs.remove(log);
+    }
+
     @JsonIgnore
     public ListViewTour getListViewTour() {
         return new ListViewTour(uid, name, startingPoint, destination, duration);

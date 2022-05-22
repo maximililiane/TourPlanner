@@ -4,6 +4,7 @@ package at.technikum_wien.tourPlanner.models;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Tour {
@@ -50,6 +51,7 @@ public class Tour {
         this.length = length;
         this.childFriendly = childFriendly;
         this.mapImage = mapImage;
+        this.logs = new LinkedList<TourLog>();
     }
 
     // used when adding new tour via gui
@@ -60,6 +62,7 @@ public class Tour {
         this.destination = destination;
         this.transportType = transportType;
         this.description = description;
+        this.logs = new LinkedList<TourLog>();
     }
 
     public int getUid() {
@@ -119,7 +122,7 @@ public class Tour {
     }
 
     public int getPopularity() {
-        return popularity;
+        return logs.size();
     }
 
     public void setPopularity(int popularity) {

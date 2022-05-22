@@ -59,10 +59,6 @@ public class TourRepository {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, uid);
         preparedStatement.executeUpdate();
-        String logSql = "DELETE FROM logs WHERE tourID = ?";
-        PreparedStatement logPreparedStatement = connection.prepareStatement(logSql);
-        preparedStatement.setInt(1, uid);
-        preparedStatement.executeUpdate();
     }
 
     public void editTour(Tour tour) throws SQLException {

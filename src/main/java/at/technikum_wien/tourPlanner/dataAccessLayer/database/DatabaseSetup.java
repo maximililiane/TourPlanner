@@ -51,7 +51,7 @@ public class DatabaseSetup {
                 "totalTime VARCHAR(256) NOT NULL, " +
                 "rating INTEGER NOT NULL, " +
                 "PRIMARY KEY(uid), " +
-                "CONSTRAINT tourIdForeignKey FOREIGN KEY(tourId) REFERENCES tours(uid))";
+                "CONSTRAINT tourIdForeignKey FOREIGN KEY(tourId) REFERENCES tours(uid) ON DELETE CASCADE)";
         statement.executeUpdate(createSql);
         statement.close();
     }

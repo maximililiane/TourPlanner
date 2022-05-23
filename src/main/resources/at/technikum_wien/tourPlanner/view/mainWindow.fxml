@@ -18,8 +18,8 @@
             </items>
         </ToolBar>
         <TabPane layoutY="39.0" prefHeight="512.0" prefWidth="900.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
-                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="38.0">
+                 tabMinWidth="275.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
             <tabs>
                 <Tab text="List">
                     <content>

@@ -12,9 +12,11 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 
 public class MapQuestApi extends Mapper {
@@ -31,14 +33,13 @@ public class MapQuestApi extends Mapper {
     // GET route from MapQuest API
     public RouteResponse getRoute(String from, String to, TransportMode transportMode) {
         try {
-            // TODO: encode URI?
             String baseUri = "http://www.mapquestapi.com/directions/v2/route?key=" + API_KEY;
 
             // prepare URI
             StringBuilder uriBuilder = new StringBuilder();
             uriBuilder.append(baseUri);
-            uriBuilder.append("&from=").append(from);
-            uriBuilder.append("&to=").append(to);
+            uriBuilder.append("&from=").append(URLEncoder.encode(from, StandardCharsets.UTF_8));
+            uriBuilder.append("&to=").append(URLEncoder.encode(to, StandardCharsets.UTF_8));
             uriBuilder.append("&routeType=").append(transportMode.name());
 
             URI uri = URI.create(uriBuilder.toString());

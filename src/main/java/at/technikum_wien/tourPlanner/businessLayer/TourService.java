@@ -229,7 +229,7 @@ public class TourService extends Mapper {
 
         // check for invalid input
         if (routeValidation.invalidLocations(statusCode) || routeValidation.invalidPedestrianDistance(statusCode) ||
-                routeValidation.invalidDistance(response.getRoute().getDistance())) {
+                routeValidation.invalidDistance(response.getRoute().getDistance()) || routeValidation.isUnknownError(statusCode)) {
             return null;
         }
 

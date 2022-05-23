@@ -32,4 +32,12 @@ public class RouteValidation {
         return false;
     }
 
+    public boolean isUnknownError(String statusCode) {
+        if (statusCode.equals("500")) {
+            logger.error("An unknown error has occurred while parsing tour data. Please try again with valid data.");
+            return true;
+        }
+        return false;
+    }
+
 }

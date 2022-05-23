@@ -1,6 +1,7 @@
 package at.technikum_wien.tourPlanner.viewModel;
 
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
+import at.technikum_wien.tourPlanner.businessLayer.validation.TourInputValidation;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TransportMode;
 import javafx.beans.binding.Bindings;
@@ -12,6 +13,7 @@ import java.util.concurrent.TransferQueue;
 
 public class EditTourWindowViewModel {
     private final TourService tourService;
+    private final TourInputValidation tourInputValidation = new TourInputValidation();
 
     private final StringProperty nameString = new SimpleStringProperty("");
     private final StringProperty fromString = new SimpleStringProperty("");
@@ -69,8 +71,27 @@ public class EditTourWindowViewModel {
         this.descriptionString.set(descriptionString);
     }
 
-    public TransportMode getTransportModeById(int id) {
-        Tour tour = tourService.getObservableTourList().stream().filter(t -> t.getUid() == id).findAny().get();
-        return tour.getTransportType();
+    public boolean invalidName() {
+        return !tourInputValidation.validNameLength(nameStringProperty().get()) ||
+                tourInputValidation.isBlankString(nameStringProperty().get());
     }
+
+    public boolean invalidStartingPoint() {
+        return !tourInputValidation.validLocationLength(fromStringProperty().get()) ||
+                tourInputValidation.isBlankString(fromStringProperty().get());
+    }
+
+    public boolean invalidEndPoint() {
+        return !tourInputValidation.validLocationLength(toStringProperty().get()) ||
+                tourInputValidation.isBlankString(toStringProperty().get());
+    }
+
+    public boolean sameLocation() {
+        return tourInputValidation.sameLocation(fromStringProperty().get(), toStringProperty().get());
+    }
+
+    public boolean invalidDescription() {
+        return tourInputValidation.isBlankString(descriptionStringProperty().get());
+    }
+
 }

@@ -9,25 +9,21 @@
             xmlns="http://javafx.com/javafx/11.0.2"
             fx:controller="at.technikum_wien.tourPlanner.view.DescriptionWindowController">
     <children>
-        <!--        <Pane prefHeight="550.0" prefWidth="900.0">-->
-        <!--            <children>-->
         <ImageView fx:id="mapImage" fitHeight="280.0" fitWidth="418.0" layoutX="458.0" layoutY="52.0"
                    pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0"/>
         <ListView fx:id="tourListView" prefHeight="550.0" prefWidth="151.0" AnchorPane.bottomAnchor="0.0"
                   AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-        <Separator layoutX="150.0" layoutY="40.0" prefHeight="3.0" prefWidth="752.0" AnchorPane.leftAnchor="150.0"
-                   AnchorPane.rightAnchor="0.0"/>
+        <Separator fx:id="topSeparator" layoutX="150.0" layoutY="40.0" prefHeight="3.0" prefWidth="752.0"
+                   AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0"/>
         <Label fx:id="titleLabel" layoutX="160.0" layoutY="7.0" prefHeight="30.0" prefWidth="360.0"
                AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="20.0"/>
             </font>
         </Label>
-        <Button fx:id="editButton" layoutX="749.0" layoutY="14.0" mnemonicParsing="false" onAction="#openEditTourWindow"
-                text="edit tour" AnchorPane.rightAnchor="90.6"/>
-        <Button layoutX="818.0" layoutY="14.0" mnemonicParsing="false" text="show logs"
-                AnchorPane.rightAnchor="14.400000000000006"/>
-        <Label layoutX="160.0" layoutY="43.0" text="Popularity:" AnchorPane.leftAnchor="160.0">
+        <Button fx:id="editButton" layoutX="747.0" layoutY="8.0" mnemonicParsing="false" onAction="#openEditTourWindow"
+                text="edit tour" AnchorPane.rightAnchor="90.60000000000002"/>
+        <Label fx:id="popularityTitle" layoutX="160.0" layoutY="43.0" text="Popularity:" AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -38,7 +34,8 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="160.0" layoutY="87.0" text="Child-friendliness:" AnchorPane.leftAnchor="160.0">
+        <Label fx:id="childFriendlinessTitle" layoutX="160.0" layoutY="87.0" text="Child-friendliness:"
+               AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -49,7 +46,7 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="160.0" layoutY="129.0" text="From:" AnchorPane.leftAnchor="160.0">
+        <Label fx:id="fromTitle" layoutX="160.0" layoutY="129.0" text="From:" AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -60,7 +57,7 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="160.0" layoutY="169.0" prefHeight="20.0" prefWidth="38.0" text="To:"
+        <Label fx:id="toTitle" layoutX="160.0" layoutY="169.0" prefHeight="20.0" prefWidth="38.0" text="To:"
                AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
@@ -72,7 +69,7 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="160.0" layoutY="209.0" text="Distance:" AnchorPane.leftAnchor="160.0">
+        <Label fx:id="distanceTitle" layoutX="160.0" layoutY="209.0" text="Distance:" AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -83,7 +80,8 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="160.0" layoutY="252.0" text="Estimated Time:" AnchorPane.leftAnchor="160.0">
+        <Label fx:id="estimatedTimeTitle" layoutX="160.0" layoutY="252.0" text="Estimated Time:"
+               AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -94,7 +92,8 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="160.0" layoutY="292.0" text="Transport Type:" AnchorPane.leftAnchor="160.0">
+        <Label fx:id="transportTypeTitle" layoutX="160.0" layoutY="292.0" text="Transport Type:"
+               AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -105,9 +104,10 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Separator layoutX="150.0" layoutY="340.0" prefHeight="3.0" prefWidth="752.0" AnchorPane.leftAnchor="150.0"
-                   AnchorPane.rightAnchor="0.0"/>
-        <Label layoutX="160.0" layoutY="342.0" prefWidth="85.0" text="Description:" AnchorPane.leftAnchor="160.0">
+        <Separator fx:id="bottomSeparator" layoutX="150.0" layoutY="340.0" prefHeight="3.0" prefWidth="752.0"
+                   AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0"/>
+        <Label fx:id="descriptionTitle" layoutX="160.0" layoutY="342.0" prefWidth="85.0" text="Description:"
+               AnchorPane.leftAnchor="160.0">
             <font>
                 <Font name="System Bold" size="14.0"/>
             </font>
@@ -118,20 +118,16 @@
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Button fx:id="deleteButton" layoutX="670.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteTour"
-                text="delete tour" AnchorPane.rightAnchor="157.6"/>
-        <Button fx:id="saveTourButton" layoutX="499.0" layoutY="14.0" mnemonicParsing="false"
-                onAction="#openAddTourWindow" text="add tour" AnchorPane.rightAnchor="341.4"/>
-        <MenuButton layoutX="571.0" layoutY="14.0" mnemonicParsing="false" text="save report"
-                    AnchorPane.rightAnchor="239.0">
+        <Button fx:id="deleteButton" layoutX="814.0" layoutY="8.0" mnemonicParsing="false" onAction="#deleteTour"
+                text="delete tour" AnchorPane.rightAnchor="11.600000000000023"/>
+        <Button fx:id="saveTourButton" layoutX="584.0" layoutY="8.0" mnemonicParsing="false"
+                onAction="#openAddTourWindow" text="add tour" AnchorPane.rightAnchor="254.39999999999998"/>
+        <MenuButton fx:id="saveReportButton" layoutX="651.0" layoutY="8.0" mnemonicParsing="false" text="save report"
+                    AnchorPane.rightAnchor="157.0">
             <items>
                 <MenuItem mnemonicParsing="false" onAction="#saveReport" text="tour report"/>
                 <MenuItem mnemonicParsing="false" onAction="#saveSummaryReport" text="summary report"/>
             </items>
         </MenuButton>
-
-
-        <!--            </children>-->
-        <!--        </Pane>-->
     </children>
 </AnchorPane>

@@ -21,5 +21,6 @@ Maximiliane:
 2h implement generate summary report of a tour, also show logs in normal tour report
 1h implement UI responds to window size changes
 3.5 implement tour input validation (add tour window & import window)
+1h implement tour input validation (edit tour window) & hide labels in description view when no tour is selected
 
 Julian:

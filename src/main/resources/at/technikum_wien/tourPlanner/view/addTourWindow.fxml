@@ -55,19 +55,19 @@
    <Button fx:id="addTourButton" layoutX="140.0" layoutY="442.0" mnemonicParsing="false" onAction="#addTour"
            text="add tour" AnchorPane.leftAnchor="140.0"/>
    <Button fx:id="cancelButton" layoutX="411.0" layoutY="442.0" mnemonicParsing="false" onAction="#closeWindow"
-           text="cancel" AnchorPane.rightAnchor="139.79999999999995"/>
+           text="cancel" AnchorPane.rightAnchor="140.0"/>
    <Label fx:id="hintLabel" layoutX="76.0" layoutY="468.0" text="Please fill out all fields to add a tour"
           textFill="#ed7070" AnchorPane.leftAnchor="76.0"/>
    <Label fx:id="nameHintLabel" layoutX="26.0" layoutY="94.0"
-          text="Please input a valid tour name (&lt;= 16 characters, not only whitespaces)" textFill="#ed7070"
+          text="Please enter a valid tour name (&lt;= 16 characters, not only whitespaces)" textFill="#ed7070"
           AnchorPane.leftAnchor="25.0"/>
    <Label fx:id="fromHintLabel" layoutX="25.0" layoutY="155.0"
-          text="Please input a valid starting point (&lt;= 256 characters, not only whitespaces)" textFill="#ed7070"
+          text="Please enter a valid starting point (&lt;= 256 characters, not only whitespaces)" textFill="#ed7070"
           AnchorPane.leftAnchor="25.0"/>
    <Label fx:id="toHintLabel" layoutX="25.0" layoutY="217.0"
-          text="Please input a valid end point (&lt;= 256 characters, not only whitespaces)" textFill="#ed7070"
+          text="Please enter a valid end point (&lt;= 256 characters, not only whitespaces)" textFill="#ed7070"
           AnchorPane.leftAnchor="25.0"/>
    <Label fx:id="descriptionHintLabel" layoutX="24.0" layoutY="355.0"
-          text="Please input a valid description (not only whitespaces)" textFill="#ed7070"
+          text="Please enter a valid description (not only whitespaces)" textFill="#ed7070"
           AnchorPane.leftAnchor="25.0"/>
 </AnchorPane>

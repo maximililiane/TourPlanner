@@ -37,6 +37,8 @@ public class TourService extends Mapper {
     public TourService(TourRepository tourRepository) {
         super();
         this.tourRepository = tourRepository;
+        this.routeValidation = new RouteValidation();
+        this.tourInputValidation = new TourInputValidation();
         this.tours = getTours();
         this.tours.addListener(new ListChangeListener<Tour>() {
             @Override

@@ -31,12 +31,6 @@ public class DescriptionWindowController implements Initializable {
 
     private final DescriptionViewModel descriptionViewModel;
     @FXML
-    public Button deleteButton;
-    public Button saveReportButton;
-    public Button saveTourButton;
-    public Button editButton;
-    public Button updateTourButton;
-    public Button cancelButton;
     private Tour selectedTour;
     public Label popularityLabel;
     public ImageView mapImage;
@@ -57,23 +51,7 @@ public class DescriptionWindowController implements Initializable {
         this.selectedTour = null;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        this.tourObservableList = getTours();
-        this.tourObservableList.addListener(new ListChangeListener<Tour>() {
-            @Override
-            public void onChanged(Change<? extends Tour> change) {
-                //TODO: potentially change this line
-                System.out.println("Hey, a change occurred...");
-            }
-        });
-
-        setUpListView();
-
-        updateListView();
-
-    }
+    public Button deleteButton;
 
     public void deleteTour() {
         descriptionViewModel.deleteTour(titleLabel.getText());
@@ -191,5 +169,56 @@ public class DescriptionWindowController implements Initializable {
 
     public void saveSummaryReport(ActionEvent actionEvent) {
         descriptionViewModel.saveSummaryReport(selectedTour);
+    }
+
+    public Button saveTourButton;
+    public Button editButton;
+    public MenuButton saveReportButton;
+    public Separator topSeparator;
+    public Label popularityTitle;
+    public Label childFriendlinessTitle;
+    public Label fromTitle;
+    public Label toTitle;
+    public Label distanceTitle;
+    public Label estimatedTimeTitle;
+    public Label transportTypeTitle;
+    public Separator bottomSeparator;
+    public Label descriptionTitle;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.tourObservableList = getTours();
+        this.tourObservableList.addListener(new ListChangeListener<Tour>() {
+            @Override
+            public void onChanged(Change<? extends Tour> change) {
+                //TODO: potentially change this line
+                System.out.println("Hey, a change occurred...");
+            }
+        });
+
+        setUpListView();
+
+        hideButtonsAndText();
+
+        updateListView();
+
+    }
+
+    private void hideButtonsAndText() {
+        saveTourButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        editButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        deleteButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        saveReportButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        topSeparator.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        popularityTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        childFriendlinessTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        fromTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        toTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        distanceTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        estimatedTimeTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        transportTypeTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        bottomSeparator.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        descriptionTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
     }
 }

@@ -3,6 +3,8 @@ package at.technikum_wien.tourPlanner.businessLayer;
 import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.MapQuestApi;
 import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.Mapper;
 import at.technikum_wien.tourPlanner.businessLayer.pdfGeneration.PdfGeneration;
+import at.technikum_wien.tourPlanner.businessLayer.validation.RouteValidation;
+import at.technikum_wien.tourPlanner.businessLayer.validation.TourInputValidation;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
 import at.technikum_wien.tourPlanner.logging.LoggerFactory;
@@ -29,6 +31,8 @@ public class TourService extends Mapper {
     private TourRepository tourRepository;
     private ObservableList<Tour> tours;
     private static final LoggerWrapper logger = LoggerFactory.getLogger();
+    private RouteValidation routeValidation;
+    private TourInputValidation tourInputValidation;
 
     public TourService(TourRepository tourRepository) {
         super();
@@ -56,7 +60,6 @@ public class TourService extends Mapper {
 
 
     public void addTour(Tour tour) {
-        // TODO: validate user input
 
         // get tourID from database
         try {
@@ -67,6 +70,11 @@ public class TourService extends Mapper {
 
         // the given tour has no map image or childFriendliness value, so it needs one
         Tour tourWithMapQuestApiInfo = saveImage(tour);
+
+        if (tourWithMapQuestApiInfo == null) {
+            logger.error("Unable to add tour with invalid information. Please try again.");
+            return;
+        }
 
         tourWithMapQuestApiInfo.setChildFriendly(calculateChildFriendliness(
                 tourWithMapQuestApiInfo.getLength(), tour.getLogs()));
@@ -107,18 +115,20 @@ public class TourService extends Mapper {
             if (oldTour.getStartingPoint().equals(tour.getStartingPoint()) && oldTour.getDestination().equals(tour.getDestination()) &&
                     oldTour.getTransportType() == tour.getTransportType()) {
                 oldTour.setName(tour.getName());
-                oldTour.setDuration(tour.getDescription());
+                oldTour.setDescription(tour.getDescription());
                 tourRepository.editTour(oldTour);
                 tours.set(index, oldTour);
             } else {
-
                 // route has been changed
                 Tour tourWithMapQuestApiInfo = saveImage(tour);
-                tourWithMapQuestApiInfo.setChildFriendly(
-                        calculateChildFriendliness(tourWithMapQuestApiInfo.getLength(), tour.getLogs()));
 
-                tourRepository.editTour(tourWithMapQuestApiInfo);
-                tours.set(index, tourWithMapQuestApiInfo);
+                if (tourWithMapQuestApiInfo != null) {
+                    tourWithMapQuestApiInfo.setChildFriendly(
+                            calculateChildFriendliness(tourWithMapQuestApiInfo.getLength(), tour.getLogs()));
+
+                    tourRepository.editTour(tourWithMapQuestApiInfo);
+                    tours.set(index, tourWithMapQuestApiInfo);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -181,7 +191,20 @@ public class TourService extends Mapper {
 
             // tour names are unique in the database
             if (tours.stream().anyMatch(t -> t.getName().equals(importedTour.getName()))) {
-                logger.info("Tour with identical name already exists. Please change the name and try again.");
+                logger.error("Tour with identical name already exists. Please change the name and try again.");
+                return null;
+            }
+            String tourName = importedTour.getName();
+            String startingPoint = importedTour.getStartingPoint();
+            String destination = importedTour.getDestination();
+
+            // validate string lengths & contents
+            if (tourInputValidation.isBlankString(tourName) || tourInputValidation.isBlankString(startingPoint) ||
+                    tourInputValidation.isBlankString(destination) || tourInputValidation.validNameLength(tourName) ||
+                    tourInputValidation.validLocationLength(startingPoint) ||
+                    tourInputValidation.validLocationLength(destination) ||
+                    tourInputValidation.sameLocation(startingPoint, destination)) {
+                logger.error("Unable to add tour with invalid data. Please try again with valid data.");
                 return null;
             }
 
@@ -194,14 +217,20 @@ public class TourService extends Mapper {
         return null;
     }
 
-    public void updateTourBasedOnNewLog(Tour tour) {
-
-    }
 
     // write image into images folder, return name of file that image is in
     private Tour saveImage(Tour tour) {
         MapQuestApi mapQuestApi = new MapQuestApi();
         RouteResponse response = mapQuestApi.getRoute(tour.getStartingPoint(), tour.getDestination(), tour.getTransportType());
+
+        String statusCode = response.getRouteInfo().getStatusCode();
+
+        // check for invalid input
+        if (routeValidation.invalidLocations(statusCode) || routeValidation.invalidPedestrianDistance(statusCode) ||
+                routeValidation.invalidDistance(response.getRoute().getDistance())) {
+            return null;
+        }
+
         BufferedImage mapImage = mapQuestApi.getMap(response.getRoute().getBoundingBox(), response.getRoute().getSessionId());
 
         try {

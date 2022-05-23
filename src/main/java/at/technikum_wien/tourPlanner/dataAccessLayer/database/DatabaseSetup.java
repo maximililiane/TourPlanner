@@ -24,7 +24,7 @@ public class DatabaseSetup {
         Statement statement = connection.createStatement();
         String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getTourTableName() + "( " +
                 "uid SERIAL NOT NULL, " +
-                "tourName VARCHAR(256) NOT NULL, " +
+                "tourName VARCHAR(16) NOT NULL, " +
                 "description TEXT NOT NULL, " +
                 "startingPoint VARCHAR(256) NOT NULL, " +
                 "destination VARCHAR(256) NOT NULL, " +

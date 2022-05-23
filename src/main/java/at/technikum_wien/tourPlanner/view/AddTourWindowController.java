@@ -27,6 +27,10 @@ public class AddTourWindowController {
     public Button cancelButton;
     @FXML
     public Label hintLabel;
+    public Label nameHintLabel;
+    public Label fromHintLabel;
+    public Label toHintLabel;
+    public Label descriptionHintLabel;
 
     public AddTourWindowController(AddTourWindowViewModel addTourWindowViewModel) {
         this.addTourWindowViewModel = addTourWindowViewModel;
@@ -48,18 +52,38 @@ public class AddTourWindowController {
         addTourButton.disableProperty().bind(addTourWindowViewModel.addDisabledBinding());
 
         hintLabel.visibleProperty().bind(addTourWindowViewModel.addDisabledBinding());
+        nameHintLabel.visibleProperty().setValue(false);
+        fromHintLabel.visibleProperty().setValue(false);
+        toHintLabel.visibleProperty().setValue(false);
+        descriptionHintLabel.visibleProperty().setValue(false);
     }
 
     public void addTour() {
-        addTourWindowViewModel.addTour(new Tour(tourNameTextField.getText(), fromTextField.getText(),
-                toTextField.getText(), (TransportMode.valueOf(transportModeCheckBox.getSelectionModel().getSelectedItem().toString())),
-                descriptionTextField.getText()));
-        System.out.println("name: " + tourNameTextField.getText());
-        System.out.println("from: " + fromTextField.getText());
-        System.out.println("to: " + toTextField.getText());
-        System.out.println("description: " + descriptionTextField.getText());
-        System.out.println("transport mode: " + transportModeCheckBox.getSelectionModel().getSelectedItem().toString());
-        closeWindow();
+        if (addTourWindowViewModel.invalidName()) {
+            nameHintLabel.visibleProperty().setValue(true);
+        }
+        if (addTourWindowViewModel.invalidStartingPoint()) {
+            fromHintLabel.visibleProperty().setValue(true);
+        }
+        if (addTourWindowViewModel.invalidEndPoint()) {
+            toHintLabel.visibleProperty().setValue(true);
+        }
+        if (addTourWindowViewModel.sameLocation()) {
+            fromHintLabel.visibleProperty().setValue(true);
+            toHintLabel.visibleProperty().setValue(true);
+        }
+        if (addTourWindowViewModel.invalidDescription()) {
+            descriptionHintLabel.visibleProperty().setValue(true);
+        }
+        if (!addTourWindowViewModel.invalidName() && !addTourWindowViewModel.sameLocation()
+                && !addTourWindowViewModel.invalidStartingPoint() && !addTourWindowViewModel.invalidEndPoint()
+                && !addTourWindowViewModel.invalidDescription()) { // valid input
+            addTourWindowViewModel.addTour(new Tour(tourNameTextField.getText(), fromTextField.getText(),
+                    toTextField.getText(), (TransportMode.valueOf(transportModeCheckBox.getSelectionModel().getSelectedItem().toString())),
+                    descriptionTextField.getText()));
+            closeWindow();
+        }
+
     }
 
     public void closeWindow() {

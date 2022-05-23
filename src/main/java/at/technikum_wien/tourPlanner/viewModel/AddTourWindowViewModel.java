@@ -1,6 +1,7 @@
 package at.technikum_wien.tourPlanner.viewModel;
 
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
+import at.technikum_wien.tourPlanner.businessLayer.validation.TourInputValidation;
 import at.technikum_wien.tourPlanner.models.Tour;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -10,6 +11,7 @@ import javafx.beans.property.StringProperty;
 public class AddTourWindowViewModel {
 
     private final TourService tourService;
+    private final TourInputValidation tourInputValidation = new TourInputValidation();
 
     private final StringProperty nameString = new SimpleStringProperty("");
     private final StringProperty fromString = new SimpleStringProperty("");
@@ -31,10 +33,6 @@ public class AddTourWindowViewModel {
         return nameString;
     }
 
-    public void setNameStringProperty(String tourName) {
-        nameString.set(tourName);
-    }
-
     public StringProperty fromStringProperty() {
         return fromString;
     }
@@ -53,6 +51,29 @@ public class AddTourWindowViewModel {
 
     public void addTour(Tour tour) {
         tourService.addTour(tour);
+    }
+
+    public boolean invalidName() {
+        return !tourInputValidation.validNameLength(nameStringProperty().get()) ||
+                tourInputValidation.isBlankString(nameStringProperty().get());
+    }
+
+    public boolean invalidStartingPoint() {
+        return !tourInputValidation.validLocationLength(fromStringProperty().get()) ||
+                tourInputValidation.isBlankString(fromStringProperty().get());
+    }
+
+    public boolean invalidEndPoint() {
+        return !tourInputValidation.validLocationLength(toStringProperty().get()) ||
+                tourInputValidation.isBlankString(toStringProperty().get());
+    }
+
+    public boolean sameLocation() {
+        return tourInputValidation.sameLocation(fromStringProperty().get(), toStringProperty().get());
+    }
+
+    public boolean invalidDescription() {
+        return tourInputValidation.isBlankString(descriptionStringProperty().get());
     }
 
 }

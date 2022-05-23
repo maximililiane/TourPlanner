@@ -7,9 +7,9 @@ public class RouteValidation {
 
     private static final LoggerWrapper logger = LoggerFactory.getLogger();
 
-    public boolean invalidLocations(String statusCode) {
+    public boolean invalidLocations(String statusCode, String[] messages) {
         if (statusCode.equals("402")) {
-            logger.error("Invalid location(s). The start & end point need to be existent and different from each other.");
+            logger.error(messages[0] + " Please try again.");
             return true;
         }
         return false;

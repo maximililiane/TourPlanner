@@ -226,9 +226,10 @@ public class TourService extends Mapper {
         RouteResponse response = mapQuestApi.getRoute(tour.getStartingPoint(), tour.getDestination(), tour.getTransportType());
 
         String statusCode = response.getRouteInfo().getStatusCode();
+        String[] messages = response.getRouteInfo().getMessages();
 
         // check for invalid input
-        if (routeValidation.invalidLocations(statusCode) || routeValidation.invalidPedestrianDistance(statusCode) ||
+        if (routeValidation.invalidLocations(statusCode, messages) || routeValidation.invalidPedestrianDistance(statusCode) ||
                 routeValidation.invalidDistance(response.getRoute().getDistance()) || routeValidation.isUnknownError(statusCode)) {
             return null;
         }

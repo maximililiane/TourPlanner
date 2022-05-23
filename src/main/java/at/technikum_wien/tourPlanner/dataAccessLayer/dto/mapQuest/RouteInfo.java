@@ -7,6 +7,8 @@ public class RouteInfo {
 
     @JsonAlias({"statuscode"})
     private String statusCode;
+    @JsonAlias({"messages"})
+    private String[] messages;
 
     public RouteInfo() {
     }
@@ -19,6 +21,13 @@ public class RouteInfo {
         this.statusCode = statusCode;
     }
 
+    public String[] getMessages() {
+        return messages;
+    }
+
+    public void setMessages(String[] messages) {
+        this.messages = messages;
+    }
 
     @Override
     public String toString() {

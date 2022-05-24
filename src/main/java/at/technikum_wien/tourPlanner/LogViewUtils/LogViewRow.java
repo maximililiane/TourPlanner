@@ -5,24 +5,37 @@ import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.util.converter.DateTimeStringConverter;
+import javafx.util.converter.LocalDateStringConverter;
+import javafx.util.converter.LocalTimeStringConverter;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.FormatStyle;
 
 public class LogViewRow {
     private SimpleIntegerProperty uid;
     private SimpleIntegerProperty tourUID;
-    private SimpleStringProperty date;
+    private Date date;
     private SimpleStringProperty comment;
     private SimpleIntegerProperty difficulty;
-    private SimpleStringProperty totalTime;
+    private Time totalTime;
     private SimpleIntegerProperty rating;
+    private SimpleStringProperty tourName;
 
-    public LogViewRow(TourLog l) {
+    public LogViewRow(TourLog l, String tourName) {
         uid= new SimpleIntegerProperty(l.getUid());
         tourUID= new SimpleIntegerProperty(l.getTourID());
-        date= new SimpleStringProperty(l.getDate());
         comment= new SimpleStringProperty(l.getComment());
         difficulty= new SimpleIntegerProperty(l.getDifficulty());
-        totalTime= new SimpleStringProperty(l.getTotalTime());
         rating= new SimpleIntegerProperty(l.getRating());
+        this.tourName= new SimpleStringProperty(tourName);
+        totalTime=l.getTotalTime();
+        date=l.getDate();
+
+
     }
 
     @Override
@@ -35,6 +48,7 @@ public class LogViewRow {
                 ", difficulty=" + difficulty +
                 ", totalTime=" + totalTime +
                 ", rating=" + rating +
+                ", tourName=" + tourName +
                 '}';
     }
 
@@ -46,10 +60,6 @@ public class LogViewRow {
         return uid;
     }
 
-    public void setUid(int uid) {
-        this.uid.set(uid);
-    }
-
     public int getTourUID() {
         return tourUID.get();
     }
@@ -58,20 +68,8 @@ public class LogViewRow {
         return tourUID;
     }
 
-    public void setTourUID(int tourUID) {
-        this.tourUID.set(tourUID);
-    }
-
-    public String getDate() {
-        return date.get();
-    }
-
-    public SimpleStringProperty dateProperty() {
+    public Date getDate() {
         return date;
-    }
-
-    public void setDate(String date) {
-        this.date.set(date);
     }
 
     public String getComment() {
@@ -82,10 +80,6 @@ public class LogViewRow {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment.set(comment);
-    }
-
     public int getDifficulty() {
         return difficulty.get();
     }
@@ -94,20 +88,8 @@ public class LogViewRow {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
-        this.difficulty.set(difficulty);
-    }
-
-    public String getTotalTime() {
-        return totalTime.get();
-    }
-
-    public SimpleStringProperty totalTimeProperty() {
+    public Time getTotalTime() {
         return totalTime;
-    }
-
-    public void setTotalTime(String totalTime) {
-        this.totalTime.set(totalTime);
     }
 
     public int getRating() {
@@ -118,7 +100,11 @@ public class LogViewRow {
         return rating;
     }
 
-    public void setRating(int rating) {
-        this.rating.set(rating);
+    public String getTourName() {
+        return tourName.get();
+    }
+
+    public SimpleStringProperty tourNameProperty() {
+        return tourName;
     }
 }

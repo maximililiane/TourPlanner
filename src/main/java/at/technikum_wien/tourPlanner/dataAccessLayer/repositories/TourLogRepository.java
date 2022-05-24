@@ -4,10 +4,7 @@ import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableNames;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.LinkedList;
 
 public class TourLogRepository {
@@ -26,18 +23,18 @@ public class TourLogRepository {
         ResultSet resultSet = preparedStatement.executeQuery();
         int uid;
         int tourID;
-        String date;
+        Date date;
         String comment;
         int difficulty;
-        String totalTime;
+        Time totalTime;
         int rating;
         while (resultSet.next()) {
             uid = resultSet.getInt(1);
             tourID = resultSet.getInt(2);
-            date = resultSet.getString(3);
+            date = resultSet.getDate(3);
             comment = resultSet.getString(4);
             difficulty = resultSet.getInt(5);
-            totalTime = resultSet.getString(6);
+            totalTime = resultSet.getTime(6);
             rating = resultSet.getInt(7);
             returnList.add(new TourLog(uid, tourID, date, comment, difficulty, totalTime, rating));
         }

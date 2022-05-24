@@ -72,10 +72,10 @@ public class PdfGeneration {
             table.addHeaderCell(getHeaderCell("Rating"));
             table.setFontSize(14).setBackgroundColor(ColorConstants.WHITE);
             for (TourLog log : tour.getLogs()) {
-                table.addCell(log.getDate());
+                table.addCell(log.getDate().toString());
                 table.addCell(log.getComment());
                 table.addCell(Integer.toString(log.getDifficulty()));
-                table.addCell(log.getTotalTime());
+                table.addCell(log.getTotalTime().toString());
                 table.addCell(Integer.toString(log.getRating()));
             }
             document.add(table);
@@ -147,7 +147,7 @@ public class PdfGeneration {
             averageDifficulty += log.getDifficulty();
 
             // average time difficulty
-            String[] values = log.getTotalTime().split(":");
+            String[] values = log.getTotalTime().toString().split(":");
             int hours = Integer.parseInt(values[0]);
             int minutes = Integer.parseInt(values[1]);
 

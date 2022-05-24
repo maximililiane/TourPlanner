@@ -3,9 +3,10 @@ package at.technikum_wien.tourPlanner.models;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 public class TourLog {
 
@@ -14,20 +15,20 @@ public class TourLog {
     @JsonIgnore
     private int tourID;
     @JsonAlias({"date"})
-    private String date; //TODO: change type
+    private Date date;
     @JsonAlias({"comment"})
     private String comment;
     @JsonAlias({"difficulty"})
     private int difficulty;
     @JsonAlias({"total time"})
-    private String totalTime; // stored in the format of hh:mm
+    private Time totalTime; // stored in the format of hh:mm
     @JsonAlias({"rating"})
     private int rating;
 
     public TourLog() {
     }
 
-    public TourLog(int uid, int tourID, String date, String comment, int difficulty, String totalTime, int rating) {
+    public TourLog(int uid, int tourID, Date date, String comment, int difficulty, Time totalTime, int rating) {
         this.uid = uid;
         this.tourID = tourID;
         this.date = date;
@@ -53,11 +54,11 @@ public class TourLog {
         this.tourID = tourID;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -77,11 +78,11 @@ public class TourLog {
         this.difficulty = difficulty;
     }
 
-    public String getTotalTime() {
+    public Time getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(String totalTime) {
+    public void setTotalTime(Time totalTime) {
         this.totalTime = totalTime;
     }
 

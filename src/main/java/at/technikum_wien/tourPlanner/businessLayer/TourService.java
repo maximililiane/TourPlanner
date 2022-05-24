@@ -272,7 +272,7 @@ public class TourService extends Mapper {
             averageDifficulty += (100 - log.getDifficulty());
 
             // average time difficulty
-            String[] values = log.getTotalTime().split(":");
+            String[] values = log.getTotalTime().toString().split(":");
             int hours = Integer.parseInt(values[0]);
 
             if (hours < 2) {

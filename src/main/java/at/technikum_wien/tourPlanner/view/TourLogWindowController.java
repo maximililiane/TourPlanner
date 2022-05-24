@@ -7,11 +7,12 @@ import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.util.converter.LocalDateStringConverter;
 
 import java.util.List;
 
@@ -23,19 +24,20 @@ public class TourLogWindowController {
     @FXML
     public TableView logTable;
     @FXML
-    public TableColumn uidColumn;
+    public TableColumn tourNameColumn;
     @FXML
-    public TableColumn tourIDColumn;
+    public TableColumn logNrColumn;
     @FXML
-    public TableColumn dateColumn;
+    public TextField dateField;
     @FXML
-    public TableColumn commentColumn;
+    public TextArea commentField;
     @FXML
-    public TableColumn difficultyColumn;
+    public TextField difficultyField;
     @FXML
-    public TableColumn totalTimeColumn;
+    public TextField timeField;
     @FXML
-    public TableColumn ratingColumn;
+    public TextField tourNameField;
+
 
     private final TourLogViewModel tourLogViewModel;
 
@@ -53,6 +55,7 @@ public class TourLogWindowController {
     @FXML
     public void initialize() {
         initializeTable();
+        initializeFields();
         setListToTable(tourLogViewModel.getList());
     }
 
@@ -82,17 +85,25 @@ public class TourLogWindowController {
             row.setContextMenu(cm.getCm());
             return row;
         });*/
+        logTable.setRowFactory(tv -> {
+            TableRow<LogViewRow> row = new TableRow<>();
+            row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> rowClicked(row.getItem()));
+            return row;
+        });
+    }
+
+    public void initializeFields(){
+        dateField.setEditable(false);
+        commentField.setEditable(false);
+        difficultyField.setEditable(false);
+        timeField.setEditable(false);
+        tourNameField.setEditable(false);
     }
 
     public void associateColumns() {
 
-        uidColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("uid"));
-        tourIDColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("tourUID"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("date"));
-        commentColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("comment"));
-        difficultyColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("difficulty"));
-        totalTimeColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("totalTime"));
-        ratingColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("rating"));
+        logNrColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("uid"));
+        tourNameColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("tourName"));
 
     }
 
@@ -103,7 +114,7 @@ public class TourLogWindowController {
     }
 
     private void addLogToTable(TourLog l) {
-        LogViewRow dataRow = new LogViewRow(l);
+        LogViewRow dataRow = new LogViewRow(l, "test tourname");
         logTable.getItems().add(dataRow);
     }
 
@@ -114,5 +125,17 @@ public class TourLogWindowController {
             System.out.println(t.toString());
         }
 
+    }
+
+    private void rowClicked(LogViewRow r){
+        setValuesToFields(r);
+    }
+
+    private void setValuesToFields(LogViewRow r){
+        commentField.setText(r.getComment());
+        difficultyField.setText(Integer.toString(r.getDifficulty()));
+        tourNameField.setText(r.getTourName());
+        dateField.setText(r.getDate().toString());
+        timeField.setText(r.getTotalTime().toString());
     }
 }

@@ -63,19 +63,25 @@ public class ListViewController {
             cm.getDetailsMenuItem().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    detailsButtonPressed(row.getItem().getUid());
+                    if(row.getItem()!=null) {
+                        detailsButtonPressed(row.getItem().getUid());
+                    }
                 }
             });
             cm.getLogsMenuItem().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    logsButtonPressed(row.getItem().getUid());
+                    if(row.getItem()!=null) {
+                        logsButtonPressed(row.getItem().getUid());
+                    }
                 }
             });
             cm.getEditMenuItem().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    editTourButtonPressed(row.getItem().getUid());
+                    if(row.getItem()!=null) {
+                        editTourButtonPressed(row.getItem().getUid());
+                    }
                 }
             });
             row.setContextMenu(cm.getCm());

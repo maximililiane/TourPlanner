@@ -30,7 +30,7 @@ public class ControllerFactory {
         this.mainWindowViewModel = new MainWindowViewModel();
         this.descriptionViewModel = new DescriptionViewModel(tourService);
         this.listViewModel = new ListViewModel(tourService);
-        this.tourLogViewModel = new TourLogViewModel(tourLogService);
+        this.tourLogViewModel = new TourLogViewModel(tourLogService, tourService);
         this.addTourWindowViewModel = new AddTourWindowViewModel(tourService);
         this.editTourWindowViewModel = new EditTourWindowViewModel(tourService);
         this.exportDataWindowViewModel = new ExportDataWindowViewModel(tourService, tourLogService);

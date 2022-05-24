@@ -120,5 +120,15 @@ public class TourRepository {
         return nextId + 1;
     }
 
+    public String getTourNameById(int id) throws SQLException{
+        PreparedStatement preparedStatement;
+        preparedStatement= connection.prepareStatement("SELECT tourname FROM " + TABLE_NAME + " WHERE uid = " + id);
+        ResultSet rs=preparedStatement.executeQuery();
+        if(rs.next()){
+            return rs.getString(1);
+        }
+        return null;
+    }
+
     //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour
 }

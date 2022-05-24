@@ -6,13 +6,10 @@ import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.util.List;
 
@@ -55,49 +52,37 @@ public class TourLogWindowController {
     @FXML
     public void initialize() {
         initializeTable();
-        initializeFields();
+        lockFields();
         setListToTable(tourLogViewModel.getList());
     }
 
     public void initializeTable() {
         associateColumns();
-        /*logTable.setRowFactory(tv -> {
-            TableRow<ListViewRow> row = new TableRow<>();
-            CustomContextMenu cm = new CustomContextMenu();
-            cm.getDetailsMenuItem().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    detailsButtonPressed(row.getItem().getUid());
-                }
-            });
-            cm.getLogsMenuItem().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    logsButtonPressed(row.getItem().getUid());
-                }
-            });
-            cm.getEditMenuItem().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    editTourButtonPressed(row.getItem().getUid());
-                }
-            });
-            row.setContextMenu(cm.getCm());
-            return row;
-        });*/
         logTable.setRowFactory(tv -> {
             TableRow<LogViewRow> row = new TableRow<>();
-            row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> rowClicked(row.getItem()));
+            row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+                if(row.getItem()!=null) {
+                    rowClicked(row.getItem());
+                }
+            });
             return row;
         });
     }
 
-    public void initializeFields(){
+    public void lockFields(){
         dateField.setEditable(false);
         commentField.setEditable(false);
         difficultyField.setEditable(false);
         timeField.setEditable(false);
         tourNameField.setEditable(false);
+    }
+
+    public void unlockFields(){
+        dateField.setEditable(true);
+        commentField.setEditable(true);
+        difficultyField.setEditable(true);
+        timeField.setEditable(true);
+        tourNameField.setEditable(true);
     }
 
     public void associateColumns() {
@@ -114,7 +99,7 @@ public class TourLogWindowController {
     }
 
     private void addLogToTable(TourLog l) {
-        LogViewRow dataRow = new LogViewRow(l, "test tourname");
+        LogViewRow dataRow = new LogViewRow(l, tourLogViewModel.getTourNameById(l.getUid()));
         logTable.getItems().add(dataRow);
     }
 

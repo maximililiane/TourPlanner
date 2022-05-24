@@ -60,6 +60,14 @@ public class TourService extends Mapper {
         return tourRepository.getObservableTourList();
     }
 
+    public String getTourNameById(int id){
+        try {
+            return tourRepository.getTourNameById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public void addTour(Tour tour) {
 

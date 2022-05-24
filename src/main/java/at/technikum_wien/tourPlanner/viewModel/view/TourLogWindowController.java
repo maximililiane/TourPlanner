@@ -1,5 +1,6 @@
-package at.technikum_wien.tourPlanner.view;
+package at.technikum_wien.tourPlanner.viewModel.view;
 
+import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.LogViewUtils.LogViewRow;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
 import at.technikum_wien.tourPlanner.models.TourLog;
@@ -7,17 +8,27 @@ import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class TourLogWindowController {
 
-    public Button addLogButton;
     private ObservableList<TourLog> logs;
 
+    @FXML
+    public Button addLogButton;
+    @FXML
+    public Button editLogButton;
+    @FXML
+    public Button deleteLogButton;
     @FXML
     public TableView logTable;
     @FXML
@@ -122,5 +133,21 @@ public class TourLogWindowController {
         tourNameField.setText(r.getTourName());
         dateField.setText(r.getDate().toString());
         timeField.setText(r.getTotalTime().toString());
+    }
+
+    public void openAddTourWindow() {
+        try {
+            Parent root = FXMLDependencyInjection.load("addLogWindow.fxml", Locale.ENGLISH);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Tour Planner");
+            stage.setScene(scene);
+            stage.setMinWidth(600.0);
+            stage.setMinHeight(525.0);
+            stage.setMaxHeight(525.0);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

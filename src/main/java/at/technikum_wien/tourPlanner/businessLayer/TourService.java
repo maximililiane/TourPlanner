@@ -311,5 +311,9 @@ public class TourService extends Mapper {
         return (averageDifficulty + averageTimeDifficulty + distanceDifficulty) / 3;
 
     }
+
+    public ObservableList<String> getTourNames() throws SQLException{
+        return tourRepository.getObersavbleNameList();
+    }
 }
 

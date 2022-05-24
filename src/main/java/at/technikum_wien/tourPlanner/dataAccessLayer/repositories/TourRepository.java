@@ -30,6 +30,9 @@ public class TourRepository {
     public ObservableList<Tour> getObservableTourList() {
         return this.tours;
     }
+    public ObservableList<String> getObersavbleNameList() throws SQLException {
+        return FXCollections.observableList(getTourNames());
+    }
 
     public LinkedList<Tour> getTours() throws SQLException {
         PreparedStatement preparedStatement;
@@ -128,6 +131,17 @@ public class TourRepository {
             return rs.getString(1);
         }
         return null;
+    }
+
+    public LinkedList<String> getTourNames() throws SQLException {
+        LinkedList<String> l= new LinkedList<>();
+        PreparedStatement preparedStatement;
+        preparedStatement= connection.prepareStatement("SELECT DISTINCT tourname FROM " + TABLE_NAME);
+        ResultSet rs=preparedStatement.executeQuery();
+        while (rs.next()){
+            l.add(rs.getString(1));
+        }
+        return l;
     }
 
     //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour

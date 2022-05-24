@@ -1,6 +1,6 @@
 package at.technikum_wien.tourPlanner;
 
-import at.technikum_wien.tourPlanner.view.ControllerFactory;
+import at.technikum_wien.tourPlanner.viewModel.view.ControllerFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;

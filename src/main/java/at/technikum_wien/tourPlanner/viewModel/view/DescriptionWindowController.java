@@ -1,10 +1,8 @@
-package at.technikum_wien.tourPlanner.view;
+package at.technikum_wien.tourPlanner.viewModel.view;
 
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.viewModel.DescriptionViewModel;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -24,7 +22,6 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DescriptionWindowController implements Initializable {

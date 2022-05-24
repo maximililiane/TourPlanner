@@ -7,7 +7,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="550.0" prefWidth="900.0"
             xmlns="http://javafx.com/javafx/11.0.2"
-            fx:controller="at.technikum_wien.tourPlanner.view.DescriptionWindowController">
+            fx:controller="at.technikum_wien.tourPlanner.viewModel.view.DescriptionWindowController">
     <children>
         <ImageView fx:id="mapImage" fitHeight="280.0" fitWidth="418.0" layoutX="458.0" layoutY="52.0"
                    pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0"/>

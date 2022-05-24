@@ -42,6 +42,30 @@ public class TourLogRepository {
 
     }
 
+    public int getNextTourId() throws SQLException {
+        int nextId = 0;
+        PreparedStatement preparedStatement;
+        preparedStatement = connection.prepareStatement("SELECT MAX(uid) FROM " + TABLE_NAME);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            nextId = resultSet.getInt(1);
+        }
+        return nextId + 1;
+    }
+
+    public void addLog(TourLog l) throws SQLException {
+        String sql = "INSERT INTO " + TABLE_NAME + "(tourid, date, comment, difficulty, totaltime," +
+                "rating) VALUES (?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, l.getTourID());
+        preparedStatement.setDate(2, l.getDate());
+        preparedStatement.setString(3, l.getComment());
+        preparedStatement.setInt(4, l.getDifficulty());
+        preparedStatement.setTime(5, l.getTotalTime());
+        preparedStatement.setInt(6, l.getRating());
+        preparedStatement.executeUpdate();
+    }
+
     //TODO: getLogById()
     //TODO: addLog()
     //TODO: editLog()

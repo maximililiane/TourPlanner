@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.view;
+package at.technikum_wien.tourPlanner.viewModel.view;
 
 import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
@@ -19,6 +19,7 @@ public class ControllerFactory {
     private final EditTourWindowViewModel editTourWindowViewModel;
     private final ExportDataWindowViewModel exportDataWindowViewModel;
     private final ImportWindowViewModel importWindowViewModel;
+    private final AddLogWindowViewModel addLogWindowViewModel;
     private TourRepository tourRepository;
     private TourLogRepository tourLogRepository;
 
@@ -35,6 +36,7 @@ public class ControllerFactory {
         this.editTourWindowViewModel = new EditTourWindowViewModel(tourService);
         this.exportDataWindowViewModel = new ExportDataWindowViewModel(tourService, tourLogService);
         this.importWindowViewModel = new ImportWindowViewModel(tourService, tourLogService);
+        this.addLogWindowViewModel= new AddLogWindowViewModel(tourLogService, tourService);
     }
 
     private void setUpDatabase() {
@@ -70,6 +72,8 @@ public class ControllerFactory {
             return new ExportDataWindowController(exportDataWindowViewModel);
         } else if (controllerClass == ImportWindowController.class) {
             return new ImportWindowController(importWindowViewModel);
+        } else if (controllerClass== AddLogWindowController.class){
+            return new AddLogWindowController(addLogWindowViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }

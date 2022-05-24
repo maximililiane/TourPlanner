@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.view;
+package at.technikum_wien.tourPlanner.viewModel.view;
 
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.viewModel.MainWindowViewModel;

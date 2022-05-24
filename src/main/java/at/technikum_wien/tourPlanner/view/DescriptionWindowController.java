@@ -206,10 +206,10 @@ public class DescriptionWindowController implements Initializable {
     }
 
     private void hideButtonsAndText() {
-        saveTourButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        //saveTourButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         editButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         deleteButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
-        saveReportButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        //saveReportButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         topSeparator.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         popularityTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         childFriendlinessTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());

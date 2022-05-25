@@ -210,9 +210,9 @@ public class TourService extends Mapper {
 
             // validate string lengths & contents
             if (tourInputValidation.isBlankString(tourName) || tourInputValidation.isBlankString(startingPoint) ||
-                    tourInputValidation.isBlankString(destination) || tourInputValidation.validNameLength(tourName) ||
-                    tourInputValidation.validLocationLength(startingPoint) ||
-                    tourInputValidation.validLocationLength(destination) ||
+                    tourInputValidation.isBlankString(destination) || !tourInputValidation.validNameLength(tourName) ||
+                    !tourInputValidation.validLocationLength(startingPoint) ||
+                    !tourInputValidation.validLocationLength(destination) ||
                     tourInputValidation.sameLocation(startingPoint, destination)) {
                 logger.error("Unable to add tour with invalid data. Please try again with valid data.");
                 return null;

@@ -18,6 +18,7 @@ module at.technikum_wien.tourplanner {
     opens at.technikum_wien.tourPlanner.viewModel.view to javafx.fxml;
     opens at.technikum_wien.tourPlanner.listViewUtils to javafx.base;
     opens at.technikum_wien.tourPlanner.LogViewUtils to javafx.base;
+    opens at.technikum_wien.tourPlanner.models to com.fasterxml.jackson.databind;
     exports at.technikum_wien.tourPlanner.listViewUtils;
     exports at.technikum_wien.tourPlanner.LogViewUtils;
     exports at.technikum_wien.tourPlanner;

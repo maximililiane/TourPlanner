@@ -31,9 +31,9 @@ public class AddLogWindowViewModel {
     }
 
     public void addLog(LocalDate date, int rating, int hours, int minutes, int difficulty, String comment) {
-        TourLog l= new TourLog();
-        l.setTourID(2);
-        l.setTotalTime(Time.valueOf(LocalTime.of(hours,minutes)));
+        TourLog l = new TourLog();
+        l.setTourID(2); // TODO: get tourID from observable tour list
+        l.setTotalTime(Time.valueOf(LocalTime.of(hours, minutes)));
         l.setDate(Date.valueOf(date));
         l.setComment(comment);
         l.setRating(rating);
@@ -41,7 +41,7 @@ public class AddLogWindowViewModel {
         logService.addTourLog(l);
     }
 
-    public ObservableList<String> getTourNames(){
+    public ObservableList<String> getTourNames() {
         try {
             return tourService.getTourNames();
         } catch (SQLException e) {

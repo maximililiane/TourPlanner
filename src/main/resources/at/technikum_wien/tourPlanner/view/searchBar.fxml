@@ -8,7 +8,7 @@
 
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="at.technikum_wien.tourPlanner.viewModel.view.SearchBarController">
+      fx:controller="at.technikum_wien.tourPlanner.view.SearchBarController">
     <userData>
         <fx:reference source="controller"/>
     </userData>

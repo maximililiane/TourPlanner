@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.viewModel.view;
+package at.technikum_wien.tourPlanner.view;
 
 import at.technikum_wien.tourPlanner.viewModel.SearchBarViewModel;
 import javafx.event.ActionEvent;

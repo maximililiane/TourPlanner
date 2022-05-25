@@ -23,22 +23,37 @@ public class AddLogWindowViewModel {
 
     private final TourLogService logService;
     private final TourService tourService;
+    private final SimpleStringProperty commentField;
 
 
     public AddLogWindowViewModel(TourLogService logService, TourService tourService) {
         this.logService = logService;
         this.tourService = tourService;
+        commentField= new SimpleStringProperty();
     }
 
-    public void addLog(LocalDate date, int rating, int hours, int minutes, int difficulty, String comment) {
+    public void addLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
         TourLog l = new TourLog();
-        l.setTourID(2); // TODO: get tourID from observable tour list
-        l.setTotalTime(Time.valueOf(LocalTime.of(hours, minutes)));
+        int tourId= getTourID(tourName);
+        if(tourId==-1){
+            //TODO: Logging
+            return;
+        }
+        l.setTourID(tourId);
+        l.setTotalTime(Time.valueOf(LocalTime.of(hours,minutes)));
         l.setDate(Date.valueOf(date));
-        l.setComment(comment);
         l.setRating(rating);
         l.setDifficulty(difficulty);
+        l.setComment(getCommentField().get());
         logService.addTourLog(l);
+    }
+
+    public int getTourID(String tourName){
+        return tourService.getTourIdByName(tourName);
+    }
+
+    public SimpleStringProperty getCommentField(){
+        return commentField;
     }
 
     public ObservableList<String> getTourNames() {

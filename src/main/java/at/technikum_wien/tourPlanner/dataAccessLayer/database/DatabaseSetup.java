@@ -46,7 +46,7 @@ public class DatabaseSetup {
                 "uid SERIAL NOT NULL, " +
                 "tourId INTEGER NOT NULL, " +
                 "date DATE NOT NULL, " +
-                "comment VARCHAR(256) NOT NULL, " +
+                "comment VARCHAR(256), " +
                 "difficulty INTEGER NOT NULL, " +
                 "totalTime VARCHAR(256) NOT NULL, " +
                 "rating INTEGER NOT NULL, " +

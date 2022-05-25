@@ -315,5 +315,14 @@ public class TourService extends Mapper {
     public ObservableList<String> getTourNames() throws SQLException{
         return tourRepository.getObersavbleNameList();
     }
+
+    public int getTourIdByName(String tourName) {
+        try {
+            return tourRepository.getTourIdByName(tourName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }
 

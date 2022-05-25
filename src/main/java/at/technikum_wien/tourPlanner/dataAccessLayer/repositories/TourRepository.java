@@ -144,5 +144,14 @@ public class TourRepository {
         return l;
     }
 
+    public int getTourIdByName(String tourName) throws SQLException {
+        PreparedStatement preparedStatement;
+        preparedStatement= connection.prepareStatement("select uid from tours where tourname = ?");
+        preparedStatement.setString(1, tourName);
+        ResultSet rs=preparedStatement.executeQuery();
+        rs.next();
+        return rs.getInt(1);
+    }
+
     //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour
 }

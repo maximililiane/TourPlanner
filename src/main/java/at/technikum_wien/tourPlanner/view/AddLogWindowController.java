@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.viewModel.view;
+package at.technikum_wien.tourPlanner.view;
 
 import at.technikum_wien.tourPlanner.viewModel.AddLogWindowViewModel;
 import javafx.collections.FXCollections;
@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import javax.swing.*;
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class AddLogWindowController {
@@ -18,19 +18,19 @@ public class AddLogWindowController {
     @FXML
     public Button cancelButton;
     @FXML
-    public TextField hoursField;
+    public Spinner<Integer> hoursSpinner;
     @FXML
-    public TextField minutesField;
+    public Spinner<Integer> minutesSpinner;
     @FXML
     public TextArea commentArea;
     @FXML
     public DatePicker datePicker;
     @FXML
-    public ChoiceBox ratingPicker;
+    public ChoiceBox<Integer> ratingPicker;
     @FXML
-    public ChoiceBox tourNamePicker;
+    public ChoiceBox<String> tourNamePicker;
     @FXML
-    public TextField difficultyField;
+    public Spinner<Integer> difficultySpinner;
 
     public AddLogWindowController(AddLogWindowViewModel addLogWindowViewModel) {
         this.addLogWindowViewModel = addLogWindowViewModel;
@@ -38,9 +38,9 @@ public class AddLogWindowController {
 
     @FXML
     public void initialize() {
-        clearView();
-        setChoicePickerValues();
-        //initializeDifficultySpinner();
+        initializeView();
+        bindProperties();
+        initializeSpinner();
 
         /*
         transportModeCheckBox.getItems().removeAll(transportModeCheckBox.getItems());
@@ -62,25 +62,34 @@ public class AddLogWindowController {
         descriptionHintLabel.visibleProperty().setValue(false);*/
     }
 
-    /*private void initializeDifficultySpinner() {
-        difficultySpinner=new Spinner<Integer>();
-        SpinnerValueFactory<Integer> values= new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,50);
-        difficultySpinner.setValueFactory(values);
-    }*/
+    private void initializeView() {
+        prepareView();
+        setChoicePickerValues();
+    }
 
-    public void clearView(){
+    private void bindProperties() {
+        commentArea.textProperty().bindBidirectional(addLogWindowViewModel.getCommentField());
+    }
+
+    private void initializeSpinner() {
+        hoursSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23,12));
+        minutesSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59,30));
+        difficultySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,50));
+        hoursSpinner.setEditable(true);
+        minutesSpinner.setEditable(true);
+        difficultySpinner.setEditable(true);
+    }
+
+    public void prepareView(){
         tourNamePicker.getItems().removeAll(tourNamePicker.getItems());
-        hoursField.setText("");
-        minutesField.setText("");
         commentArea.setText("");
-        datePicker.setValue(null);
+        datePicker.setValue(LocalDate.now());
         ratingPicker.setValue(1);
-        tourNamePicker.setValue(null);
-        difficultyField.setText("50");
     }
 
     public void setChoicePickerValues(){
         tourNamePicker.setItems(addLogWindowViewModel.getTourNames());
+        tourNamePicker.setValue(tourNamePicker.getItems().get(0));
         LinkedList<Integer> l= new LinkedList<>();
         for(int i=1; i<=5; i++){
             l.add(i);
@@ -89,8 +98,9 @@ public class AddLogWindowController {
     }
 
     public void addLog() {
-        this.addLogWindowViewModel.addLog(datePicker.getValue(), (Integer) ratingPicker.getValue(), Integer.valueOf(hoursField.getText()), Integer.valueOf(minutesField.getText()), Integer.valueOf(difficultyField.getText()), commentArea.getText());
+        addLogWindowViewModel.addLog(hoursSpinner.getValue(), minutesSpinner.getValue(), datePicker.getValue(), ratingPicker.getValue(), tourNamePicker.getValue(), difficultySpinner.getValue());
         closeWindow();
+        initializeView();
     }
 
     public void closeWindow() {

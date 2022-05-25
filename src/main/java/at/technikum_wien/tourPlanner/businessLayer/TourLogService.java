@@ -22,8 +22,8 @@ public class TourLogService {
     public TourLogService(TourRepository tourRepository, TourLogRepository tourLogRepository) {
         this.tourLogRepository = tourLogRepository;
         this.tourRepository = tourRepository;
-        this.logs = FXCollections.observableList(getLogs());
-        this.tours = tourRepository.getObservableTourList();
+        this.logs = getLogs();
+        this.tours = getTours();
     }
 
     public void addTourLog(TourLog l) {
@@ -48,22 +48,12 @@ public class TourLogService {
         return logs.stream().filter(log -> log.getTourID() == id).collect(Collectors.toList());
     }
 
-    public LinkedList<TourLog> getLogs() {
-        try {
-            return tourLogRepository.getLogs();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public ObservableList<TourLog> getLogs() {
+        return tourLogRepository.getObservableLogList();
     }
 
-    public LinkedList<Tour> getTours() {
-        try {
-            return tourRepository.getTours();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public ObservableList<Tour> getTours() {
+        return tourRepository.getObservableTourList();
     }
 
     public void importLogsByTourId(int id, List<TourLog> importedLogs) {

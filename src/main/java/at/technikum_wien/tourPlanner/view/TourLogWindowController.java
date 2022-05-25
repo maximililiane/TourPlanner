@@ -1,4 +1,4 @@
-package at.technikum_wien.tourPlanner.viewModel.view;
+package at.technikum_wien.tourPlanner.view;
 
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.LogViewUtils.LogViewRow;
@@ -111,6 +111,7 @@ public class TourLogWindowController {
 
     private void addLogToTable(TourLog l) {
         LogViewRow dataRow = new LogViewRow(l, tourLogViewModel.getTourNameById(l.getUid()));
+        System.out.println(dataRow);
         logTable.getItems().add(dataRow);
     }
 
@@ -118,7 +119,6 @@ public class TourLogWindowController {
         logTable.getItems().removeAll(logTable.getItems());
         for (TourLog t : list) {
             addLogToTable(t);
-            System.out.println(t.toString());
         }
 
     }

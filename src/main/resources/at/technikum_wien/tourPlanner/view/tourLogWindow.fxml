@@ -3,17 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum_wien.tourPlanner.viewModel.view.TourLogWindowController">
+<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum_wien.tourPlanner.view.TourLogWindowController">
     <children>
-      <SplitPane dividerPositions="0.287890044576523" layoutX="-7.0" prefHeight="550.0" prefWidth="900.0">
+      <SplitPane dividerPositions="0.29378316906747537" layoutX="11.0" prefHeight="550.0" prefWidth="882.0">
          <items>
-              <TableView fx:id="logTable" prefHeight="550.0" prefWidth="900.0">
+              <TableView fx:id="logTable" prefHeight="547.0" prefWidth="259.0">
                   <columns>
                       <TableColumn fx:id="logNrColumn" prefWidth="128.0" text="Log Nr." />
                       <TableColumn fx:id="tourNameColumn" prefWidth="128.0" text="Tour Name" />
                   </columns>
               </TableView>
-            <AnchorPane prefHeight="525.0" prefWidth="638.0">
+            <AnchorPane prefHeight="547.0" prefWidth="623.0">
                <children>
                   <TextField fx:id="tourNameField" layoutX="234.0" layoutY="22.0" prefHeight="25.0" prefWidth="318.0" />
                   <TextArea fx:id="commentField" layoutX="44.0" layoutY="255.0" prefHeight="222.0" prefWidth="418.0" />

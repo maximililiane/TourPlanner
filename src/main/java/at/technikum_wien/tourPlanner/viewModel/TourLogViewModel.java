@@ -28,11 +28,12 @@ public class TourLogViewModel {
         this.logs = logs;
     }
 
-    public void addItem(TourLog item) {
-        logs.add(item);
-    }
 
     public String getTourNameById(int id){
         return tourService.getTourNameById(id);
+    }
+
+    public void deleteLog(TourLog log) {
+        tourLogService.deleteLog(log);
     }
 }

@@ -27,21 +27,44 @@ public class TourLogService {
     }
 
     public void addTourLog(TourLog l) {
-        // TODO: implement add tour log through gui
         try {
-            tourLogRepository.addLog(l);
             l.setUid(tourLogRepository.getNextTourId());
+            tourLogRepository.addLog(l);
             logs.add(l);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
-        /*// update tour with new log
-        Tour tour = tours.stream().filter(t -> t.getUid() == log.getTourID()).findFirst().get();
-        int index = tours.indexOf(tour);
-        tour.insertLog(log);
-        tours.set(index, tour);*///TODO: Was ist das
+    public void editTourLog(TourLog updatedLog) {
+        try {
+            tourLogRepository.editLog(updatedLog);
+            deleteLogFromList(updatedLog);
+            logs.add(updatedLog);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteLog(TourLog log) {
+        try {
+            tourLogRepository.deleteLog(log.getUid());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        deleteLogFromList(log);
+    }
+
+    private void deleteLogFromList(TourLog updatedLog){
+        for(TourLog oldLog: logs){
+            if(updatedLog.getUid()== oldLog.getUid()){
+                logs.remove(oldLog);
+            }
+        }
+        logs.add(updatedLog);
+        System.out.println(logs.toString());
     }
 
     public List<TourLog> getLogsByTourId(int id) {

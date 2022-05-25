@@ -27,8 +27,8 @@
                   <Label layoutX="234.0" layoutY="139.0" prefHeight="17.0" prefWidth="73.0" text="Time" />
                   <TextField fx:id="dateField" layoutX="233.0" layoutY="89.0" prefHeight="25.0" prefWidth="318.0" />
                   <Button fx:id="addLogButton" layoutX="471.0" layoutY="304.0" mnemonicParsing="false" onAction="#openAddTourWindow" prefHeight="25.0" prefWidth="94.0" text="add Log" />
-                  <Button fx:id="editLogButton" layoutX="471.0" layoutY="366.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="edit Log" />
-                  <Button fx:id="deleteLogButton" layoutX="471.0" layoutY="425.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="delete Log" />
+                  <Button fx:id="editLogButton" layoutX="471.0" layoutY="366.0" mnemonicParsing="false" onAction="#openEditTourWindow" prefHeight="25.0" prefWidth="94.0" text="edit Log" />
+                  <Button fx:id="deleteLogButton" layoutX="471.0" layoutY="425.0" mnemonicParsing="false" onAction="#deleteLog" prefHeight="25.0" prefWidth="94.0" text="delete Log" />
                </children></AnchorPane>
          </items>
       </SplitPane>

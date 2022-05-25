@@ -78,9 +78,30 @@ public class TourLogRepository {
         preparedStatement.executeUpdate();
     }
 
-    //TODO: getLogById()
-    //TODO: addLog()
-    //TODO: editLog()
-    //TODO: deleteLog()
+    public void editLog(TourLog l) throws SQLException {
+        String sql = "UPDATE " + TABLE_NAME + " SET tourid= ?, " +
+                "date= ?," +
+                "comment= ?," +
+                "difficulty= ?, " +
+                "totaltime= ?," +
+                "rating= ?" +
+                "WHERE uid= ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, l.getTourID());
+        preparedStatement.setDate(2, l.getDate());
+        preparedStatement.setString(3, l.getComment());
+        preparedStatement.setInt(4, l.getDifficulty());
+        preparedStatement.setTime(5, l.getTotalTime());
+        preparedStatement.setInt(6, l.getRating());
+        preparedStatement.setInt(7,l.getUid());
+        preparedStatement.executeUpdate();
+    }
+
+    public void deleteLog(int uid) throws SQLException {
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE uid= ?";
+        PreparedStatement preparedStatement=connection.prepareStatement(sql);
+        preparedStatement.setInt(1, uid);
+        preparedStatement.executeUpdate();
+    }
 
 }

@@ -1,5 +1,6 @@
 package at.technikum_wien.tourPlanner.view;
 
+import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.AddLogWindowViewModel;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -31,6 +32,8 @@ public class AddLogWindowController {
     public ChoiceBox<String> tourNamePicker;
     @FXML
     public Spinner<Integer> difficultySpinner;
+    @FXML
+    public Label titleLabel;
 
     public AddLogWindowController(AddLogWindowViewModel addLogWindowViewModel) {
         this.addLogWindowViewModel = addLogWindowViewModel;
@@ -40,31 +43,12 @@ public class AddLogWindowController {
     public void initialize() {
         initializeView();
         bindProperties();
-        initializeSpinner();
-
-        /*
-        transportModeCheckBox.getItems().removeAll(transportModeCheckBox.getItems());
-        transportModeCheckBox.getItems().addAll(FXCollections.observableArrayList(
-                TransportMode.FASTEST.name(), TransportMode.SHORTEST.name(),
-                TransportMode.PEDESTRIAN.name(), TransportMode.BICYCLE.name()));
-        transportModeCheckBox.getSelectionModel().select(0);
-
-        tourNameTextField.textProperty().bindBidirectional(addTourWindowViewModel.nameStringProperty());
-        fromTextField.textProperty().bindBidirectional(addTourWindowViewModel.fromStringProperty());
-        toTextField.textProperty().bindBidirectional(addTourWindowViewModel.toStringProperty());
-        descriptionTextField.textProperty().bindBidirectional(addTourWindowViewModel.descriptionStringProperty());
-        addTourButton.disableProperty().bind(addTourWindowViewModel.addDisabledBinding());
-
-        hintLabel.visibleProperty().bind(addTourWindowViewModel.addDisabledBinding());
-        nameHintLabel.visibleProperty().setValue(false);
-        fromHintLabel.visibleProperty().setValue(false);
-        toHintLabel.visibleProperty().setValue(false);
-        descriptionHintLabel.visibleProperty().setValue(false);*/
     }
 
     private void initializeView() {
         prepareView();
         setChoicePickerValues();
+        initializeSpinner();
     }
 
     private void bindProperties() {
@@ -101,6 +85,16 @@ public class AddLogWindowController {
         addLogWindowViewModel.addLog(hoursSpinner.getValue(), minutesSpinner.getValue(), datePicker.getValue(), ratingPicker.getValue(), tourNamePicker.getValue(), difficultySpinner.getValue());
         closeWindow();
         initializeView();
+    }
+
+    public void editLog(){
+        addLogWindowViewModel.editLog(hoursSpinner.getValue(), minutesSpinner.getValue(), datePicker.getValue(), ratingPicker.getValue(), tourNamePicker.getValue(), difficultySpinner.getValue());
+        closeWindow();
+        initializeView();
+    }
+
+    public void setOldLog(TourLog l){
+        addLogWindowViewModel.setOldLog(l);
     }
 
     public void closeWindow() {

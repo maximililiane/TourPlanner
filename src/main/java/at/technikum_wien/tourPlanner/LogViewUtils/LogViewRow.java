@@ -38,6 +38,18 @@ public class LogViewRow {
 
     }
 
+    public TourLog getLog(){
+        TourLog l= new TourLog();
+        l.setUid(uid.get());
+        l.setTourID(tourUID.get());
+        l.setComment(comment.get());
+        l.setDifficulty(difficulty.get());
+        l.setRating(rating.get());
+        l.setTotalTime(totalTime);
+        l.setDate(date);
+        return l;
+    }
+
     @Override
     public String toString() {
         return "LogViewRow{" +

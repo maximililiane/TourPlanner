@@ -24,6 +24,7 @@ public class AddLogWindowViewModel {
     private final TourLogService logService;
     private final TourService tourService;
     private final SimpleStringProperty commentField;
+    private TourLog oldLog;
 
 
     public AddLogWindowViewModel(TourLogService logService, TourService tourService) {
@@ -32,12 +33,31 @@ public class AddLogWindowViewModel {
         commentField= new SimpleStringProperty();
     }
 
+    public void setOldLog(TourLog l){
+        this.oldLog=l;
+    }
+
     public void addLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
+        TourLog l = createLog(hours,minutes,date,rating,tourName,difficulty);
+        if(l!=null){
+            logService.addTourLog(l);
+        }
+    }
+
+    public void editLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
+        TourLog l = createLog(hours, minutes, date, rating, tourName, difficulty);
+        if(l!=null){
+            l.setUid(oldLog.getUid());
+            logService.editTourLog(l);
+        }
+    }
+
+    private TourLog createLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty){
         TourLog l = new TourLog();
         int tourId= getTourID(tourName);
         if(tourId==-1){
             //TODO: Logging
-            return;
+            return null;
         }
         l.setTourID(tourId);
         l.setTotalTime(Time.valueOf(LocalTime.of(hours,minutes)));
@@ -45,7 +65,7 @@ public class AddLogWindowViewModel {
         l.setRating(rating);
         l.setDifficulty(difficulty);
         l.setComment(getCommentField().get());
-        logService.addTourLog(l);
+        return l;
     }
 
     public int getTourID(String tourName){
@@ -64,6 +84,7 @@ public class AddLogWindowViewModel {
         }
         return null;
     }
+
 
 
 }

@@ -3,7 +3,6 @@ package at.technikum_wien.tourPlanner.view;
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.LogViewUtils.LogViewRow;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
-import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
 import javafx.collections.ListChangeListener;
@@ -20,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 
 public class TourLogWindowController {
@@ -40,15 +38,18 @@ public class TourLogWindowController {
     @FXML
     public TableColumn logNrColumn;
     @FXML
-    public TextField dateField;
+    public Label dateField;
     @FXML
     public TextArea commentField;
     @FXML
-    public TextField difficultyField;
+    public Label difficultyField;
     @FXML
-    public TextField timeField;
+    public Label timeField;
     @FXML
-    public TextField tourNameField;
+    public Label tourNameField;
+    @FXML
+    public Label ratingField;
+
     LogViewRow selectedRow;
 
 
@@ -61,12 +62,28 @@ public class TourLogWindowController {
     @FXML
     public void initialize() {
         initializeTable();
-        lockFields();
         setListToTable(tourLogViewModel.getList());
-        unHideButton(false);
+        tourLogViewModel.getList().addListener(new ListChangeListener<TourLog>() {
+            @Override
+            public void onChanged(Change<? extends TourLog> change) {
+                ObservableList<TourLog> newList= tourLogViewModel.getList();
+                setListToTable(newList);
+                if(selectedRow==null){
+                    return;
+                }
+                for(TourLog l : newList){
+                    if(l.getUid()==selectedRow.getUid()){
+                        selectedRow=new LogViewRow(l, tourLogViewModel.getTourNameById(l.getTourID()));
+                        setValuesToFields(selectedRow);
+                        return;
+                    }
+                }
+            }
+        });
+        unHideButtons(false);
     }
 
-    public void unHideButton(boolean unHideButtons){
+    public void unHideButtons(boolean unHideButtons){
         editLogButton.setVisible(unHideButtons);
         deleteLogButton.setVisible(unHideButtons);
 
@@ -78,31 +95,15 @@ public class TourLogWindowController {
             TableRow<LogViewRow> row = new TableRow<>();
             row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                 if(row.getItem()!=null) {
-                    rowClicked(row.getItem());
-                    unHideButton(true);
+                    setValuesToFields(row.getItem());
+                    unHideButtons(true);
                     selectedRow=row.getItem();
-                    System.out.println(row.getItem().toString());
                 }
             });
             return row;
         });
     }
 
-    public void lockFields(){
-        dateField.setEditable(false);
-        commentField.setEditable(false);
-        difficultyField.setEditable(false);
-        timeField.setEditable(false);
-        tourNameField.setEditable(false);
-    }
-
-    public void unlockFields(){
-        dateField.setEditable(true);
-        commentField.setEditable(true);
-        difficultyField.setEditable(true);
-        timeField.setEditable(true);
-        tourNameField.setEditable(true);
-    }
 
     public void associateColumns() {
 
@@ -113,7 +114,6 @@ public class TourLogWindowController {
 
     private void addLogToTable(TourLog l) {
         LogViewRow dataRow = new LogViewRow(l, tourLogViewModel.getTourNameById(l.getTourID()));
-        System.out.println(dataRow);
         logTable.getItems().add(dataRow);
     }
 
@@ -125,16 +125,22 @@ public class TourLogWindowController {
 
     }
 
-    private void rowClicked(LogViewRow r){
-        setValuesToFields(r);
-    }
-
     private void setValuesToFields(LogViewRow r){
         commentField.setText(r.getComment());
         difficultyField.setText(Integer.toString(r.getDifficulty()));
         tourNameField.setText(r.getTourName());
         dateField.setText(r.getDate().toString());
         timeField.setText(r.getTotalTime().toString());
+        ratingField.setText(Integer.toString(r.getRating()));
+    }
+    private void removeValuesFromFields(){
+        commentField.setText("");
+        difficultyField.setText("");
+        tourNameField.setText("");
+        dateField.setText("");
+        timeField.setText("");
+        ratingField.setText("");
+        unHideButtons(false);
     }
 
     public void openAddTourWindow() {
@@ -194,5 +200,7 @@ public class TourLogWindowController {
 
     public void deleteLog(){
         tourLogViewModel.deleteLog(selectedRow.getLog());
+        selectedRow=null;
+        removeValuesFromFields();
     }
 }

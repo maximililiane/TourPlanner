@@ -5,6 +5,7 @@ import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -30,7 +31,6 @@ public class TourLogService {
         try {
             l.setUid(tourLogRepository.getNextTourId());
             tourLogRepository.addLog(l);
-            logs.add(l);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,8 +40,6 @@ public class TourLogService {
     public void editTourLog(TourLog updatedLog) {
         try {
             tourLogRepository.editLog(updatedLog);
-            deleteLogFromList(updatedLog);
-            logs.add(updatedLog);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,17 +52,6 @@ public class TourLogService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        deleteLogFromList(log);
-    }
-
-    private void deleteLogFromList(TourLog updatedLog){
-        for(TourLog oldLog: logs){
-            if(updatedLog.getUid()== oldLog.getUid()){
-                logs.remove(oldLog);
-            }
-        }
-        logs.add(updatedLog);
-        System.out.println(logs.toString());
     }
 
     public List<TourLog> getLogsByTourId(int id) {

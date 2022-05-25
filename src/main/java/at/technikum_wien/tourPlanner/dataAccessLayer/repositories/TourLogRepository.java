@@ -24,6 +24,11 @@ public class TourLogRepository {
         }
     }
 
+    public void updateLogList() throws SQLException {
+        logs.removeAll(logs);
+        logs.addAll(getLogs());
+    }
+
     public ObservableList<TourLog> getObservableLogList(){
         return this.logs;
     }
@@ -76,6 +81,8 @@ public class TourLogRepository {
         preparedStatement.setTime(5, l.getTotalTime());
         preparedStatement.setInt(6, l.getRating());
         preparedStatement.executeUpdate();
+
+        updateLogList();
     }
 
     public void editLog(TourLog l) throws SQLException {
@@ -95,6 +102,8 @@ public class TourLogRepository {
         preparedStatement.setInt(6, l.getRating());
         preparedStatement.setInt(7,l.getUid());
         preparedStatement.executeUpdate();
+
+        updateLogList();
     }
 
     public void deleteLog(int uid) throws SQLException {
@@ -102,6 +111,8 @@ public class TourLogRepository {
         PreparedStatement preparedStatement=connection.prepareStatement(sql);
         preparedStatement.setInt(1, uid);
         preparedStatement.executeUpdate();
+
+        updateLogList();
     }
 
 }

@@ -2,6 +2,8 @@ package at.technikum_wien.tourPlanner.viewModel;
 
 import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.ObservableList;
@@ -12,6 +14,8 @@ public class TourLogViewModel {
     private TourService tourService;
     private ObservableList<TourLog> logs;
     private ObservableList<Tour> tours;
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
+
 
     public TourLogViewModel(TourLogService tourLogService, TourService tourService) {
         this.tourLogService = tourLogService;
@@ -34,6 +38,7 @@ public class TourLogViewModel {
     }
 
     public void deleteLog(TourLog log) {
+        logger.info("User tries to delete log from database; LogID: " + log.getUid());
         tourLogService.deleteLog(log);
     }
 }

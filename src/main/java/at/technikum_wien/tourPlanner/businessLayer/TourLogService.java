@@ -2,6 +2,8 @@ package at.technikum_wien.tourPlanner.businessLayer;
 
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourLogRepository;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.ObservableList;
@@ -17,6 +19,8 @@ public class TourLogService {
     private ObservableList<TourLog> logs;
     private ObservableList<Tour> tours;
 
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
+
     public TourLogService(TourRepository tourRepository, TourLogRepository tourLogRepository) {
         this.tourLogRepository = tourLogRepository;
         this.tourRepository = tourRepository;
@@ -29,11 +33,13 @@ public class TourLogService {
             l.setUid(tourLogRepository.getNewestLogId());
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to retrive the newest LogID; " + e.getMessage());
         }
         try {
             tourLogRepository.addLog(l);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to add a new log to the database; Log: "+ l + ";\n" + e.getMessage());
         }
         addLogToTour(l.getTourID(), l);
         logs.add(l);
@@ -108,11 +114,14 @@ public class TourLogService {
             tourLogRepository.editLog(updatedLog);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to edit a log in the database; LogID: "+ updatedLog.getUid() + ";\n" + e.getMessage());
         }
         try {
             updateLogList();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while fetching the updated loglist;\n" + e.getMessage());
+
         }
     }
 
@@ -122,11 +131,14 @@ public class TourLogService {
             deleteLogFromTour(log.getTourID(), log);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to delete a log in the database; LogID: "+ log.getUid() + ";\n" + e.getMessage());
+
         }
         try {
             updateLogList();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while fetching the updated loglist;\n" + e.getMessage());
         }
     }
 
@@ -154,11 +166,16 @@ public class TourLogService {
             tourRepository.updatePopularity(tourId, popularity);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to update the popularity of a tour in the database; TourID: "+ tourId + ";\n" + e.getMessage());
+
+
         }
         try {
             tourRepository.updateChildfriendliness(tourId, childfriendliness);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to update the childfriendliness of a tour in the database; TourID: "+ tourId + ";\n" + e.getMessage());
+
         }
     }
 
@@ -181,6 +198,7 @@ public class TourLogService {
                 tourLogRepository.addLog(log);
             } catch (SQLException e) {
                 e.printStackTrace();
+                logger.error("An error occured while trying to add a new log to the database; Log: "+ log + ";\n" + e.getMessage());
             }
             logs.add(log);
         }

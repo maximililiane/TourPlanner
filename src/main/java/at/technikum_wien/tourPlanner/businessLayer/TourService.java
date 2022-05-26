@@ -66,6 +66,7 @@ public class TourService extends Mapper {
             return tourRepository.getTourNameById(id);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to retrieve a tourname; TourID: "+ id + ";\n" + e.getMessage());
         }
         return null;
     }
@@ -77,6 +78,8 @@ public class TourService extends Mapper {
             tour.setUid(tourRepository.getNextTourId());
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to retrieve the next tourID;\n" + e.getMessage());
+
         }
 
         // the given tour has no map image or childFriendliness value, so it needs one
@@ -96,6 +99,8 @@ public class TourService extends Mapper {
             tours.add(tourWithMapQuestApiInfo);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to add a new tour to the database; tour: "+ tourWithMapQuestApiInfo + ";\n" + e.getMessage());
+
         }
     }
 
@@ -111,6 +116,8 @@ public class TourService extends Mapper {
                 tours.removeIf(t -> t.getUid() == (tour.getUid()));
             } catch (SQLException e) {
                 e.printStackTrace();
+                logger.error("An error occured while trying to remove a tour from the database; tourID: "+ tour.getUid() + ";\n" + e.getMessage());
+
             }
         }
     }
@@ -143,6 +150,8 @@ public class TourService extends Mapper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to edit a tour in the database; tourID: "+ tour.getUid() + ";\n" + e.getMessage());
+
         }
     }
 
@@ -152,6 +161,8 @@ public class TourService extends Mapper {
             PdfGeneration.generateTourReport(tour);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to save a report;\n" + e.getMessage());
+
         }
     }
 
@@ -160,6 +171,7 @@ public class TourService extends Mapper {
             PdfGeneration.generateSummaryReport(tour);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to save a summary-report;\n" + e.getMessage());
         }
     }
 
@@ -187,6 +199,7 @@ public class TourService extends Mapper {
             FileUtils.copyFileToDirectory(sourceImage, destination);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to export a tour; Tour: " + tour + ";\n" + e.getMessage());
         }
     }
 
@@ -223,6 +236,7 @@ public class TourService extends Mapper {
             return tours.stream().filter(t -> t.getName().equals(importedTour.getName())).findFirst().get();
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to import data;\n" + e.getMessage());
         }
 
         return null;
@@ -256,6 +270,7 @@ public class TourService extends Mapper {
             ImageIO.write(mapImage, "jpeg", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to save an image;\n" + e.getMessage());
         }
 
         tour.setDuration(response.getRoute().getFormattedTime());

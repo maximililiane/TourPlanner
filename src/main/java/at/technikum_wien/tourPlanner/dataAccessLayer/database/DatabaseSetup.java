@@ -3,10 +3,14 @@ package at.technikum_wien.tourPlanner.dataAccessLayer.database;
 
 import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.configuration.Configuration;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 
 import java.sql.*;
 
 public class DatabaseSetup {
+
+    private final static LoggerWrapper logger= LoggerFactory.getLogger();
 
     public static void setUp() throws SQLException {
         Configuration conf = Injector.getConfig("app.properties");
@@ -16,6 +20,7 @@ public class DatabaseSetup {
             createLogTable(connection);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occured while trying to setup the database; " + e.getMessage());
         }
         connection.close();
     }

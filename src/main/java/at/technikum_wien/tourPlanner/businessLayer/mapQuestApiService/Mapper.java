@@ -1,5 +1,7 @@
 package at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService;
 
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +10,7 @@ public abstract class Mapper {
     //TODO: potentially rename class
 
     private final ObjectMapper objectMapper;
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
 
     public Mapper() {
         this.objectMapper = new ObjectMapper();
@@ -21,6 +24,7 @@ public abstract class Mapper {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("An error ocurred while trying to convert an object into a json-string; Object: "+ object + ";\n" + e.getMessage());
         }
         return "";
     }
@@ -36,6 +40,8 @@ public abstract class Mapper {
             object = mapper.readValue(json, c);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            logger.error("Json string could not be converted into an object; Json-String: "+ json + ";\n" + e.getMessage());
+
         }
 
         return object;

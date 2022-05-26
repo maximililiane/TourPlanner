@@ -2,6 +2,8 @@ package at.technikum_wien.tourPlanner.viewModel;
 
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
 import at.technikum_wien.tourPlanner.businessLayer.validation.TourInputValidation;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TransportMode;
 import javafx.beans.binding.Bindings;
@@ -14,6 +16,7 @@ import java.util.concurrent.TransferQueue;
 public class EditTourWindowViewModel {
     private final TourService tourService;
     private final TourInputValidation tourInputValidation = new TourInputValidation();
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
 
     private final StringProperty nameString = new SimpleStringProperty("");
     private final StringProperty fromString = new SimpleStringProperty("");
@@ -32,6 +35,7 @@ public class EditTourWindowViewModel {
     }
 
     public void editTour(Tour tour) {
+        logger.info("User tries edit a tour in the database; Tourname: " + tour.getName());
         tourService.editTour(tour);
     }
 

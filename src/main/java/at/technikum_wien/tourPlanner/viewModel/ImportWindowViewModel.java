@@ -2,6 +2,8 @@ package at.technikum_wien.tourPlanner.viewModel;
 
 import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 
 import java.io.File;
@@ -12,6 +14,8 @@ public class ImportWindowViewModel {
 
     private TourService tourService;
     private TourLogService tourLogService;
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
+
 
     public ImportWindowViewModel(TourService tourService, TourLogService tourLogService) {
         this.tourService = tourService;
@@ -41,6 +45,7 @@ public class ImportWindowViewModel {
             if (importedTour.getLogs() != null) {
                 // imported tour has logs to be parsed
                 tourLogService.importLogsByTourId(importedTour.getUid(), importedTour.getLogs());
+                logger.info("User tries to import tour via file; Filepath: " + file.getPath());
             }
         }
     }

@@ -1,5 +1,8 @@
 package at.technikum_wien.tourPlanner.configuration;
 
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -7,11 +10,13 @@ import java.util.Properties;
 public class PropertiesConfiguration implements Configuration {
 
     private Properties appProperties;
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
 
     public PropertiesConfiguration(String fileName) {
         try {
             init(fileName);
         } catch (IOException e) {
+            logger.error("An error occured while initializing the config file;" + e.getMessage());
             throw new RuntimeException();
         }
     }

@@ -3,6 +3,8 @@ package at.technikum_wien.tourPlanner.viewModel;
 import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
 import at.technikum_wien.tourPlanner.businessLayer.validation.TourInputValidation;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.beans.binding.Bindings;
@@ -25,6 +27,7 @@ public class AddLogWindowViewModel {
     private final TourService tourService;
     private final SimpleStringProperty commentField;
     private TourLog oldLog;
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
 
 
     public AddLogWindowViewModel(TourLogService logService, TourService tourService) {
@@ -39,15 +42,15 @@ public class AddLogWindowViewModel {
 
     public void addLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
         TourLog l = createLog(hours,minutes,date,rating,tourName,difficulty);
-        if(l!=null){
-            logService.addTourLog(l);
-        }
+        logger.info("User tries to add log to database; Log: " + l);
+        logService.addTourLog(l);
     }
 
     public void editLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
         TourLog l = createLog(hours, minutes, date, rating, tourName, difficulty);
         if(l!=null){
             l.setUid(oldLog.getUid());
+            logger.info("User tries to edit log in database; LogID: " + l.getUid());
             logService.editTourLog(l);
         }
     }
@@ -55,10 +58,6 @@ public class AddLogWindowViewModel {
     private TourLog createLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty){
         TourLog l = new TourLog();
         int tourId= getTourID(tourName);
-        if(tourId==-1){
-            //TODO: Logging
-            return null;
-        }
         l.setTourID(tourId);
         l.setTotalTime(Time.valueOf(LocalTime.of(hours,minutes)));
         l.setDate(Date.valueOf(date));

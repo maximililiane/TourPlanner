@@ -5,6 +5,8 @@ import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.configuration.Configuration;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.BoundingBox;
 import at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest.RouteResponse;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.TransportMode;
 
 import javax.imageio.ImageIO;
@@ -22,6 +24,8 @@ import java.nio.charset.StandardCharsets;
 public class MapQuestApi extends Mapper {
 
     private final String API_KEY;
+
+    private final LoggerWrapper logger= LoggerFactory.getLogger();
 
     public MapQuestApi() {
         super();
@@ -63,6 +67,8 @@ public class MapQuestApi extends Mapper {
             return routeResponse;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            logger.error("An error occured while retrieving a route;\n" + e.getMessage());
+
         }
         return null;
     }
@@ -104,6 +110,8 @@ public class MapQuestApi extends Mapper {
             return ImageIO.read(new ByteArrayInputStream(byteArray));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            logger.error("An error occured while retrieving a map;\n" + e.getMessage());
+
         }
         return null;
     }

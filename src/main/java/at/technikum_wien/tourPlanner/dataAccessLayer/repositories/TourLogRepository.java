@@ -1,7 +1,6 @@
 package at.technikum_wien.tourPlanner.dataAccessLayer.repositories;
 
 import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableNames;
-import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,10 +23,7 @@ public class TourLogRepository {
         }
     }
 
-    public void updateLogList() throws SQLException {
-        logs.removeAll(logs);
-        logs.addAll(getLogs());
-    }
+
 
     public ObservableList<TourLog> getObservableLogList(){
         return this.logs;
@@ -59,7 +55,7 @@ public class TourLogRepository {
 
     }
 
-    public int getNextLogId() throws SQLException {
+    public int getNewestLogId() throws SQLException {
         int nextId = 0;
         PreparedStatement preparedStatement;
         preparedStatement = connection.prepareStatement("SELECT MAX(uid) FROM " + TABLE_NAME);
@@ -67,7 +63,7 @@ public class TourLogRepository {
         if (resultSet.next()) {
             nextId = resultSet.getInt(1);
         }
-        return nextId;
+        return nextId+1;
     }
 
     public void addLog(TourLog l) throws SQLException {
@@ -82,7 +78,6 @@ public class TourLogRepository {
         preparedStatement.setInt(6, l.getRating());
         preparedStatement.executeUpdate();
 
-        updateLogList();
     }
 
     public void editLog(TourLog l) throws SQLException {
@@ -103,7 +98,6 @@ public class TourLogRepository {
         preparedStatement.setInt(7,l.getUid());
         preparedStatement.executeUpdate();
 
-        updateLogList();
     }
 
     public void deleteLog(int uid) throws SQLException {
@@ -112,7 +106,6 @@ public class TourLogRepository {
         preparedStatement.setInt(1, uid);
         preparedStatement.executeUpdate();
 
-        updateLogList();
     }
 
 }

@@ -4,13 +4,10 @@ import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourLogReposit
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 public class TourLogService {
@@ -29,16 +26,22 @@ public class TourLogService {
 
     public void addTourLog(TourLog l) {
         try {
-            tourLogRepository.addLog(l);
+            l.setUid(tourLogRepository.getNewestLogId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            l.setUid(tourLogRepository.getNextLogId());
+            tourLogRepository.addLog(l);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         addLogToTour(l.getTourID(), l);
+        logs.add(l);
+    }
+
+    public void updateLogList() throws SQLException {
+        logs.removeAll(logs);
+        logs.addAll(tourLogRepository.getLogs());
     }
 
     public void addLogToTour(int tourId, TourLog l){
@@ -103,7 +106,11 @@ public class TourLogService {
     public void editTourLog(TourLog updatedLog) {
         try {
             tourLogRepository.editLog(updatedLog);
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            updateLogList();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,6 +120,11 @@ public class TourLogService {
         try {
             tourLogRepository.deleteLog(log.getUid());
             deleteLogFromTour(log.getTourID(), log);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            updateLogList();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -165,8 +177,11 @@ public class TourLogService {
     public void importLogsByTourId(int id, List<TourLog> importedLogs) {
         for (TourLog log : importedLogs) {
             log.setTourID(id);
-            // TODO: uncomment next line once addLog() has been implemented
-            // tourLogRepository.addLog(log);
+            try {
+                tourLogRepository.addLog(log);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             logs.add(log);
         }
     }
@@ -177,6 +192,10 @@ public class TourLogService {
 
     public ObservableList<Tour> getObservableTourList() {
         return this.tours;
+    }
+
+    public int getTourId(String tourName) {
+        return tours.stream().filter(tour -> tour.getName().equals(tourName)).findAny().get().getUid();
     }
 
 }

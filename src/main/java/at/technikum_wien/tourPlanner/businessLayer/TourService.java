@@ -25,6 +25,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TourService extends Mapper {
 
@@ -312,17 +313,12 @@ public class TourService extends Mapper {
 
     }
 
-    public ObservableList<String> getTourNames() throws SQLException{
-        return tourRepository.getObersavbleNameList();
+    public ObservableList<String> getTourNames() {
+        List<String> namesList = tours.stream()
+                .map(Tour::getName)
+                .collect(Collectors.toList());
+        return FXCollections.observableList(namesList);
     }
 
-    public int getTourIdByName(String tourName) {
-        try {
-            return tourRepository.getTourIdByName(tourName);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
 }
 

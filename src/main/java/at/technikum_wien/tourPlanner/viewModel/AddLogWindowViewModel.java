@@ -69,7 +69,7 @@ public class AddLogWindowViewModel {
     }
 
     public int getTourID(String tourName){
-        return tourService.getTourIdByName(tourName);
+        return logService.getTourId(tourName);
     }
 
     public SimpleStringProperty getCommentField(){
@@ -77,12 +77,7 @@ public class AddLogWindowViewModel {
     }
 
     public ObservableList<String> getTourNames() {
-        try {
-            return tourService.getTourNames();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return tourService.getTourNames();
     }
 
 

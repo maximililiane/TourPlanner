@@ -3,7 +3,6 @@ package at.technikum_wien.tourPlanner.viewModel;
 import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.models.Tour;
-import at.technikum_wien.tourPlanner.proxyUtils.DBProxy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

@@ -4,8 +4,6 @@ import at.technikum_wien.tourPlanner.listViewUtils.CustomContextMenu;
 import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
 import at.technikum_wien.tourPlanner.models.Tour;
-import at.technikum_wien.tourPlanner.proxyUtils.TourProvider;
-import at.technikum_wien.tourPlanner.proxyUtils.TourSubscriber;
 import at.technikum_wien.tourPlanner.viewModel.ListViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -14,8 +12,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.util.LinkedList;
 import java.util.List;
 
 // public class ListViewController implements TourSubscriber {

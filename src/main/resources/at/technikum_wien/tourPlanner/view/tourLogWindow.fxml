@@ -21,8 +21,8 @@
                   <Label layoutX="351.0" layoutY="59.0" prefHeight="17.0" prefWidth="54.0" text="Difficulty:" />
                   <Label layoutX="227.0" layoutY="170.0" text="Comment" />
                   <Label layoutX="51.0" layoutY="91.0" prefHeight="17.0" prefWidth="73.0" text="Time:" />
-                  <Button fx:id="addLogButton" layoutX="471.0" layoutY="261.0" mnemonicParsing="false" onAction="#openAddTourWindow" prefHeight="25.0" prefWidth="94.0" text="add Log" />
-                  <Button fx:id="editLogButton" layoutX="471.0" layoutY="327.0" mnemonicParsing="false" onAction="#openEditTourWindow" prefHeight="25.0" prefWidth="94.0" text="edit Log" />
+                  <Button fx:id="addLogButton" layoutX="471.0" layoutY="261.0" mnemonicParsing="false" onAction="#openAddLogWindow" prefHeight="25.0" prefWidth="94.0" text="add Log" />
+                  <Button fx:id="editLogButton" layoutX="471.0" layoutY="327.0" mnemonicParsing="false" onAction="#openEditLogWindow" prefHeight="25.0" prefWidth="94.0" text="edit Log" />
                   <Button fx:id="deleteLogButton" layoutX="471.0" layoutY="388.0" mnemonicParsing="false" onAction="#deleteLog" prefHeight="25.0" prefWidth="94.0" text="delete Log" />
                   <Label fx:id="tourNameField" layoutX="136.0" layoutY="26.0" prefHeight="17.0" prefWidth="166.0" />
                   <Label fx:id="dateField" layoutX="137.0" layoutY="59.0" prefHeight="17.0" prefWidth="166.0" text=" " />

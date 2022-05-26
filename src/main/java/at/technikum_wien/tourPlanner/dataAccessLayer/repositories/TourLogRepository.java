@@ -59,7 +59,7 @@ public class TourLogRepository {
 
     }
 
-    public int getNextTourId() throws SQLException {
+    public int getNextLogId() throws SQLException {
         int nextId = 0;
         PreparedStatement preparedStatement;
         preparedStatement = connection.prepareStatement("SELECT MAX(uid) FROM " + TABLE_NAME);
@@ -67,7 +67,7 @@ public class TourLogRepository {
         if (resultSet.next()) {
             nextId = resultSet.getInt(1);
         }
-        return nextId + 1;
+        return nextId;
     }
 
     public void addLog(TourLog l) throws SQLException {

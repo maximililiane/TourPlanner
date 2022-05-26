@@ -144,6 +144,23 @@ public class TourRepository {
         return l;
     }
 
+    public void updatePopularity(int tourId, int popularity) throws SQLException {
+        String sql = "UPDATE " + TABLE_NAME + " SET popularity = ? " +
+                "WHERE uid = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, popularity);
+        preparedStatement.setInt(2, tourId);
+        preparedStatement.executeUpdate();
+    }
+    public void updateChildfriendliness(int tourId, int childFriendliness) throws SQLException {
+        String sql = "UPDATE " + TABLE_NAME + " SET childfriendliness = ? " +
+                "WHERE uid = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, childFriendliness);
+        preparedStatement.setInt(2, tourId);
+        preparedStatement.executeUpdate();
+    }
+
     public int getTourIdByName(String tourName) throws SQLException {
         PreparedStatement preparedStatement;
         preparedStatement= connection.prepareStatement("select uid from tours where tourname = ?");

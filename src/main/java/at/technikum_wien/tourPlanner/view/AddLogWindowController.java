@@ -59,9 +59,6 @@ public class AddLogWindowController {
         hoursSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23,12));
         minutesSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59,30));
         difficultySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,50));
-        hoursSpinner.setEditable(true);
-        minutesSpinner.setEditable(true);
-        difficultySpinner.setEditable(true);
     }
 
     public void prepareView(){

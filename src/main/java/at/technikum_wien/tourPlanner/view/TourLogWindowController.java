@@ -143,7 +143,7 @@ public class TourLogWindowController {
         unHideButtons(false);
     }
 
-    public void openAddTourWindow() {
+    public void openAddLogWindow() {
         try {
             Parent root = FXMLDependencyInjection.load("addLogWindow.fxml", Locale.ENGLISH);
             Scene scene = new Scene(root);
@@ -159,7 +159,7 @@ public class TourLogWindowController {
         }
     }
 
-    public void openEditTourWindow() {
+    public void openEditLogWindow() {
 
         try {
             FXMLLoader loader = FXMLDependencyInjection.getLoader("addLogWindow.fxml", Locale.ENGLISH);

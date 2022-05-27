@@ -1,10 +1,11 @@
 package at.technikum_wien.tourPlanner.view;
 
+import at.technikum_wien.tourPlanner.LogViewUtils.LogViewRow;
 import at.technikum_wien.tourPlanner.listViewUtils.CustomContextMenu;
-import at.technikum_wien.tourPlanner.models.ListViewTour;
 import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
 import at.technikum_wien.tourPlanner.models.Tour;
-import at.technikum_wien.tourPlanner.viewModel.ListViewModel;
+import at.technikum_wien.tourPlanner.models.TourLog;
+import at.technikum_wien.tourPlanner.viewModel.ListViewViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,29 +18,32 @@ import java.util.List;
 // public class ListViewController implements TourSubscriber {
 
 public class ListViewController {
-    private ObservableList<Tour> tours;
+    private ObservableList<TourLog> logs;
     @FXML
     public TableView tourTable;
     @FXML
     public TableColumn uidColumn;
     @FXML
-    public TableColumn nameColumn;
+    public TableColumn tourNameColumn;
     @FXML
-    public TableColumn fromColumn;
+    public TableColumn difficultyColumn;
     @FXML
-    public TableColumn toColumn;
+    public TableColumn ratingColumn;
     @FXML
-    public TableColumn durationColumn;
+    public TableColumn totalTimeColumn;
+    @FXML
+    public TableColumn dateColumn;
+    @FXML
 
-    private final ListViewModel listViewModel;
+    private final ListViewViewModel listViewViewModel;
 
-    public ListViewController(ListViewModel listViewModel) {
-        this.listViewModel = listViewModel;
-        this.tours = listViewModel.getList();
-        this.tours.addListener(new ListChangeListener<Tour>() {
+    public ListViewController(ListViewViewModel listViewViewModel) {
+        this.listViewViewModel = listViewViewModel;
+        this.logs = listViewViewModel.getList();
+        this.logs.addListener(new ListChangeListener<TourLog>() {
             @Override
-            public void onChanged(Change<? extends Tour> change) {
-                setListToTable(tours);
+            public void onChanged(Change<? extends TourLog> change) {
+                setListToTable(logs);
             }
         });
         // listViewModel.subscribeToTours(this);
@@ -48,35 +52,19 @@ public class ListViewController {
     @FXML
     public void initialize() {
         initializeTable();
-        setListToTable(listViewModel.getList());
+        setListToTable(listViewViewModel.getList());
     }
 
     public void initializeTable() {
         associateColumns();
         tourTable.setRowFactory(tv -> {
-            TableRow<ListViewRow> row = new TableRow<>();
+            TableRow<LogViewRow> row = new TableRow<>();
             CustomContextMenu cm = new CustomContextMenu();
-            cm.getDetailsMenuItem().setOnAction(new EventHandler<ActionEvent>() {
+            cm.getShowLogDetailsItem().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     if(row.getItem()!=null) {
-                        detailsButtonPressed(row.getItem().getUid());
-                    }
-                }
-            });
-            cm.getLogsMenuItem().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    if(row.getItem()!=null) {
-                        logsButtonPressed(row.getItem().getUid());
-                    }
-                }
-            });
-            cm.getEditMenuItem().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    if(row.getItem()!=null) {
-                        editTourButtonPressed(row.getItem().getUid());
+                        showLogButtonPressed(row.getItem().getUid());
                     }
                 }
             });
@@ -86,59 +74,34 @@ public class ListViewController {
     }
 
     public void associateColumns() {
-
         uidColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("uid"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("name"));
-        fromColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("startingPoint"));
-        toColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("destination"));
-        durationColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("estimatedTime"));
+        tourNameColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("tourName"));
+        difficultyColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("difficulty"));
+        ratingColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("rating"));
+        totalTimeColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("totalTime"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("date"));
     }
 
-    private void addListToTable(List<Tour> list) {
-        for (Tour t : list) {
-            addTourToTable(t.getListViewTour());
+    private void addListToTable(List<TourLog> list) {
+        for (TourLog t : list) {
+            addLogToTable(t);
         }
     }
 
-    private void addTourToTable(ListViewTour t) {
-        ListViewRow dataRow = new ListViewRow(t);
-        tourTable.getItems().add(dataRow);
+    private void addLogToTable(TourLog t) {
+        LogViewRow row= new LogViewRow(t, listViewViewModel.getTourNameById(t.getTourID()));
+        tourTable.getItems().add(row);
     }
 
-    private void setListToTable(ObservableList<Tour> list) {
+    private void setListToTable(ObservableList<TourLog> list) {
         tourTable.getItems().removeAll(tourTable.getItems());
-        for (Tour t : list) {
-            addTourToTable(t.getListViewTour());
+        for (TourLog t : list) {
+            addLogToTable(t);
         }
 
     }
 
-    private void detailsButtonPressed(String uid) {
-        System.out.println("pressed details button: " + uid);
-        //TODO: show details
+    private void showLogButtonPressed(int uid) {
     }
 
-    private void logsButtonPressed(String uid) {
-        System.out.println("pressed logs button: " + uid);
-        //TODO: show logs
-
-    }
-
-    private void editTourButtonPressed(String uid) {
-        System.out.println("pressed edit button: " + uid);
-        //TODO: edit Tour
-    }
-
-//    @Override
-//    public void notify(LinkedList<Tour> l) {
-//        setListToTable(l);
-//    }
-
-    /*
-    @Override
-    public void notify(ObservableList<Tour> l) {
-        setListToTable(l);
-    }
-
-     */
 }

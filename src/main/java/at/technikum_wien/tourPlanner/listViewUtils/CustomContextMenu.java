@@ -5,14 +5,12 @@ import javafx.scene.control.MenuItem;
 
 public class CustomContextMenu {
     ContextMenu cm;
-    MenuItem detailsMenuItem, logsMenuItem, editMenuItem;
+    MenuItem showLogDetailsItem;
 
     public CustomContextMenu() {
         cm= new ContextMenu();
-        detailsMenuItem = new MenuItem("details");
-        logsMenuItem = new MenuItem("logs");
-        editMenuItem = new MenuItem("edit");
-        cm.getItems().addAll(detailsMenuItem, logsMenuItem, editMenuItem);
+        showLogDetailsItem = new MenuItem("show Log details");
+        cm.getItems().addAll(showLogDetailsItem);
     }
 
     public ContextMenu getCm() {
@@ -23,27 +21,11 @@ public class CustomContextMenu {
         this.cm = cm;
     }
 
-    public MenuItem getDetailsMenuItem() {
-        return detailsMenuItem;
+    public MenuItem getShowLogDetailsItem() {
+        return showLogDetailsItem;
     }
 
-    public void setDetailsMenuItem(MenuItem detailsMenuItem) {
-        this.detailsMenuItem = detailsMenuItem;
-    }
-
-    public MenuItem getLogsMenuItem() {
-        return logsMenuItem;
-    }
-
-    public void setLogsMenuItem(MenuItem logsMenuItem) {
-        this.logsMenuItem = logsMenuItem;
-    }
-
-    public MenuItem getEditMenuItem() {
-        return editMenuItem;
-    }
-
-    public void setEditMenuItem(MenuItem editMenuItem) {
-        this.editMenuItem = editMenuItem;
+    public void setShowLogDetailsItem(MenuItem showLogDetailsItem) {
+        this.showLogDetailsItem = showLogDetailsItem;
     }
 }

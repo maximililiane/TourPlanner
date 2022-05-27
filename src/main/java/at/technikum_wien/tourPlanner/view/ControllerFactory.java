@@ -13,7 +13,7 @@ public class ControllerFactory {
     private final MainWindowViewModel mainWindowViewModel;
     private final SearchBarViewModel searchBarViewModel;
     private final DescriptionViewModel descriptionViewModel;
-    private final ListViewModel listViewModel;
+    private final ListViewViewModel listViewViewModel;
     private final TourLogViewModel tourLogViewModel;
     private final AddTourWindowViewModel addTourWindowViewModel;
     private final EditTourWindowViewModel editTourWindowViewModel;
@@ -30,8 +30,8 @@ public class ControllerFactory {
         TourLogService tourLogService = new TourLogService(tourRepository, tourLogRepository);
         this.searchBarViewModel = new SearchBarViewModel();
         this.mainWindowViewModel = new MainWindowViewModel();
-        this.descriptionViewModel = new DescriptionViewModel(tourService);
-        this.listViewModel = new ListViewModel(tourService);
+        this.descriptionViewModel = new DescriptionViewModel(tourService, tourLogService);
+        this.listViewViewModel = new ListViewViewModel(tourLogService, tourService);
         this.tourLogViewModel = new TourLogViewModel(tourLogService, tourService);
         this.addTourWindowViewModel = new AddTourWindowViewModel(tourService);
         this.editTourWindowViewModel = new EditTourWindowViewModel(tourService);
@@ -63,7 +63,7 @@ public class ControllerFactory {
         } else if (controllerClass == DescriptionWindowController.class) {
             return new DescriptionWindowController(descriptionViewModel);
         } else if (controllerClass == ListViewController.class) {
-            return new ListViewController(listViewModel);
+            return new ListViewController(listViewViewModel);
         } else if (controllerClass == TourLogWindowController.class) {
             return new TourLogWindowController(tourLogViewModel);
         } else if (controllerClass == AddTourWindowController.class) {

@@ -6,6 +6,7 @@ import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Locale;
 
 public class TourLogWindowController {
@@ -176,6 +178,10 @@ public class TourLogWindowController {
             controller.commentArea.setText(selectedRow.getComment());
             controller.datePicker.setValue(selectedRow.getDate().toLocalDate());
             controller.ratingPicker.setValue(selectedRow.getRating());
+
+            LinkedList<String> nameChoices= new LinkedList<String>();
+            nameChoices.add(selectedRow.getTourName());
+            controller.tourNamePicker.setItems(FXCollections.observableList(nameChoices));
             controller.tourNamePicker.setValue(selectedRow.getTourName());
             controller.setOldLog(selectedRow.getLog());
 

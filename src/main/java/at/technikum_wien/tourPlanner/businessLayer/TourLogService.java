@@ -75,16 +75,14 @@ public class TourLogService {
         logs.addAll(tourLogRepository.getLogs());
     }
 
-    public void addLogToTour(int tourId, TourLog l) {
-        for (Tour t : tours) {
-            if (t.getUid() == tourId) {
-                t.insertLog(l);
-                t.setPopularity();
-                t.setChildFriendly(calculateChildFriendliness(t.getLength(), t.getLogs()));
-                updateTour(tourId, t.getPopularity(), t.getChildFriendly());
-                return;
-            }
-        }
+    public void addLogToTour(int tourId, TourLog log) {
+        Tour tour = tours.stream().filter(t -> t.getUid() == tourId).findAny().get();
+        int index = tours.indexOf(tour);
+        tour.insertLog(log);
+        tour.setPopularity();
+        tour.setChildFriendly(calculateChildFriendliness(tour.getLength(), tour.getLogs()));
+        updateTour(tourId, tour.getPopularity(), tour.getChildFriendly());
+        tours.set(index, tour);
     }
 
     private int calculateChildFriendliness(double tourDistance, List<TourLog> tourLogs) {

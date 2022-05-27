@@ -122,7 +122,7 @@ public class Tour {
     }
 
     public int getPopularity() {
-        return logs.size();
+        return this.popularity;
     }
 
     public void setPopularity() {

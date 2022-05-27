@@ -18,8 +18,8 @@ public class DatabaseSetup {
         try {
             createTourTable(connection, TableName.REGULAR_TOUR_TABLE_NAME.getName());
             createTourTable(connection, TableName.DEMO_TOUR_TABLE_NAME.getName());
-            createLogTable(connection, TableName.REGULAR_TOUR_LOG_TABLE_NAME.getName());
-            createLogTable(connection, TableName.DEMO_TOUR_LOG_TABLE_NAME.getName());
+            createLogTable(connection, TableName.REGULAR_TOUR_LOG_TABLE_NAME.getName(), TableName.REGULAR_TOUR_TABLE_NAME.getName());
+            createLogTable(connection, TableName.DEMO_TOUR_LOG_TABLE_NAME.getName(), TableName.DEMO_TOUR_TABLE_NAME.getName());
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occured while trying to setup the database; " + e.getMessage());
@@ -47,9 +47,9 @@ public class DatabaseSetup {
         statement.close();
     }
 
-    private static void createLogTable(Connection connection, String tableName) throws SQLException {
+    private static void createLogTable(Connection connection, String logTableName, String tourTableName) throws SQLException {
         Statement statement = connection.createStatement();
-        String createSql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" +
+        String createSql = "CREATE TABLE IF NOT EXISTS " + logTableName + "(" +
                 "uid SERIAL NOT NULL, " +
                 "tourId INTEGER NOT NULL, " +
                 "date DATE NOT NULL, " +

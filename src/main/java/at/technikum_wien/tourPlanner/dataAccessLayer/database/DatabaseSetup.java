@@ -16,8 +16,10 @@ public class DatabaseSetup {
         Configuration conf = Injector.getConfig("app.properties");
         Connection connection = DriverManager.getConnection(conf.get("db.dbLink"), conf.get("db.user"), conf.get("db.password"));
         try {
-            createTourTable(connection);
-            createLogTable(connection);
+            createTourTable(connection, TableName.REGULAR_TOUR_TABLE_NAME.getName());
+            createTourTable(connection, TableName.DEMO_TOUR_TABLE_NAME.getName());
+            createLogTable(connection, TableName.REGULAR_TOUR_LOG_TABLE_NAME.getName());
+            createLogTable(connection, TableName.DEMO_TOUR_LOG_TABLE_NAME.getName());
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occured while trying to setup the database; " + e.getMessage());
@@ -25,9 +27,9 @@ public class DatabaseSetup {
         connection.close();
     }
 
-    private static void createTourTable(Connection connection) throws SQLException {
+    private static void createTourTable(Connection connection, String tableName) throws SQLException {
         Statement statement = connection.createStatement();
-        String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getTourTableName() + "( " +
+        String createSql = "CREATE TABLE IF NOT EXISTS " + tableName + "( " +
                 "uid SERIAL NOT NULL, " +
                 "tourName VARCHAR(16) NOT NULL, " +
                 "description TEXT NOT NULL, " +
@@ -45,9 +47,9 @@ public class DatabaseSetup {
         statement.close();
     }
 
-    private static void createLogTable(Connection connection) throws SQLException {
+    private static void createLogTable(Connection connection, String tableName) throws SQLException {
         Statement statement = connection.createStatement();
-        String createSql = "CREATE TABLE IF NOT EXISTS " + TableNames.getLogTableName() + "(" +
+        String createSql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" +
                 "uid SERIAL NOT NULL, " +
                 "tourId INTEGER NOT NULL, " +
                 "date DATE NOT NULL, " +

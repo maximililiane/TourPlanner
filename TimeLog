@@ -23,5 +23,6 @@ Maximiliane:
 3.5 implement tour input validation (add tour window & import window)
 1h implement tour input validation (edit tour window) & hide labels in description view when no tour is selected
 0.5h fix unknown error api bug, encode URI for api requests
+2.5h implement unique feature - without concrete test data
 
 Julian:

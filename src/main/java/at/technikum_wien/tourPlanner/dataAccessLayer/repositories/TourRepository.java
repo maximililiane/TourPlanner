@@ -1,7 +1,8 @@
 package at.technikum_wien.tourPlanner.dataAccessLayer.repositories;
 
-import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableNames;
+import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableName;
 import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.models.TransportMode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,12 +15,17 @@ import java.util.LinkedList;
 
 public class TourRepository {
 
-    private final String TABLE_NAME = TableNames.getTourTableName();
+    private String TABLE_NAME;
     private Connection connection;
     private ObservableList<Tour> tours;
 
     public TourRepository(Connection connection) {
         this.connection = connection;
+        this.tours = FXCollections.observableList(new LinkedList<Tour>());
+    }
+
+    public void setTableName(TableName tableName) {
+        this.TABLE_NAME = tableName.getName();
         try {
             this.tours = FXCollections.observableList(getTours());
         } catch (SQLException e) {
@@ -29,9 +35,6 @@ public class TourRepository {
 
     public ObservableList<Tour> getObservableTourList() {
         return this.tours;
-    }
-    public ObservableList<String> getObersavbleNameList() throws SQLException {
-        return FXCollections.observableList(getTourNames());
     }
 
     public LinkedList<Tour> getTours() throws SQLException {
@@ -58,7 +61,7 @@ public class TourRepository {
             destination = resultSet.getString(5);
             distance = resultSet.getDouble(6);
             duration = resultSet.getString(7);
-            transportType = TransportMode.valueOf(resultSet.getString(8)); // TODO: change enum handling?
+            transportType = TransportMode.valueOf(resultSet.getString(8));
             mapImage = resultSet.getString(9);
             childFriendliness = resultSet.getInt(10);
             popularity = resultSet.getInt(11);
@@ -123,25 +126,14 @@ public class TourRepository {
         return nextId + 1;
     }
 
-    public String getTourNameById(int id) throws SQLException{
+    public String getTourNameById(int id) throws SQLException {
         PreparedStatement preparedStatement;
-        preparedStatement= connection.prepareStatement("SELECT tourname FROM " + TABLE_NAME + " WHERE uid = " + id);
-        ResultSet rs=preparedStatement.executeQuery();
-        if(rs.next()){
+        preparedStatement = connection.prepareStatement("SELECT tourname FROM " + TABLE_NAME + " WHERE uid = " + id);
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
             return rs.getString(1);
         }
         return null;
-    }
-
-    public LinkedList<String> getTourNames() throws SQLException {
-        LinkedList<String> l= new LinkedList<>();
-        PreparedStatement preparedStatement;
-        preparedStatement= connection.prepareStatement("SELECT DISTINCT tourname FROM " + TABLE_NAME);
-        ResultSet rs=preparedStatement.executeQuery();
-        while (rs.next()){
-            l.add(rs.getString(1));
-        }
-        return l;
     }
 
     public void updatePopularity(int tourId, int popularity) throws SQLException {
@@ -152,7 +144,8 @@ public class TourRepository {
         preparedStatement.setInt(2, tourId);
         preparedStatement.executeUpdate();
     }
-    public void updateChildfriendliness(int tourId, int childFriendliness) throws SQLException {
+
+    public void updateChildFriendliness(int tourId, int childFriendliness) throws SQLException {
         String sql = "UPDATE " + TABLE_NAME + " SET childfriendliness = ? " +
                 "WHERE uid = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -161,14 +154,10 @@ public class TourRepository {
         preparedStatement.executeUpdate();
     }
 
-    public int getTourIdByName(String tourName) throws SQLException {
-        PreparedStatement preparedStatement;
-        preparedStatement= connection.prepareStatement("select uid from tours where tourname = ?");
-        preparedStatement.setString(1, tourName);
-        ResultSet rs=preparedStatement.executeQuery();
-        rs.next();
-        return rs.getInt(1);
+    public void deleteAllTours() throws SQLException {
+        String sql = "DELETE FROM " + TABLE_NAME;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.executeUpdate();
     }
 
-    //TODO: implement editTourChildFriendlinessAndPopularityById(int id, int childFriendliness, int popularity) -> this is called when adding a new log to a tour
 }

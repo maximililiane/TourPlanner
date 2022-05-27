@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="200.0" prefWidth="300.0"
+            xmlns="http://javafx.com/javafx/11.0.2"
+            fx:controller="at.technikum_wien.tourPlanner.view.StartWindowController">
+    <children>
+        <Button fx:id="startRegularTourPlannerButton" layoutX="59.0" layoutY="52.0" mnemonicParsing="false"
+                onAction="#startRegularTourPlanner" text="Start Regular Tour Planner">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Button>
+        <Button fx:id="startDemoTourPlannerButton" layoutX="59.0" layoutY="100.0" mnemonicParsing="false"
+                onAction="#startDemoTourPlanner" prefHeight="30.0" prefWidth="182.0" text="Start Demo Tour Planner"
+                textAlignment="CENTER">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

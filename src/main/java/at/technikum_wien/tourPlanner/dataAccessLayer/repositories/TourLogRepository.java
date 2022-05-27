@@ -1,31 +1,36 @@
 package at.technikum_wien.tourPlanner.dataAccessLayer.repositories;
 
-import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableNames;
+import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableName;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class TourLogRepository {
 
     private Connection connection;
-    private final String TABLE_NAME = TableNames.getLogTableName();
+    private String TABLE_NAME;
     private ObservableList<TourLog> logs;
 
     public TourLogRepository(Connection connection) {
         this.connection = connection;
+        this.logs = FXCollections.observableList(new LinkedList<TourLog>());
+    }
+
+    public void setTableName(TableName tableName) {
+        this.TABLE_NAME = tableName.getName();
         try {
-            this.logs= FXCollections.observableList(getLogs());
+            this.logs = FXCollections.observableList(getLogs());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
-
-    public ObservableList<TourLog> getObservableLogList(){
+    public ObservableList<TourLog> getObservableLogList() {
         return this.logs;
     }
 
@@ -63,7 +68,7 @@ public class TourLogRepository {
         if (resultSet.next()) {
             nextId = resultSet.getInt(1);
         }
-        return nextId+1;
+        return nextId + 1;
     }
 
     public void addLog(TourLog l) throws SQLException {
@@ -95,17 +100,22 @@ public class TourLogRepository {
         preparedStatement.setInt(4, l.getDifficulty());
         preparedStatement.setTime(5, l.getTotalTime());
         preparedStatement.setInt(6, l.getRating());
-        preparedStatement.setInt(7,l.getUid());
+        preparedStatement.setInt(7, l.getUid());
         preparedStatement.executeUpdate();
 
     }
 
     public void deleteLog(int uid) throws SQLException {
         String sql = "DELETE FROM " + TABLE_NAME + " WHERE uid= ?";
-        PreparedStatement preparedStatement=connection.prepareStatement(sql);
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, uid);
         preparedStatement.executeUpdate();
+    }
 
+    public void deleteAllLogs() throws SQLException {
+        String sql = "DELETE FROM " + TABLE_NAME;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.executeUpdate();
     }
 
 }

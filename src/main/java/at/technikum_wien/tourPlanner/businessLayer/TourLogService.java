@@ -8,6 +8,7 @@ import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.ObservableList;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.sql.SQLException;
 import java.util.stream.Collectors;

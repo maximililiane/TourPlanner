@@ -1,6 +1,7 @@
 package at.technikum_wien.tourPlanner.dataAccessLayer.repositories;
 
 import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableName;
+import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +24,7 @@ public class TourLogRepository {
     public void setTableName(TableName tableName) {
         this.TABLE_NAME = tableName.getName();
         try {
-            this.logs = FXCollections.observableList(getLogs());
+            logs.addAll(getLogs());
         } catch (SQLException e) {
             e.printStackTrace();
         }

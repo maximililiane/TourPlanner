@@ -27,39 +27,39 @@ public class AddLogWindowViewModel {
     private final TourService tourService;
     private final SimpleStringProperty commentField;
     private TourLog oldLog;
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
 
     public AddLogWindowViewModel(TourLogService logService, TourService tourService) {
         this.logService = logService;
         this.tourService = tourService;
-        commentField= new SimpleStringProperty();
+        commentField = new SimpleStringProperty();
     }
 
-    public void setOldLog(TourLog l){
-        this.oldLog=l;
+    public void setOldLog(TourLog l) {
+        this.oldLog = l;
     }
 
     public void addLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
-        TourLog l = createLog(hours,minutes,date,rating,tourName,difficulty);
+        TourLog l = createLog(hours, minutes, date, rating, tourName, difficulty);
         logger.info("User tries to add log to database; Log: " + l);
         logService.addTourLog(l);
     }
 
     public void editLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
         TourLog l = createLog(hours, minutes, date, rating, tourName, difficulty);
-        if(l!=null){
+        if (l != null) {
             l.setUid(oldLog.getUid());
             logger.info("User tries to edit log in database; LogID: " + l.getUid());
             logService.editTourLog(l);
         }
     }
 
-    private TourLog createLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty){
+    private TourLog createLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
         TourLog l = new TourLog();
-        int tourId= getTourID(tourName);
+        int tourId = getTourID(tourName);
         l.setTourID(tourId);
-        l.setTotalTime(Time.valueOf(LocalTime.of(hours,minutes)));
+        l.setTotalTime(Time.valueOf(LocalTime.of(hours, minutes)));
         l.setDate(Date.valueOf(date));
         l.setRating(rating);
         l.setDifficulty(difficulty);
@@ -67,18 +67,17 @@ public class AddLogWindowViewModel {
         return l;
     }
 
-    public int getTourID(String tourName){
+    public int getTourID(String tourName) {
         return logService.getTourId(tourName);
     }
 
-    public SimpleStringProperty getCommentField(){
+    public SimpleStringProperty getCommentField() {
         return commentField;
     }
 
     public ObservableList<String> getTourNames() {
         return tourService.getTourNames();
     }
-
 
 
 }

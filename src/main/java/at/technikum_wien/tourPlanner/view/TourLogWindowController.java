@@ -66,14 +66,14 @@ public class TourLogWindowController {
         tourLogViewModel.getList().addListener(new ListChangeListener<TourLog>() {
             @Override
             public void onChanged(Change<? extends TourLog> change) {
-                ObservableList<TourLog> newList= tourLogViewModel.getList();
+                ObservableList<TourLog> newList = tourLogViewModel.getList();
                 setListToTable(newList);
-                if(selectedRow==null){
+                if (selectedRow == null) {
                     return;
                 }
-                for(TourLog l : newList){
-                    if(l.getUid()==selectedRow.getUid()){
-                        selectedRow=new LogViewRow(l, tourLogViewModel.getTourNameById(l.getTourID()));
+                for (TourLog l : newList) {
+                    if (l.getUid() == selectedRow.getUid()) {
+                        selectedRow = new LogViewRow(l, tourLogViewModel.getTourNameById(l.getTourID()));
                         setValuesToFields(selectedRow);
                         return;
                     }
@@ -83,7 +83,7 @@ public class TourLogWindowController {
         unHideButtons(false);
     }
 
-    public void unHideButtons(boolean unHideButtons){
+    public void unHideButtons(boolean unHideButtons) {
         editLogButton.setVisible(unHideButtons);
         deleteLogButton.setVisible(unHideButtons);
 
@@ -94,10 +94,10 @@ public class TourLogWindowController {
         logTable.setRowFactory(tv -> {
             TableRow<LogViewRow> row = new TableRow<>();
             row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                if(row.getItem()!=null) {
+                if (row.getItem() != null) {
                     setValuesToFields(row.getItem());
                     unHideButtons(true);
-                    selectedRow=row.getItem();
+                    selectedRow = row.getItem();
                 }
             });
             return row;
@@ -125,7 +125,7 @@ public class TourLogWindowController {
 
     }
 
-    private void setValuesToFields(LogViewRow r){
+    private void setValuesToFields(LogViewRow r) {
         commentField.setText(r.getComment());
         difficultyField.setText(Integer.toString(r.getDifficulty()));
         tourNameField.setText(r.getTourName());
@@ -133,7 +133,8 @@ public class TourLogWindowController {
         timeField.setText(r.getTotalTime().toString());
         ratingField.setText(Integer.toString(r.getRating()));
     }
-    private void removeValuesFromFields(){
+
+    private void removeValuesFromFields() {
         commentField.setText("");
         difficultyField.setText("");
         tourNameField.setText("");
@@ -165,13 +166,13 @@ public class TourLogWindowController {
             FXMLLoader loader = FXMLDependencyInjection.getLoader("addLogWindow.fxml", Locale.ENGLISH);
             Parent root = loader.load();
             AddLogWindowController controller = loader.getController();
-            int hours= selectedRow.getTotalTime().toLocalTime().getHour();
-            int minutes= selectedRow.getTotalTime().toLocalTime().getMinute();
+            int hours = selectedRow.getTotalTime().toLocalTime().getHour();
+            int minutes = selectedRow.getTotalTime().toLocalTime().getMinute();
 
             controller.titleLabel.setText("Edit Log");
-            controller.hoursSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23,hours));
-            controller.minutesSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59,minutes));
-            controller.difficultySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,selectedRow.getDifficulty()));
+            controller.hoursSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, hours));
+            controller.minutesSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, minutes));
+            controller.difficultySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, selectedRow.getDifficulty()));
             controller.commentArea.setText(selectedRow.getComment());
             controller.datePicker.setValue(selectedRow.getDate().toLocalDate());
             controller.ratingPicker.setValue(selectedRow.getRating());
@@ -198,9 +199,9 @@ public class TourLogWindowController {
         }
     }
 
-    public void deleteLog(){
+    public void deleteLog() {
         tourLogViewModel.deleteLog(selectedRow.getLog());
-        selectedRow=null;
+        selectedRow = null;
         removeValuesFromFields();
     }
 }

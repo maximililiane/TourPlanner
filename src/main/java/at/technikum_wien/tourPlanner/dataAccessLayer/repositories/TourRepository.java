@@ -27,7 +27,7 @@ public class TourRepository {
     public void setTableName(TableName tableName) {
         this.TABLE_NAME = tableName.getName();
         try {
-            this.tours = FXCollections.observableList(getTours());
+            this.tours.addAll(getTours());
         } catch (SQLException e) {
             e.printStackTrace();
         }

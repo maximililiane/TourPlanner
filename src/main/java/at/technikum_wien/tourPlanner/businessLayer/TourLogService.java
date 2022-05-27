@@ -31,11 +31,12 @@ public class TourLogService {
 
     public void setTourLogTableName(TableName tableName) {
         tourLogRepository.setTableName(tableName);
+        this.logs = tourLogRepository.getObservableLogList();
     }
 
     public void deleteAllLogs() {
         try {
-            tourRepository.deleteAllTours();
+            tourLogRepository.deleteAllLogs();
             logs.removeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,7 +136,6 @@ public class TourLogService {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while fetching the updated loglist;\n" + e.getMessage());
-
         }
     }
 
@@ -174,7 +174,7 @@ public class TourLogService {
         }
     }
 
-    public void updateTour(int tourId, int popularity, int childfriendliness) {
+    public void updateTour(int tourId, int popularity, int childFriendliness) {
         try {
             tourRepository.updatePopularity(tourId, popularity);
         } catch (SQLException e) {
@@ -184,10 +184,10 @@ public class TourLogService {
 
         }
         try {
-            tourRepository.updateChildFriendliness(tourId, childfriendliness);
+            tourRepository.updateChildFriendliness(tourId, childFriendliness);
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("An error occurred while trying to update the childfriendliness of a tour in the database; TourID: " + tourId + ";\n" + e.getMessage());
+            logger.error("An error occurred while trying to update the child friendliness of a tour in the database; TourID: " + tourId + ";\n" + e.getMessage());
 
         }
     }

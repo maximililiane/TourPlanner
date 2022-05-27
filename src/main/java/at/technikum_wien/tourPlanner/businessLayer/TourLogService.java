@@ -7,8 +7,10 @@ import at.technikum_wien.tourPlanner.logging.LoggerFactory;
 import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
@@ -27,11 +29,19 @@ public class TourLogService {
         this.tourRepository = tourRepository;
         this.logs = getLogs();
         this.tours = getTours();
+        this.tours.addListener(new ListChangeListener<Tour>() {
+            @Override
+            public void onChanged(Change<? extends Tour> change) {
+                resetLogsInTours();
+                assignLogsToTours();
+            }
+        });
     }
 
     public void setTourLogTableName(TableName tableName) {
         tourLogRepository.setTableName(tableName);
         this.logs = tourLogRepository.getObservableLogList();
+        assignLogsToTours();
     }
 
     public void deleteAllLogs() {
@@ -181,14 +191,12 @@ public class TourLogService {
             e.printStackTrace();
             logger.error("An error occurred while trying to update the popularity of a tour in the database; TourID: " + tourId + ";\n" + e.getMessage());
 
-
         }
         try {
             tourRepository.updateChildFriendliness(tourId, childFriendliness);
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to update the child friendliness of a tour in the database; TourID: " + tourId + ";\n" + e.getMessage());
-
         }
     }
 
@@ -227,6 +235,20 @@ public class TourLogService {
 
     public int getTourId(String tourName) {
         return tours.stream().filter(tour -> tour.getName().equals(tourName)).findAny().get().getUid();
+    }
+
+    private void assignLogsToTours() {
+        for (TourLog log : logs) {
+            for (Tour tour : tours) {
+                if (tour.getUid() == log.getTourID()) {
+                    tour.insertLog(log);
+                }
+            }
+        }
+    }
+
+    private void resetLogsInTours() {
+        tours.forEach(tour -> tour.setLogs(new LinkedList<>()));
     }
 
 }

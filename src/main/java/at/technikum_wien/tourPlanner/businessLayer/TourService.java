@@ -42,20 +42,6 @@ public class TourService extends Mapper {
         this.routeValidation = new RouteValidation();
         this.tourInputValidation = new TourInputValidation();
         this.tours = getTours();
-        this.tours.addListener(new ListChangeListener<Tour>() {
-            @Override
-            public void onChanged(Change<? extends Tour> change) {
-                while (change.next()) {
-                    // a tour in the list has been updated
-                    if (change.wasReplaced()) {
-                        for (Tour tour : tours) {
-                            tour.setPopularity();
-                            tour.setChildFriendly(calculateChildFriendliness(tour.getLength(), tour.getLogs()));
-                        }
-                    }
-                }
-            }
-        });
     }
 
     public void setTourTableName(TableName tableName) {
@@ -101,9 +87,7 @@ public class TourService extends Mapper {
             logger.error("Unable to add tour with invalid information. Please try again.");
             return;
         }
-
-        tourWithMapQuestApiInfo.setChildFriendly(calculateChildFriendliness(
-                tourWithMapQuestApiInfo.getLength(), tour.getLogs()));
+        tourWithMapQuestApiInfo.setChildFriendly(0);
         tourWithMapQuestApiInfo.setPopularity();
 
         try {
@@ -140,23 +124,20 @@ public class TourService extends Mapper {
         int index = tours.indexOf(oldTour);
 
         try {
+            oldTour.setName(tour.getName());
+            oldTour.setDescription(tour.getDescription());
             // route hasn't been changed
             if (oldTour.getStartingPoint().equals(tour.getStartingPoint()) && oldTour.getDestination().equals(tour.getDestination()) &&
                     oldTour.getTransportType() == tour.getTransportType()) {
-                oldTour.setName(tour.getName());
-                oldTour.setDescription(tour.getDescription());
                 tourRepository.editTour(oldTour);
                 tours.set(index, oldTour);
             } else {
                 // route has been changed
-                Tour tourWithMapQuestApiInfo = saveImage(tour);
+                oldTour = saveImage(tour);
 
-                if (tourWithMapQuestApiInfo != null) {
-                    tourWithMapQuestApiInfo.setChildFriendly(
-                            calculateChildFriendliness(tourWithMapQuestApiInfo.getLength(), tour.getLogs()));
-
-                    tourRepository.editTour(tourWithMapQuestApiInfo);
-                    tours.set(index, tourWithMapQuestApiInfo);
+                if (oldTour != null) {
+                    tourRepository.editTour(oldTour);
+                    tours.set(index, oldTour);
                 }
             }
         } catch (SQLException e) {
@@ -289,54 +270,6 @@ public class TourService extends Mapper {
         tour.setMapImage(tour.getUid() + ".jpeg");
 
         return tour;
-    }
-
-    // calculated based on the average difficulty and total time provided in tour logs & tour distance
-    private int calculateChildFriendliness(double tourDistance, List<TourLog> tourLogs) {
-        if (tourLogs.size() == 0) {
-            // there are no tour logs so child friendliness cannot be computed
-            return 0;
-        }
-
-        int averageDifficulty = 0;
-        int averageTimeDifficulty = 0;
-        int distanceDifficulty;
-
-        for (TourLog log : tourLogs) {
-            // average difficulty
-            averageDifficulty += (100 - log.getDifficulty());
-
-            // average time difficulty
-            String[] values = log.getTotalTime().toString().split(":");
-            int hours = Integer.parseInt(values[0]);
-
-            if (hours < 2) {
-                // tour is shorter than two hours -> 100 child friendliness
-                averageTimeDifficulty += 100;
-            } else if (hours > 24) {
-                // tour is longer than 24 hours -> 0 child friendliness
-                averageTimeDifficulty += 0;
-            } else {
-                // after two hours, each tour loses 5 child friendliness points per hour
-                averageTimeDifficulty += (110 - (hours * 5));
-            }
-
-        }
-
-        // distance difficulty,
-        if (tourDistance < 100) {
-            distanceDifficulty = 100;
-        } else if (tourDistance > 1000) {
-            distanceDifficulty = 0;
-        } else {
-            distanceDifficulty = (int) ((1000 - tourDistance) / 10);
-        }
-
-        averageDifficulty = averageDifficulty / tourLogs.size();
-        averageTimeDifficulty = averageTimeDifficulty / tourLogs.size();
-
-        return (averageDifficulty + averageTimeDifficulty + distanceDifficulty) / 3;
-
     }
 
     public ObservableList<String> getTourNames() {

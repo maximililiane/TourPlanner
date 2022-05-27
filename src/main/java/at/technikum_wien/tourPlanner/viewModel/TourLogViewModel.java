@@ -14,18 +14,22 @@ public class TourLogViewModel {
     private TourService tourService;
     private ObservableList<TourLog> logs;
     private ObservableList<Tour> tours;
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
 
     public TourLogViewModel(TourLogService tourLogService, TourService tourService) {
         this.tourLogService = tourLogService;
-        this.tourService=tourService;
+        this.tourService = tourService;
         this.logs = tourLogService.getObservableLogList();
         this.tours = tourLogService.getObservableTourList();
     }
 
-    public ObservableList<TourLog> getList() {
+    public ObservableList<TourLog> getLogList() {
         return logs;
+    }
+
+    public ObservableList<Tour> getTourList() {
+        return tours;
     }
 
     public void setList(ObservableList<TourLog> logs) {
@@ -33,7 +37,7 @@ public class TourLogViewModel {
     }
 
 
-    public String getTourNameById(int id){
+    public String getTourNameById(int id) {
         return tourService.getTourNameById(id);
     }
 

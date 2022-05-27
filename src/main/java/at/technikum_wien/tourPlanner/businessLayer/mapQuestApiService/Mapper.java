@@ -24,7 +24,7 @@ public abstract class Mapper {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            logger.error("An error ocurred while trying to convert an object into a json-string; Object: "+ object + ";\n" + e.getMessage());
+            logger.error("An error occurred while trying to convert an object into a json-string; Object: " + object + ";\n" + e.getMessage());
         }
         return "";
     }

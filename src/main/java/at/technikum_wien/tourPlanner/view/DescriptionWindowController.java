@@ -27,8 +27,7 @@ import java.util.ResourceBundle;
 public class DescriptionWindowController implements Initializable {
 
     private final DescriptionViewModel descriptionViewModel;
-    @FXML
-    private Tour selectedTour;
+    public Button deleteButton;
     public Label popularityLabel;
     public ImageView mapImage;
     public Label titleLabel;
@@ -41,21 +40,44 @@ public class DescriptionWindowController implements Initializable {
     public Label transportTypeLabel;
     public Label descriptionLabel;
     private ObservableList<Tour> tourObservableList;
-
+    @FXML
+    private int selectedTour;
 
     public DescriptionWindowController(DescriptionViewModel descriptionViewModel) {
         this.descriptionViewModel = descriptionViewModel;
-        this.selectedTour = null;
+        this.selectedTour = -1;
     }
 
-    public Button deleteButton;
 
     public void deleteTour() {
         descriptionViewModel.deleteTour(titleLabel.getText());
     }
 
-    public void saveReport() {
-        descriptionViewModel.saveReport(selectedTour);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.tourObservableList = getTours();
+        this.tourObservableList.addListener(new ListChangeListener<Tour>() {
+            @Override
+            public void onChanged(Change<? extends Tour> change) {
+                while (change.next()) {
+                    if (change.wasReplaced()) {
+                        if (selectedTour != -1) {
+                            tourListView.getSelectionModel().select(selectedTour);
+                            updateLabels(tourObservableList.get(selectedTour));
+                        }
+                    }
+                }
+
+            }
+        });
+
+        setUpListView();
+
+        hideButtonsAndText();
+
+        updateListView();
+
     }
 
     public void openAddTourWindow() {
@@ -125,26 +147,25 @@ public class DescriptionWindowController implements Initializable {
 
     }
 
+    public void saveReport() {
+        descriptionViewModel.saveReport(tourObservableList.get(selectedTour));
+    }
+
+    private ObservableList<Tour> getTours() {
+        return descriptionViewModel.getTours();
+    }
+
     // update view when new item on the list has been selected
     private void updateListView() {
         tourListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tour>() {
             @Override
             public void changed(ObservableValue<? extends Tour> observableValue, Tour oldTour, Tour newTour) {
                 if (newTour != null) {
-                    selectedTour = newTour;
-                    titleLabel.setText(newTour.getName());
-                    popularityLabel.setText(String.valueOf(newTour.getPopularity()));
-                    childFriendlinessLabel.setText(
-                            newTour.getChildFriendly() == 0 ? "N/A" : String.valueOf(newTour.getChildFriendly()));
-                    fromLabel.setText(newTour.getStartingPoint());
-                    toLabel.setText(newTour.getDestination());
-                    distanceLabel.setText(String.valueOf(newTour.getLength()));
-                    estimatedTimeLabel.setText(newTour.getDuration());
-                    transportTypeLabel.setText(newTour.getTransportType().name());
-                    descriptionLabel.setText(newTour.getDescription());
-                    mapImage.setImage(new Image("file:images/" + newTour.getMapImage()));
+                    selectedTour = tourListView.getSelectionModel().getSelectedIndex();
+                    updateLabels(newTour);
                 } else {
                     // there are no more tours left in the database
+                    selectedTour = -1;
                     titleLabel.setText("");
                     popularityLabel.setText("");
                     childFriendlinessLabel.setText("");
@@ -160,12 +181,8 @@ public class DescriptionWindowController implements Initializable {
         });
     }
 
-    private ObservableList<Tour> getTours() {
-        return descriptionViewModel.getTours();
-    }
-
     public void saveSummaryReport(ActionEvent actionEvent) {
-        descriptionViewModel.saveSummaryReport(selectedTour);
+        descriptionViewModel.saveSummaryReport(tourObservableList.get(selectedTour));
     }
 
     public Button saveTourButton;
@@ -182,31 +199,25 @@ public class DescriptionWindowController implements Initializable {
     public Separator bottomSeparator;
     public Label descriptionTitle;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        this.tourObservableList = getTours();
-        this.tourObservableList.addListener(new ListChangeListener<Tour>() {
-            @Override
-            public void onChanged(Change<? extends Tour> change) {
-                //TODO: potentially change this line
-                System.out.println("Hey, a change occurred...");
-            }
-        });
-
-        setUpListView();
-
-        hideButtonsAndText();
-
-        updateListView();
-
+    private void updateLabels(Tour tour) {
+        titleLabel.setText(tour.getName());
+        popularityLabel.setText(String.valueOf(tour.getPopularity()));
+        childFriendlinessLabel.setText(
+                tour.getChildFriendly() == 0 ? "N/A" : String.valueOf(tour.getChildFriendly()));
+        fromLabel.setText(tour.getStartingPoint());
+        toLabel.setText(tour.getDestination());
+        distanceLabel.setText(String.valueOf(tour.getLength()));
+        estimatedTimeLabel.setText(tour.getDuration());
+        transportTypeLabel.setText(tour.getTransportType().name());
+        descriptionLabel.setText(tour.getDescription());
+        mapImage.setImage(new Image("file:images/" + tour.getMapImage()));
     }
 
     private void hideButtonsAndText() {
         //saveTourButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         editButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         deleteButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
-        //saveReportButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
+        saveReportButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         topSeparator.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         popularityTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         childFriendlinessTitle.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());

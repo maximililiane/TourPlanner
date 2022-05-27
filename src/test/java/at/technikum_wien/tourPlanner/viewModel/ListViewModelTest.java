@@ -41,15 +41,15 @@ class ListViewModelTest {
 
 //    @Test
 //    void setList() {
-//        Assertions.assertEquals(0, listViewModel.getList().size());
+//        Assertions.assertEquals(0, listViewModel.getLogList().size());
 //        listViewModel.setList(list);
-//        Assertions.assertEquals(2, listViewModel.getList().size());
+//        Assertions.assertEquals(2, listViewModel.getLogList().size());
 //    }
 
 //    @Test
 //    void testNotify() {
-//        Assertions.assertEquals(0, listViewModel.getList().size());
+//        Assertions.assertEquals(0, listViewModel.getLogList().size());
 //        listViewModel.notify(list);
-//        Assertions.assertEquals(2, listViewModel.getList().size());
+//        Assertions.assertEquals(2, listViewModel.getLogList().size());
 //    }
 }

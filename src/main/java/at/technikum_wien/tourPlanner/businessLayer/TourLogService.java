@@ -32,8 +32,14 @@ public class TourLogService {
         this.tours.addListener(new ListChangeListener<Tour>() {
             @Override
             public void onChanged(Change<? extends Tour> change) {
-                resetLogsInTours();
-                assignLogsToTours();
+                while (change.next()) {
+                    if (change.wasRemoved()) {
+                        deleteTourLogs();
+                    }
+                    if (change.wasReplaced()) {
+                        tours.forEach(t -> t.setChildFriendly(calculateChildFriendliness(t.getLength(), t.getLogs())));
+                    }
+                }
             }
         });
     }
@@ -56,6 +62,7 @@ public class TourLogService {
     public void addTourLog(TourLog l) {
         try {
             l.setUid(tourLogRepository.getNewestLogId());
+            System.out.println(l.getUid());
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to retrieve the newest LogID; " + e.getMessage());
@@ -66,13 +73,10 @@ public class TourLogService {
             e.printStackTrace();
             logger.error("An error occurred while trying to add a new log to the database; Log: " + l + ";\n" + e.getMessage());
         }
+
         addLogToTour(l.getTourID(), l);
         logs.add(l);
-    }
-
-    public void updateLogList() throws SQLException {
-        logs.removeAll(logs);
-        logs.addAll(tourLogRepository.getLogs());
+        System.out.println(logs);
     }
 
     public void addLogToTour(int tourId, TourLog log) {
@@ -135,54 +139,51 @@ public class TourLogService {
     public void editTourLog(TourLog updatedLog) {
         try {
             tourLogRepository.editLog(updatedLog);
+            TourLog oldLog = logs.stream().filter(l -> l.getUid() == updatedLog.getUid()).findFirst().get();
+            int index = logs.indexOf(oldLog);
+            updateLogInTour(oldLog.getTourID(), updatedLog);
+            logs.set(index, updatedLog);
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to edit a log in the database; LogID: " + updatedLog.getUid() + ";\n" + e.getMessage());
         }
-        try {
-            updateLogList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("An error occurred while fetching the updated loglist;\n" + e.getMessage());
-        }
+        System.out.println(logs);
     }
 
     public void deleteLog(TourLog log) {
         try {
             tourLogRepository.deleteLog(log.getUid());
             deleteLogFromTour(log.getTourID(), log);
+            logs.remove(log);
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to delete a log in the database; LogID: " + log.getUid() + ";\n" + e.getMessage());
-
         }
-        try {
-            updateLogList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("An error occurred while fetching the updated loglist;\n" + e.getMessage());
-        }
+        System.out.println(logs);
     }
 
 
-    public void deleteLogFromTour(int tourId, TourLog l) {
-        for (Tour t : tours) {
-            if (t.getUid() == tourId) {
-                for (TourLog log : t.getLogs()) {
-                    if (log.getUid() == l.getUid()) {
-                        t.deleteLog(log);
-                        t.setPopularity();
-                        t.setChildFriendly(calculateChildFriendliness(t.getLength(), t.getLogs()));
-                        updateTour(tourId, t.getPopularity(), t.getChildFriendly());
-                        return;
-                    }
-                }
-                return;
-            }
-        }
+    private void deleteLogFromTour(int tourId, TourLog log) {
+        Tour tour = tours.stream().filter(t -> t.getUid() == tourId).findAny().get();
+        int index = tours.indexOf(tour);
+        tour.deleteLog(log);
+        tour.setPopularity();
+        tour.setChildFriendly(calculateChildFriendliness(tour.getLength(), tour.getLogs()));
+        updateTour(tourId, tour.getPopularity(), tour.getChildFriendly());
+        tours.set(index, tour);
     }
 
-    public void updateTour(int tourId, int popularity, int childFriendliness) {
+    private void updateLogInTour(int tourId, TourLog log) {
+        Tour tour = tours.stream().filter(t -> t.getUid() == tourId).findAny().get();
+        int index = tours.indexOf(tour);
+        tour.updateLog(log);
+        tour.setPopularity();
+        tour.setChildFriendly(calculateChildFriendliness(tour.getLength(), tour.getLogs()));
+        updateTour(tourId, tour.getPopularity(), tour.getChildFriendly());
+        tours.set(index, tour);
+    }
+
+    private void updateTour(int tourId, int popularity, int childFriendliness) {
         try {
             tourRepository.updatePopularity(tourId, popularity);
         } catch (SQLException e) {
@@ -236,17 +237,28 @@ public class TourLogService {
     }
 
     private void assignLogsToTours() {
-        for (TourLog log : logs) {
-            for (Tour tour : tours) {
+        for (Tour tour : tours) {
+            for (TourLog log : logs) {
                 if (tour.getUid() == log.getTourID()) {
                     tour.insertLog(log);
                 }
             }
+            tour.setPopularity();
+            tour.setChildFriendly(calculateChildFriendliness(tour.getLength(), tour.getLogs()));
         }
     }
 
     private void resetLogsInTours() {
         tours.forEach(tour -> tour.setLogs(new LinkedList<>()));
+    }
+
+    // a tour was deleted so the associated tour logs also need to be deleted from the observable log list
+    private void deleteTourLogs() {
+        List<Integer> tourIds = tours.stream()
+                .map(Tour::getUid)
+                .collect(Collectors.toList());
+
+        logs.removeIf(l -> !tourIds.contains(l.getTourID()));
     }
 
 }

@@ -3,35 +3,42 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum_wien.tourPlanner.view.TourLogWindowController">
-    <children>
-      <SplitPane dividerPositions="0.29378316906747537" layoutX="11.0" prefHeight="550.0" prefWidth="882.0">
-         <items>
-              <TableView fx:id="logTable" prefHeight="547.0" prefWidth="259.0">
-                  <columns>
-                      <TableColumn fx:id="logNrColumn" prefWidth="128.0" text="Log Nr." />
-                      <TableColumn fx:id="tourNameColumn" prefWidth="128.0" text="Tour Name" />
-                  </columns>
-              </TableView>
-            <AnchorPane prefHeight="547.0" prefWidth="623.0">
-               <children>
-                  <TextArea fx:id="commentField" layoutX="44.0" layoutY="203.0" prefHeight="274.0" prefWidth="418.0" />
-                  <Label layoutX="51.0" layoutY="26.0" prefHeight="17.0" prefWidth="166.0" text="Tour Name:" />
-                  <Label layoutX="51.0" layoutY="59.0" prefHeight="17.0" prefWidth="53.0" text="Date:" />
-                  <Label layoutX="351.0" layoutY="59.0" prefHeight="17.0" prefWidth="54.0" text="Difficulty:" />
-                  <Label layoutX="227.0" layoutY="170.0" text="Comment" />
-                  <Label layoutX="51.0" layoutY="91.0" prefHeight="17.0" prefWidth="73.0" text="Time:" />
-                  <Button fx:id="addLogButton" layoutX="471.0" layoutY="261.0" mnemonicParsing="false" onAction="#openAddLogWindow" prefHeight="25.0" prefWidth="94.0" text="add Log" />
-                  <Button fx:id="editLogButton" layoutX="471.0" layoutY="327.0" mnemonicParsing="false" onAction="#openEditLogWindow" prefHeight="25.0" prefWidth="94.0" text="edit Log" />
-                  <Button fx:id="deleteLogButton" layoutX="471.0" layoutY="388.0" mnemonicParsing="false" onAction="#deleteLog" prefHeight="25.0" prefWidth="94.0" text="delete Log" />
-                  <Label fx:id="tourNameField" layoutX="136.0" layoutY="26.0" prefHeight="17.0" prefWidth="166.0" />
-                  <Label fx:id="dateField" layoutX="137.0" layoutY="59.0" prefHeight="17.0" prefWidth="166.0" text=" " />
-                  <Label fx:id="timeField" layoutX="135.0" layoutY="91.0" prefHeight="17.0" prefWidth="172.0" text=" " />
-                  <Label layoutX="351.0" layoutY="91.0" text="Rating:" />
-                  <Label fx:id="difficultyField" layoutX="440.0" layoutY="59.0" prefHeight="17.0" prefWidth="111.0" text=" " />
-                  <Label fx:id="ratingField" layoutX="439.0" layoutY="91.0" prefHeight="17.0" prefWidth="111.0" text=" " />
-               </children></AnchorPane>
-         </items>
-      </SplitPane>
-   </children>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="550.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/11.0.2"
+            fx:controller="at.technikum_wien.tourPlanner.view.TourLogWindowController">
+    <ListView fx:id="logListView" prefHeight="550.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+    <TextArea fx:id="commentField" layoutX="240.0" layoutY="283.0"/>
+    <Label layoutX="295.0" layoutY="81.0" prefHeight="17.0" prefWidth="166.0" text="Tour Name:"/>
+    <Label layoutX="295.0" layoutY="114.0" prefHeight="17.0" prefWidth="53.0" text="Date:"/>
+    <Label layoutX="595.0" layoutY="114.0" prefHeight="17.0" prefWidth="54.0" text="Difficulty:"/>
+    <Label layoutX="452.0" layoutY="263.0" text="Comment"/>
+    <Label layoutX="295.0" layoutY="146.0" prefHeight="17.0" prefWidth="73.0" text="Time:"/>
+    <Button fx:id="addLogButton" layoutX="759.0" layoutY="313.0" mnemonicParsing="false" onAction="#openAddLogWindow"
+            prefHeight="25.0" prefWidth="94.0" text="add Log"/>
+    <Button fx:id="editLogButton" layoutX="759.0" layoutY="379.0" mnemonicParsing="false" onAction="#openEditLogWindow"
+            prefHeight="25.0" prefWidth="94.0" text="edit Log"/>
+    <Button fx:id="deleteLogButton" layoutX="759.0" layoutY="440.0" mnemonicParsing="false" onAction="#deleteLog"
+            prefHeight="25.0" prefWidth="94.0" text="delete Log"/>
+    <Label fx:id="tourNameField" layoutX="380.0" layoutY="81.0" prefHeight="17.0" prefWidth="166.0"/>
+    <Label fx:id="dateField" layoutX="381.0" layoutY="114.0" prefHeight="17.0" prefWidth="166.0" text=" "/>
+    <Label fx:id="timeField" layoutX="379.0" layoutY="146.0" prefHeight="17.0" prefWidth="172.0" text=" "/>
+    <Label layoutX="595.0" layoutY="146.0" text="Rating:"/>
+    <Label fx:id="difficultyField" layoutX="684.0" layoutY="114.0" prefHeight="17.0" prefWidth="111.0" text=" "/>
+    <Label fx:id="ratingField" layoutX="683.0" layoutY="146.0" prefHeight="17.0" prefWidth="111.0" text=" "/>
+
+    <!--      <SplitPane dividerPositions="0.29378316906747537" layoutX="11.0" prefHeight="550.0" prefWidth="882.0">-->
+    <!--         <items>-->
+    <!--              <TableView fx:id="logTable" prefHeight="547.0" prefWidth="259.0">-->
+    <!--                  <columns>-->
+    <!--                      <TableColumn fx:id="logNrColumn" prefWidth="128.0" text="Log Nr." />-->
+    <!--                      <TableColumn fx:id="tourNameColumn" prefWidth="128.0" text="Tour Name" />-->
+    <!--                  </columns>-->
+    <!--              </TableView>-->
+    <!--            <AnchorPane prefHeight="547.0" prefWidth="623.0">-->
+    <!--               <children>-->
+    <!--
+    <!               </children></AnchorPane>-->
+    <!--         </items>-->
+    <!--      </SplitPane>-->
 </AnchorPane>

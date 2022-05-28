@@ -4,6 +4,7 @@ import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TransportMode;
 import at.technikum_wien.tourPlanner.viewModel.EditTourWindowViewModel;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -38,6 +39,7 @@ public class EditTourWindowController {
     public Label fromHintLabel;
     public Label toHintLabel;
     public Label descriptionHintLabel;
+
 
     public EditTourWindowController(EditTourWindowViewModel editTourWindowViewModel) {
         this.editTourWindowViewModel = editTourWindowViewModel;
@@ -92,11 +94,7 @@ public class EditTourWindowController {
         if (!editTourWindowViewModel.invalidName() && !editTourWindowViewModel.sameLocation()
                 && !editTourWindowViewModel.invalidStartingPoint() && !editTourWindowViewModel.invalidEndPoint()
                 && !editTourWindowViewModel.invalidDescription()) {
-            Tour tour = new Tour(tourNameTextField.getText(), fromTextField.getText(),
-                    toTextField.getText(), (TransportMode.valueOf(transportModeCheckBox.getSelectionModel().getSelectedItem().toString())),
-                    descriptionTextField.getText());
-            tour.setUid(Integer.parseInt(tourId.getText()));
-            editTourWindowViewModel.editTour(tour);
+            editTourWindowViewModel.editTour(Integer.parseInt(tourId.getText()), (TransportMode.valueOf(transportModeCheckBox.getSelectionModel().getSelectedItem().toString())));
             closeWindow();
         }
     }

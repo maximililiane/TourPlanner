@@ -118,7 +118,7 @@ public class TourRepository {
     public int getNextTourId() throws SQLException {
         int nextId = 0;
         PreparedStatement preparedStatement;
-        preparedStatement = connection.prepareStatement("SELECT MAX(uid) FROM " + TABLE_NAME);
+        preparedStatement = connection.prepareStatement("Select nextval(pg_get_serial_sequence('" + TABLE_NAME + "', 'uid')) as new_id;");
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             nextId = resultSet.getInt(1);

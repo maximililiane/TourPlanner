@@ -6,15 +6,21 @@ import at.technikum_wien.tourPlanner.logging.LoggerFactory;
 import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TransportMode;
+import com.itextpdf.layout.element.Link;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.concurrent.TransferQueue;
 
 public class EditTourWindowViewModel {
     private final TourService tourService;
+    private ObservableList<Tour> tours;
     private final TourInputValidation tourInputValidation = new TourInputValidation();
     private final LoggerWrapper logger= LoggerFactory.getLogger();
 
@@ -28,15 +34,22 @@ public class EditTourWindowViewModel {
 
     public EditTourWindowViewModel(TourService tourService) {
         this.tourService = tourService;
+        this.tours = tourService.getTours();
         nameString.addListener((arg, oldVal, newVal) -> isEditDisabledBinding.invalidate());
         fromString.addListener((arg, oldVal, newVal) -> isEditDisabledBinding.invalidate());
         toString.addListener((arg, oldVal, newVal) -> isEditDisabledBinding.invalidate());
         descriptionString.addListener((arg, oldVal, newVal) -> isEditDisabledBinding.invalidate());
     }
 
-    public void editTour(Tour tour) {
-        logger.info("User tries edit a tour in the database; Tourname: " + tour.getName());
-        tourService.editTour(tour);
+    public void editTour(int tourId, TransportMode transportMode) {
+        Tour oldTour = tours.stream().filter(t -> t.getUid() == tourId).findFirst().get();
+        Tour newTour = new Tour(nameStringProperty().get(), fromStringProperty().get(), toStringProperty().get(),
+                transportMode, descriptionStringProperty().get());
+        newTour.setLogs(oldTour.getLogs());
+        newTour.setPopularity();
+        newTour.setUid(oldTour.getUid());
+        logger.info("User tries edit a tour in the database; Tourname: " + newTour.getName());
+        tourService.editTour(newTour);
     }
 
     public StringProperty nameStringProperty() {

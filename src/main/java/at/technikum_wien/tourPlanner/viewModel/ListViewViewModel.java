@@ -1,4 +1,5 @@
 package at.technikum_wien.tourPlanner.viewModel;
+
 import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
 import at.technikum_wien.tourPlanner.models.Tour;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 public class ListViewViewModel {
 
     private ObservableList<TourLog> list;
+    private ObservableList<Tour> tours;
     private TourLogService logService;
     private TourService tourService;
 
@@ -16,10 +18,11 @@ public class ListViewViewModel {
     public ListViewViewModel(TourLogService logService, TourService tourService) {
         this.logService = logService;
         this.list = logService.getObservableLogList();
-        this.tourService= tourService;
+        this.tours = tourService.getTours();
+        this.tourService = tourService;
     }
 
-    public String getTourNameById(int id){
+    public String getTourNameById(int id) {
         return tourService.getTourNameById(id);
     }
 
@@ -29,6 +32,10 @@ public class ListViewViewModel {
 
     public void setList(ObservableList<TourLog> list) {
         this.list = list;
+    }
+
+    public ObservableList<Tour> getTours() {
+        return tours;
     }
 
     public void addItem(TourLog item) {

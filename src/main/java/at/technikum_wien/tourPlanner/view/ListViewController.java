@@ -19,6 +19,7 @@ import java.util.List;
 
 public class ListViewController {
     private ObservableList<TourLog> logs;
+    private ObservableList<Tour> tours;
     @FXML
     public TableView tourTable;
     @FXML
@@ -43,6 +44,13 @@ public class ListViewController {
         this.logs.addListener(new ListChangeListener<TourLog>() {
             @Override
             public void onChanged(Change<? extends TourLog> change) {
+                setListToTable(logs);
+            }
+        });
+        this.tours = listViewViewModel.getTours();
+        this.tours.addListener(new ListChangeListener<Tour>() {
+            @Override
+            public void onChanged(Change<? extends Tour> change) {
                 setListToTable(logs);
             }
         });

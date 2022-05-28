@@ -13,14 +13,12 @@ import java.sql.SQLException;
 
 public class DescriptionViewModel {
 
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     private TourService tourService;
-    private TourLogService logService;
 
-    public DescriptionViewModel(TourService tourService, TourLogService logService) {
+    public DescriptionViewModel(TourService tourService) {
         this.tourService = tourService;
-        this.logService= logService;
     }
 
     public ObservableList<Tour> getTours() {
@@ -30,11 +28,6 @@ public class DescriptionViewModel {
     public void deleteTour(String name) {
         logger.info("User tries to delete tour from database; TourName: " + name);
         tourService.deleteTour(name);
-        try {
-            logService.updateLogList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void saveReport(Tour tour) {

@@ -25,5 +25,6 @@ Maximiliane:
 0.5h fix unknown error api bug, encode URI for api requests
 2.5h implement unique feature - without concrete test data
 2h implement correctly update view after tour has been edited, assign logs to tour
+3h fix multiple bugs (set wrong uid, assign incorrect logs, doesn't update view)
 
 Julian:

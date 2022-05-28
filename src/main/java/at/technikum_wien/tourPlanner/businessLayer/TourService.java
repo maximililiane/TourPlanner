@@ -75,6 +75,7 @@ public class TourService extends Mapper {
         // get tourID from database
         try {
             tour.setUid(tourRepository.getNextTourId());
+            System.out.println(tour.getUid());
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to retrieve the next tourID;\n" + e.getMessage());
@@ -88,6 +89,7 @@ public class TourService extends Mapper {
             return;
         }
         tourWithMapQuestApiInfo.setChildFriendly(0);
+        tourWithMapQuestApiInfo.setLogs(new LinkedList<TourLog>());
         tourWithMapQuestApiInfo.setPopularity();
 
         try {
@@ -136,6 +138,8 @@ public class TourService extends Mapper {
                 oldTour = saveImage(tour);
 
                 if (oldTour != null) {
+                    oldTour.setLogs(tour.getLogs());
+                    oldTour.setPopularity();
                     tourRepository.editTour(oldTour);
                     tours.set(index, oldTour);
                 }

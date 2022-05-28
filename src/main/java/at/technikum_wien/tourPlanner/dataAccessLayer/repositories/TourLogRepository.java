@@ -64,7 +64,7 @@ public class TourLogRepository {
     public int getNewestLogId() throws SQLException {
         int nextId = 0;
         PreparedStatement preparedStatement;
-        preparedStatement = connection.prepareStatement("SELECT MAX(uid) FROM " + TABLE_NAME);
+        preparedStatement = connection.prepareStatement("Select nextval(pg_get_serial_sequence('" + TABLE_NAME + "', 'uid')) as new_id;");
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             nextId = resultSet.getInt(1);
@@ -87,13 +87,13 @@ public class TourLogRepository {
     }
 
     public void editLog(TourLog l) throws SQLException {
-        String sql = "UPDATE " + TABLE_NAME + " SET tourid= ?, " +
-                "date= ?," +
-                "comment= ?," +
-                "difficulty= ?, " +
-                "totaltime= ?," +
-                "rating= ?" +
-                "WHERE uid= ?";
+        String sql = "UPDATE " + TABLE_NAME + " SET tourid = ?, " +
+                "date = ?, " +
+                "comment = ?," +
+                "difficulty = ?, " +
+                "totaltime = ?," +
+                "rating = ?" +
+                "WHERE uid = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, l.getTourID());
         preparedStatement.setDate(2, l.getDate());

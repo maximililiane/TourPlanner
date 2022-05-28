@@ -36,7 +36,6 @@ public class Tour {
     public Tour() {
     }
 
-
     public Tour(int uid, String name, String startingPoint, String destination, String duration,
                 TransportMode transportType, String description, int popularity, double length, int childFriendly,
                 String mapImage) {
@@ -52,6 +51,23 @@ public class Tour {
         this.childFriendly = childFriendly;
         this.mapImage = mapImage;
         this.logs = new LinkedList<TourLog>();
+    }
+
+    public Tour(int uid, String name, String startingPoint, String destination, String duration,
+                TransportMode transportType, String description, int popularity, double length, int childFriendly,
+                String mapImage, List<TourLog> logs) {
+        this.uid = uid;
+        this.name = name;
+        this.startingPoint = startingPoint;
+        this.destination = destination;
+        this.duration = duration;
+        this.transportType = transportType;
+        this.description = description;
+        this.popularity = popularity;
+        this.length = length;
+        this.childFriendly = childFriendly;
+        this.mapImage = mapImage;
+        this.logs = logs;
     }
 
     // used when adding new tour via gui
@@ -158,15 +174,27 @@ public class Tour {
     }
 
     public void setLogs(List<TourLog> logs) {
-        this.logs = logs;
+        if (!this.logs.isEmpty())
+            this.logs = new LinkedList<>();
+
+        this.logs.addAll(logs);
     }
 
     public void insertLog(TourLog log) {
-        this.logs.add(log);
+        if (!this.logs.stream().anyMatch(l -> l.getUid() == log.getUid())) {
+            this.logs.add(log);
+        }
     }
 
     public void deleteLog(TourLog log) {
-        this.logs.remove(log);
+        TourLog tourLog = this.logs.stream().filter(l -> l.getUid() == log.getUid()).findFirst().get();
+        this.logs.remove(tourLog);
+    }
+
+    public void updateLog(TourLog newLog) {
+        TourLog oldLog = this.logs.stream().filter(l -> l.getUid() == newLog.getUid()).findFirst().get();
+        int index = logs.indexOf(oldLog);
+        this.logs.set(index, newLog);
     }
 
     @JsonIgnore

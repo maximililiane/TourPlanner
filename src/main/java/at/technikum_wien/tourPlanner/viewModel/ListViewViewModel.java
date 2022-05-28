@@ -37,8 +37,4 @@ public class ListViewViewModel {
     public ObservableList<Tour> getTours() {
         return tours;
     }
-
-    public void addItem(TourLog item) {
-        list.add(item);
-    }
 }

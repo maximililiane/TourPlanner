@@ -1,8 +1,6 @@
 package at.technikum_wien.tourPlanner.view;
 
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
-import at.technikum_wien.tourPlanner.LogViewUtils.LogViewRow;
-import at.technikum_wien.tourPlanner.listViewUtils.ListViewRow;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
@@ -18,15 +16,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.Optional;
 
 public class TourLogWindowController {
 
@@ -53,8 +47,9 @@ public class TourLogWindowController {
     public Label ratingField;
     @FXML
     public ChoiceBox<String> tourChooser;
+    @FXML
+    public Button filterTourButton;
 
-    LogViewRow selectedRow;
     private int selectedLog;
     private int selectedTour;
     private ObservableList<Tour> tours;
@@ -112,6 +107,13 @@ public class TourLogWindowController {
         tourChooser.getItems().add("Alle Touren");
         tourChooser.setValue("Alle Touren");
         setTourChooserValues();
+        filterTourButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                filterTours(tourChooser.getValue());
+            }
+        });
+
     }
 
     private void setTourChooserValues(){
@@ -274,8 +276,7 @@ public class TourLogWindowController {
         tourLogViewModel.deleteLog((TourLog) logListView.getSelectionModel().getSelectedItem());
     }
 
-    public void filterTours(){
-        String filteredTour= tourChooser.getValue();
+    public void filterTours(String filteredTour){
         if(filteredTour.equals("Alle Touren")){
             logListView.setItems(logs);
         }

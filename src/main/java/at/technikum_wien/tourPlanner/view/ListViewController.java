@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.List;
 
-// public class ListViewController implements TourSubscriber {
 
 public class ListViewController {
     private ObservableList<TourLog> logs;
@@ -54,46 +53,29 @@ public class ListViewController {
                 setListToTable(logs);
             }
         });
-        // listViewModel.subscribeToTours(this);
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         initializeTable();
         setListToTable(listViewViewModel.getList());
     }
 
-    public void initializeTable() {
+    private void initializeTable() {
         associateColumns();
         tourTable.setRowFactory(tv -> {
             TableRow<LogViewRow> row = new TableRow<>();
-            CustomContextMenu cm = new CustomContextMenu();
-            cm.getShowLogDetailsItem().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    if(row.getItem()!=null) {
-                        showLogButtonPressed(row.getItem().getUid());
-                    }
-                }
-            });
-            row.setContextMenu(cm.getCm());
             return row;
         });
     }
 
-    public void associateColumns() {
+    private void associateColumns() {
         uidColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("uid"));
         tourNameColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("tourName"));
         difficultyColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("difficulty"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("rating"));
         totalTimeColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("totalTime"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("date"));
-    }
-
-    private void addListToTable(List<TourLog> list) {
-        for (TourLog t : list) {
-            addLogToTable(t);
-        }
     }
 
     private void addLogToTable(TourLog t) {
@@ -107,9 +89,6 @@ public class ListViewController {
             addLogToTable(t);
         }
 
-    }
-
-    private void showLogButtonPressed(int uid) {
     }
 
 }

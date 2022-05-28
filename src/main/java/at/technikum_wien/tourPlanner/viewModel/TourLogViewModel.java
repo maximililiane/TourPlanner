@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 
 public class TourLogViewModel {
 
+
     private TourLogService tourLogService;
     private TourService tourService;
     private ObservableList<TourLog> logs;
@@ -30,15 +31,6 @@ public class TourLogViewModel {
 
     public ObservableList<Tour> getTourList() {
         return tours;
-    }
-
-    public void setList(ObservableList<TourLog> logs) {
-        this.logs = logs;
-    }
-
-
-    public String getTourNameById(int id) {
-        return tourService.getTourNameById(id);
     }
 
     public void deleteLog(TourLog log) {

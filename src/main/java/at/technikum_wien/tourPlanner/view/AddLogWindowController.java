@@ -43,7 +43,7 @@ public class AddLogWindowController {
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         initializeView();
         bindProperties();
     }
@@ -64,14 +64,14 @@ public class AddLogWindowController {
         difficultySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,50));
     }
 
-    public void prepareView(){
+    private void prepareView(){
         tourNamePicker.getItems().removeAll(tourNamePicker.getItems());
         commentArea.setText("");
         datePicker.setValue(LocalDate.now());
         ratingPicker.setValue(1);
     }
 
-    public void setChoicePickerValues(){
+    private void setChoicePickerValues(){
         tourNamePicker.setItems(addLogWindowViewModel.getTourNames());
         tourNamePicker.setValue(tourNamePicker.getItems().get(0));
         LinkedList<Integer> l= new LinkedList<>();
@@ -97,7 +97,7 @@ public class AddLogWindowController {
         addLogWindowViewModel.setOldLog(l);
     }
 
-    public void closeWindow() {
+    private void closeWindow() {
         Stage stage = (Stage) saveLogButton.getScene().getWindow();
         stage.close();
     }

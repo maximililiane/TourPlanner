@@ -56,6 +56,9 @@ public class TourService extends Mapper {
             e.printStackTrace();
         }
     }
+    public int getTourId(String tourName) {
+        return tours.stream().filter(tour -> tour.getName().equals(tourName)).findAny().get().getUid();
+    }
 
     public ObservableList<Tour> getTours() {
         return tourRepository.getObservableTourList();

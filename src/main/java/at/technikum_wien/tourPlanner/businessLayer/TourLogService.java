@@ -231,13 +231,6 @@ public class TourLogService {
         return this.logs;
     }
 
-    public ObservableList<Tour> getObservableTourList() {
-        return this.tours;
-    }
-
-    public int getTourId(String tourName) {
-        return tours.stream().filter(tour -> tour.getName().equals(tourName)).findAny().get().getUid();
-    }
 
     private void assignLogsToTours() {
         for (Tour tour : tours) {

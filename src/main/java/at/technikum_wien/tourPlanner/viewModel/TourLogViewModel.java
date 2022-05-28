@@ -21,7 +21,7 @@ public class TourLogViewModel {
         this.tourLogService = tourLogService;
         this.tourService = tourService;
         this.logs = tourLogService.getObservableLogList();
-        this.tours = tourLogService.getObservableTourList();
+        this.tours = tourService.getObservableTourList();
     }
 
     public ObservableList<TourLog> getLogList() {
@@ -44,5 +44,13 @@ public class TourLogViewModel {
     public void deleteLog(TourLog log) {
         logger.info("User tries to delete log from database; LogID: " + log.getUid());
         tourLogService.deleteLog(log);
+    }
+
+    public ObservableList<String> getTourNames(){
+        return tourService.getTourNames();
+    }
+
+    public int getTourIdByName(String filteredTour) {
+        return tourService.getTourId(filteredTour);
     }
 }

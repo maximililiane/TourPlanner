@@ -68,7 +68,7 @@ public class AddLogWindowViewModel {
     }
 
     public int getTourID(String tourName) {
-        return logService.getTourId(tourName);
+        return tourService.getTourId(tourName);
     }
 
     public SimpleStringProperty getCommentField() {

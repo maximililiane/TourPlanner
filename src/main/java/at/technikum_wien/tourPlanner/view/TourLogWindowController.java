@@ -40,12 +40,6 @@ public class TourLogWindowController {
     @FXML
     public Button deleteLogButton;
     @FXML
-    public TableView logTable;
-    @FXML
-    public TableColumn tourNameColumn;
-    @FXML
-    public TableColumn logNrColumn;
-    @FXML
     public Label dateField;
     @FXML
     public TextArea commentField;
@@ -57,6 +51,8 @@ public class TourLogWindowController {
     public Label tourNameField;
     @FXML
     public Label ratingField;
+    @FXML
+    public ChoiceBox<String> tourChooser;
 
     LogViewRow selectedRow;
     private int selectedLog;
@@ -78,6 +74,7 @@ public class TourLogWindowController {
         this.tours = tourLogViewModel.getTourList();
         this.logs = tourLogViewModel.getLogList();
         this.tours.addListener((ListChangeListener<Tour>) change -> {
+            setTourChooserValues();
             while (change.next()) {
                 if (change.wasReplaced()) {
                     if (selectedLog != -1) {
@@ -96,7 +93,6 @@ public class TourLogWindowController {
                     if (change.wasReplaced()) {
                         if (selectedLog != -1) {
                             logListView.getSelectionModel().select(selectedLog);
-                            setValuesToFields(logs.get(selectedLog), tours.get(selectedTour));
                         }
                     }
                 }
@@ -108,8 +104,19 @@ public class TourLogWindowController {
 
         updateListView();
         unHideButtons(false);
+        initializeTourChooser();
 
+    }
 
+    private void initializeTourChooser(){
+        tourChooser.getItems().add("Alle Touren");
+        tourChooser.setValue("Alle Touren");
+        setTourChooserValues();
+    }
+
+    private void setTourChooserValues(){
+        tourChooser.getItems().removeAll(tourLogViewModel.getTourNames());
+        tourChooser.getItems().addAll(tourLogViewModel.getTourNames());
     }
 
     // update view when new item on the list has been selected
@@ -176,68 +183,12 @@ public class TourLogWindowController {
     }
 
 
-//        initializeTable();
-//        setListToTable(tourLogViewModel.getLogList());
-//        tourLogViewModel.getLogList().addListener(new ListChangeListener<TourLog>() {
-//            @Override
-//            public void onChanged(Change<? extends TourLog> change) {
-////                ObservableList<TourLog> newList = tourLogViewModel.getLogList();
-////                setListToTable(newList);
-//                if (selectedRow == null) {
-//                    return;
-//                }
-//                for (TourLog l : tourLogViewModel.getLogList()) {
-//                    if (l.getUid() == selectedRow.getUid()) {
-//                        selectedRow = new LogViewRow(l, tourLogViewModel.getTourNameById(l.getTourID()));
-//                        setValuesToFields(selectedRow);
-//                        return;
-//                    }
-//                }
-//            }
-//        });
-
 
     public void unHideButtons(boolean unHideButtons) {
         editLogButton.setVisible(unHideButtons);
         deleteLogButton.setVisible(unHideButtons);
     }
 
-//    public void initializeTable() {
-//        associateColumns();
-//        logTable.setRowFactory(tv -> {
-//            TableRow<LogViewRow> row = new TableRow<>();
-//            row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-//                if (row.getItem() != null) {
-//                    setValuesToFields(row.getItem());
-//                    unHideButtons(true);
-//                    selectedRow = row.getItem();
-//                }
-//            });
-//            return row;
-//        });
-//    }
-
-
-    //    public void associateColumns() {
-//
-//        logNrColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("uid"));
-//        tourNameColumn.setCellValueFactory(new PropertyValueFactory<ListViewRow, String>("tourName"));
-//
-//    }
-//
-//    private void addLogToTable(TourLog l) {
-//        LogViewRow dataRow = new LogViewRow(l, tourLogViewModel.getTourNameById(l.getTourID()));
-//        logTable.getItems().add(dataRow);
-//    }
-//
-//    private void setListToTable(ObservableList<TourLog> list) {
-//        logTable.getItems().removeAll(logTable.getItems());
-//        for (TourLog t : list) {
-//            addLogToTable(t);
-//        }
-//
-//    }
-//
     private void setValuesToFields(TourLog log, Tour tour) {
         commentField.setText(log.getComment());
         difficultyField.setText(Integer.toString(log.getDifficulty()));
@@ -321,7 +272,15 @@ public class TourLogWindowController {
 
     public void deleteLog() {
         tourLogViewModel.deleteLog((TourLog) logListView.getSelectionModel().getSelectedItem());
-//        selectedRow = null;
-//        removeValuesFromFields();
+    }
+
+    public void filterTours(){
+        String filteredTour= tourChooser.getValue();
+        if(filteredTour.equals("Alle Touren")){
+            logListView.setItems(logs);
+        }
+        else{
+            logListView.setItems(logs.filtered(log -> log.getTourID()==tourLogViewModel.getTourIdByName(filteredTour)));
+        }
     }
 }

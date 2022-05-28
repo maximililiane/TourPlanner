@@ -53,7 +53,6 @@ public class TourLogWindowController {
     private int selectedLog;
     private int selectedTour;
     private ObservableList<Tour> tours;
-    private boolean uninitialized;
 
     private final TourLogViewModel tourLogViewModel;
 
@@ -61,7 +60,6 @@ public class TourLogWindowController {
         this.tourLogViewModel = tourLogViewModel;
         this.selectedLog = -1;
         this.selectedTour = -1;
-        this.uninitialized = true;
     }
 
     @FXML
@@ -81,18 +79,15 @@ public class TourLogWindowController {
 
         });
 
-        this.logs.addListener(new ListChangeListener<TourLog>() {
-            @Override
-            public void onChanged(Change<? extends TourLog> change) {
-                while (change.next()) {
-                    if (change.wasReplaced()) {
-                        if (selectedLog != -1) {
-                            logListView.getSelectionModel().select(selectedLog);
-                        }
+        this.logs.addListener((ListChangeListener<TourLog>) change -> {
+            while (change.next()) {
+                if (change.wasReplaced()) {
+                    if (selectedLog != -1) {
+                        logListView.getSelectionModel().select(selectedLog);
                     }
                 }
-
             }
+
         });
 
         setUpListView();
@@ -103,9 +98,9 @@ public class TourLogWindowController {
 
     }
 
-    private void initializeTourChooser(){
-        tourChooser.getItems().add("Alle Touren");
-        tourChooser.setValue("Alle Touren");
+    private void initializeTourChooser() {
+        tourChooser.getItems().add("All Tours");
+        tourChooser.setValue("All Tours");
         setTourChooserValues();
         filterTourButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -277,11 +272,10 @@ public class TourLogWindowController {
     }
 
     public void filterTours(String filteredTour){
-        if(filteredTour.equals("Alle Touren")){
+        if (filteredTour.equals("All Tours")) {
             logListView.setItems(logs);
-        }
-        else{
-            logListView.setItems(logs.filtered(log -> log.getTourID()==tourLogViewModel.getTourIdByName(filteredTour)));
+        } else {
+            logListView.setItems(logs.filtered(log -> log.getTourID() == tourLogViewModel.getTourIdByName(filteredTour)));
         }
     }
 }

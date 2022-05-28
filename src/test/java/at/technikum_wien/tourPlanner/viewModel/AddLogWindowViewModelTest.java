@@ -18,22 +18,22 @@ class AddLogWindowViewModelTest {
     static TourService tourService;
 
     @BeforeAll
-    static void initialize(){
-        tourLogService=Mockito.mock(TourLogService.class);
-        tourService=Mockito.mock(TourService.class);
-        viewModel= new AddLogWindowViewModel(tourLogService, tourService);
+    static void initialize() {
+        tourLogService = Mockito.mock(TourLogService.class);
+        tourService = Mockito.mock(TourService.class);
+        viewModel = new AddLogWindowViewModel(tourLogService, tourService);
         viewModel.setOldLog(Mockito.mock(TourLog.class));
     }
 
     @Test
     void addLog() {
-        viewModel.addLog(12,12, LocalDate.now(), 2, "tourname", 1);
+        viewModel.addLog(12, 12, LocalDate.now(), 2, "tourname", 1);
         Mockito.verify(tourLogService).addTourLog(Mockito.any(TourLog.class));
     }
 
     @Test
     void editLog() {
-        viewModel.editLog(12,12, LocalDate.now(), 2, "tourname", 1);
+        viewModel.editLog(12, 12, LocalDate.now(), 2, "tourname", 1);
         Mockito.verify(tourLogService).editTourLog(Mockito.any(TourLog.class));
     }
 }

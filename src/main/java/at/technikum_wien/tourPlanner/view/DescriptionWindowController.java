@@ -206,7 +206,7 @@ public class DescriptionWindowController implements Initializable {
                 tour.getChildFriendly() == 0 ? "N/A" : String.valueOf(tour.getChildFriendly()));
         fromLabel.setText(tour.getStartingPoint());
         toLabel.setText(tour.getDestination());
-        distanceLabel.setText(String.valueOf(tour.getLength()));
+        distanceLabel.setText(String.valueOf(tour.getLength()) + " miles");
         estimatedTimeLabel.setText(tour.getDuration());
         transportTypeLabel.setText(tour.getTransportType().name());
         descriptionLabel.setText(tour.getDescription());

@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.util.List;
 
 
@@ -79,7 +80,7 @@ public class ListViewController {
     }
 
     private void addLogToTable(TourLog t) {
-        LogViewRow row= new LogViewRow(t, listViewViewModel.getTourNameById(t.getTourID()));
+        LogViewRow row = new LogViewRow(t, listViewViewModel.getTourNameById(t.getTourID()));
         tourTable.getItems().add(row);
     }
 

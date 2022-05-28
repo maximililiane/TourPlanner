@@ -115,6 +115,39 @@ public class TourRepository {
         preparedStatement.executeUpdate();
     }
 
+    public LinkedList<String> searchTours(String searchString) throws SQLException {
+        String logTable = "";
+        logTable = TABLE_NAME.equals("tours") ? "logs" : "demo_logs";
+        String sql = "SELECT  tourName, description, startingPoint, destination, comment FROM " + TABLE_NAME
+                + " JOIN " + logTable
+                + " ON " + TABLE_NAME + ".uid=" + logTable + ".tourId"
+                + " WHERE tourname like ? " +
+                "OR description like ? OR startingPoint like ? OR destination like ? OR comment like ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, "%" + searchString + "%");
+        preparedStatement.setString(2, "%" + searchString + "%");
+        preparedStatement.setString(3, "%" + searchString + "%");
+        preparedStatement.setString(4, "%" + searchString + "%");
+        preparedStatement.setString(5, "%" + searchString + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        LinkedList<String> returnList = new LinkedList<>();
+        while (resultSet.next()) {
+            // format string for pattern "tourName - description - from - to - comment"
+            String tourName = resultSet.getString(1);
+            String description = resultSet.getString(2);
+            String startingPoint = resultSet.getString(3);
+            String destination = resultSet.getString(4);
+            String descriptionString = description.length() > 24 ? description.substring(0, 24) + "..." : description;
+            String comment = resultSet.getString(5) == null ? "" : resultSet.getString(5);
+            String commentString = comment.length() > 24 ? comment.substring(0, 24) + "..." : comment;
+            String listString = tourName + " - " + descriptionString + " - " + startingPoint + " - " + destination +
+                    (commentString.isEmpty() ? "" : " - " + commentString);
+            returnList.add(listString);
+        }
+        return returnList;
+    }
+
     public int getNextTourId() throws SQLException {
         int nextId = 0;
         PreparedStatement preparedStatement;

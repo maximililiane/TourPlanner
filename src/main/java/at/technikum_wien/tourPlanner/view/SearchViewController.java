@@ -4,17 +4,19 @@ import at.technikum_wien.tourPlanner.viewModel.SearchBarViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-public class SearchBarController {
-    @FXML
-    public Button searchButton;
-    @FXML
-    public TextField searchTextField;
+public class SearchViewController {
 
     private final SearchBarViewModel searchBarViewModel;
+    @FXML
+    public ListView searchResultListView;
+    @FXML
+    public Label resultsLabel;
 
-    public SearchBarController(SearchBarViewModel searchBarViewModel) {
+    public SearchViewController(SearchBarViewModel searchBarViewModel) {
         this.searchBarViewModel = searchBarViewModel;
     }
 
@@ -24,11 +26,7 @@ public class SearchBarController {
 
     @FXML
     void initialize() {
-        searchTextField.textProperty().bindBidirectional(searchBarViewModel.searchStringProperty());
-        searchButton.disableProperty().bind(searchBarViewModel.searchDisabledBinding());
+
     }
 
-    public void onSearchButton(ActionEvent actionEvent) {
-        searchBarViewModel.doSearch();
-    }
 }

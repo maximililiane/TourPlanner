@@ -27,5 +27,6 @@ Maximiliane:
 2h implement correctly update view after tour has been edited, assign logs to tour
 3h fix multiple bugs (set wrong uid, assign incorrect logs, doesn't update view)
 2h fix import data bug
+3h implement search
 
 Julian:

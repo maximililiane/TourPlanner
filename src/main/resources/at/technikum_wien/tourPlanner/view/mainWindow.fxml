@@ -15,6 +15,10 @@
                         <MenuItem mnemonicParsing="false" onAction="#openExportDataWindow" text="Export Data"/>
                     </items>
                 </MenuButton>
+                <TextField fx:id="searchTextField" prefHeight="26.0" prefWidth="780.0" HBox.hgrow="ALWAYS"
+                           promptText="Search"/>
+                <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="33.0" text="🔍"
+                        onAction="#doSearch"/>
             </items>
         </ToolBar>
         <TabPane layoutY="39.0" prefHeight="512.0" prefWidth="900.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"

@@ -29,7 +29,7 @@ public class ControllerFactory {
         TourService tourService = new TourService(tourRepository);
         TourLogService tourLogService = new TourLogService(tourRepository, tourLogRepository);
         this.searchBarViewModel = new SearchBarViewModel();
-        this.mainWindowViewModel = new MainWindowViewModel();
+        this.mainWindowViewModel = new MainWindowViewModel(tourService, tourLogService);
         this.descriptionViewModel = new DescriptionViewModel(tourService);
         this.listViewViewModel = new ListViewViewModel(tourLogService, tourService);
         this.tourLogViewModel = new TourLogViewModel(tourLogService, tourService);
@@ -58,8 +58,8 @@ public class ControllerFactory {
     public Object create(Class<?> controllerClass) {
         if (controllerClass == MainWindowController.class) {
             return new MainWindowController(mainWindowViewModel);
-        } else if (controllerClass == SearchBarController.class) {
-            return new SearchBarController(searchBarViewModel);
+        } else if (controllerClass == SearchViewController.class) {
+            return new SearchViewController(searchBarViewModel);
         } else if (controllerClass == DescriptionWindowController.class) {
             return new DescriptionWindowController(descriptionViewModel);
         } else if (controllerClass == ListViewController.class) {

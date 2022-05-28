@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class AddLogWindowController {
 
     private final AddLogWindowViewModel addLogWindowViewModel;
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     @FXML
     public Button saveLogButton;
@@ -59,23 +59,23 @@ public class AddLogWindowController {
     }
 
     private void initializeSpinner() {
-        hoursSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23,12));
-        minutesSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59,30));
-        difficultySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,50));
+        hoursSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
+        minutesSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 30));
+        difficultySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 50));
     }
 
-    private void prepareView(){
+    private void prepareView() {
         tourNamePicker.getItems().removeAll(tourNamePicker.getItems());
         commentArea.setText("");
         datePicker.setValue(LocalDate.now());
         ratingPicker.setValue(1);
     }
 
-    private void setChoicePickerValues(){
+    private void setChoicePickerValues() {
         tourNamePicker.setItems(addLogWindowViewModel.getTourNames());
         tourNamePicker.setValue(tourNamePicker.getItems().get(0));
-        LinkedList<Integer> l= new LinkedList<>();
-        for(int i=1; i<=5; i++){
+        LinkedList<Integer> l = new LinkedList<>();
+        for (int i = 1; i <= 5; i++) {
             l.add(i);
         }
         ratingPicker.setItems(FXCollections.observableList(l));
@@ -87,17 +87,17 @@ public class AddLogWindowController {
         initializeView();
     }
 
-    public void editLog(){
+    public void editLog() {
         addLogWindowViewModel.editLog(hoursSpinner.getValue(), minutesSpinner.getValue(), datePicker.getValue(), ratingPicker.getValue(), tourNamePicker.getValue(), difficultySpinner.getValue());
         closeWindow();
         initializeView();
     }
 
-    public void setOldLog(TourLog l){
+    public void setOldLog(TourLog l) {
         addLogWindowViewModel.setOldLog(l);
     }
 
-    private void closeWindow() {
+    public void closeWindow() {
         Stage stage = (Stage) saveLogButton.getScene().getWindow();
         stage.close();
     }

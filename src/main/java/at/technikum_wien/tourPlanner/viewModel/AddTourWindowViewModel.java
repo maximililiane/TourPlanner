@@ -15,7 +15,7 @@ public class AddTourWindowViewModel {
     private final TourService tourService;
     private final TourInputValidation tourInputValidation = new TourInputValidation();
 
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     private final StringProperty nameString = new SimpleStringProperty("");
     private final StringProperty fromString = new SimpleStringProperty("");

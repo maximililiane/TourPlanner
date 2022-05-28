@@ -15,15 +15,15 @@ class ListViewViewModelTest {
     static TourService tourService;
 
     @BeforeAll
-    static void initialze(){
-        tourService= Mockito.mock(TourService.class);
-        logService= Mockito.mock(TourLogService.class);
-        viewModel=new ListViewViewModel(logService,tourService);
+    static void initialze() {
+        tourService = Mockito.mock(TourService.class);
+        logService = Mockito.mock(TourLogService.class);
+        viewModel = new ListViewViewModel(logService, tourService);
     }
 
     @Test
     void getTourNameById() {
-        int test= Mockito.any(Integer.class);
+        int test = Mockito.any(Integer.class);
         viewModel.getTourNameById(test);
         Mockito.verify(tourService).getTourNameById(test);
     }

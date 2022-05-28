@@ -48,6 +48,16 @@ public class TourService extends Mapper {
         tourRepository.setTableName(tableName);
     }
 
+    public LinkedList<String> searchTours(String searchString) {
+        try {
+            return tourRepository.searchTours(searchString);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Couldn't search in tour table for: " + searchString);
+        }
+        return null;
+    }
+
     public void deleteAllTours() {
         try {
             tourRepository.deleteAllTours();
@@ -56,6 +66,7 @@ public class TourService extends Mapper {
             e.printStackTrace();
         }
     }
+
     public int getTourId(String tourName) {
         return tours.stream().filter(tour -> tour.getName().equals(tourName)).findAny().get().getUid();
     }

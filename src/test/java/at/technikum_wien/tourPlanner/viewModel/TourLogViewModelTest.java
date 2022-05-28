@@ -15,11 +15,12 @@ class TourLogViewModelTest {
     static TourLogViewModel viewModel;
     static TourLogService logService;
     static TourService tourService;
+
     @BeforeAll
-    static void initialize(){
-        logService= Mockito.mock(TourLogService.class);
-        tourService=Mockito.mock(TourService.class);
-        viewModel= new TourLogViewModel(logService, tourService);
+    static void initialize() {
+        logService = Mockito.mock(TourLogService.class);
+        tourService = Mockito.mock(TourService.class);
+        viewModel = new TourLogViewModel(logService, tourService);
     }
 
     @Test
@@ -36,7 +37,7 @@ class TourLogViewModelTest {
 
     @Test
     void getTourIdByName() {
-        String test= "test";
+        String test = "test";
         viewModel.getTourIdByName(test);
         Mockito.verify(tourService).getTourId(test);
     }

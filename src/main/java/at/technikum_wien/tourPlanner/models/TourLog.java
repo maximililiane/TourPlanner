@@ -1,12 +1,15 @@
 package at.technikum_wien.tourPlanner.models;
 
+import at.technikum_wien.tourPlanner.models.serializers.TimeDeserializer;
+import at.technikum_wien.tourPlanner.models.serializers.TimeSerializer;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 public class TourLog {
 
@@ -20,7 +23,10 @@ public class TourLog {
     private String comment;
     @JsonAlias({"difficulty"})
     private int difficulty;
-    @JsonAlias({"total time"})
+
+    @JsonAlias({"totalTime"})
+    @JsonSerialize(using = TimeSerializer.class)
+    @JsonDeserialize(using = TimeDeserializer.class)
     private Time totalTime; // stored in the format of hh:mm
     @JsonAlias({"rating"})
     private int rating;

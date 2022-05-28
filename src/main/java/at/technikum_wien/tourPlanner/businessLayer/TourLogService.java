@@ -211,10 +211,11 @@ public class TourLogService {
         return tourRepository.getObservableTourList();
     }
 
-    public void importLogsByTourId(int id, List<TourLog> importedLogs) {
+    public void importLogsByTourId(Tour importedTour, List<TourLog> importedLogs) {
         for (TourLog log : importedLogs) {
-            log.setTourID(id);
+            log.setTourID(importedTour.getUid());
             try {
+                log.setUid(tourLogRepository.getNewestLogId());
                 tourLogRepository.addLog(log);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -222,6 +223,8 @@ public class TourLogService {
             }
             logs.add(log);
         }
+        int index = tours.indexOf(importedTour);
+        tours.set(index, importedTour);
     }
 
     public ObservableList<TourLog> getObservableLogList() {

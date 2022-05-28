@@ -44,7 +44,7 @@ public class ImportWindowViewModel {
         if (importedTour != null) {
             if (importedTour.getLogs() != null) {
                 // imported tour has logs to be parsed
-                tourLogService.importLogsByTourId(importedTour.getUid(), importedTour.getLogs());
+                tourLogService.importLogsByTourId(importedTour, importedTour.getLogs());
                 logger.info("User tries to import tour via file; Filepath: " + file.getPath());
             }
         }

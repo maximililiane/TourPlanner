@@ -10,27 +10,27 @@ import java.util.List;
 public class Tour {
     @JsonIgnore
     private int uid;
-    @JsonAlias({"name"})
+    @JsonAlias("name")
     private String name;
-    @JsonAlias({"from"})
+    @JsonAlias("from")
     private String startingPoint;
-    @JsonAlias({"to"})
+    @JsonAlias("to")
     private String destination;
-    @JsonAlias({"duration"})
+    @JsonAlias("duration")
     private String duration;
-    @JsonAlias({"transportType"})
+    @JsonAlias("transportType")
     private TransportMode transportType;
-    @JsonAlias({"description"})
+    @JsonAlias("description")
     private String description;
-    @JsonAlias({"popularity"})
+    @JsonAlias("popularity")
     private int popularity; // popularity is defined by how many log entries a tour has
-    @JsonAlias({"length"})
+    @JsonAlias("length")
     private double length;
-    @JsonAlias({"childFriendliness"})
+    @JsonAlias("childFriendliness")
     private int childFriendly;
-    @JsonAlias({"mapImage"})
+    @JsonAlias("mapImage")
     private String mapImage;
-    @JsonAlias({"logs"})
+    @JsonAlias("logs")
     private List<TourLog> logs;
 
     public Tour() {
@@ -174,10 +174,9 @@ public class Tour {
     }
 
     public void setLogs(List<TourLog> logs) {
-        if (!this.logs.isEmpty())
-            this.logs = new LinkedList<>();
-
-        this.logs.addAll(logs);
+//        if (this.logs != null && !this.logs.isEmpty())
+//            this.logs = new LinkedList<>();
+        this.logs = logs;
     }
 
     public void insertLog(TourLog log) {

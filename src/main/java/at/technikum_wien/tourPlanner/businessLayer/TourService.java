@@ -89,7 +89,8 @@ public class TourService extends Mapper {
             return;
         }
         tourWithMapQuestApiInfo.setChildFriendly(0);
-        tourWithMapQuestApiInfo.setLogs(new LinkedList<TourLog>());
+        tourWithMapQuestApiInfo.setLogs(tour.getLogs());
+//        tourWithMapQuestApiInfo.setLogs(new LinkedList<TourLog>());
         tourWithMapQuestApiInfo.setPopularity();
 
         try {
@@ -203,7 +204,8 @@ public class TourService extends Mapper {
         logger.debug("Importing Data from file: " + file.getName());
 
         try {
-            Tour importedTour = getObjectMapper().readValue(file, Tour.class);
+            String json = FileUtils.readFileToString(file, "UTF-8");
+            Tour importedTour = toObject(json, Tour.class);
             if (importedTour == null) {
                 logger.error("Couldn't parse imported tour.");
                 return null;

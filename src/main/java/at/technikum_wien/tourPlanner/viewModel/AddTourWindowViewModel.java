@@ -12,6 +12,7 @@ import javafx.beans.property.StringProperty;
 
 public class AddTourWindowViewModel {
 
+
     private final TourService tourService;
     private final TourInputValidation tourInputValidation = new TourInputValidation();
 

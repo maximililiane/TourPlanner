@@ -1,5 +1,6 @@
 package at.technikum_wien.tourPlanner.businessLayer;
 
+import at.technikum_wien.tourPlanner.businessLayer.mapQuestApiService.Mapper;
 import at.technikum_wien.tourPlanner.dataAccessLayer.database.TableName;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourLogRepository;
 import at.technikum_wien.tourPlanner.dataAccessLayer.repositories.TourRepository;
@@ -9,13 +10,14 @@ import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-public class TourLogService {
+public class TourLogService extends Mapper {
 
     private final TourLogRepository tourLogRepository;
     private final TourRepository tourRepository;
@@ -35,8 +37,7 @@ public class TourLogService {
                 while (change.next()) {
                     if (change.wasRemoved()) {
                         deleteTourLogs();
-                    }
-                    if (change.wasReplaced()) {
+                    } else if (change.wasReplaced()) {
                         tours.forEach(t -> t.setChildFriendly(calculateChildFriendliness(t.getLength(), t.getLogs())));
                     }
                 }
@@ -50,10 +51,10 @@ public class TourLogService {
         assignLogsToTours();
     }
 
-    public void deleteAllLogs() {
+    public void resetLogTable() {
         try {
-            tourLogRepository.deleteAllLogs();
-            logs.removeAll();
+            tourLogRepository.resetLogTable();
+            this.logs.clear();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -234,6 +235,7 @@ public class TourLogService {
 
     private void assignLogsToTours() {
         for (Tour tour : tours) {
+            tour.setLogs(new LinkedList<>());
             for (TourLog log : logs) {
                 if (tour.getUid() == log.getTourID()) {
                     tour.insertLog(log);
@@ -254,7 +256,59 @@ public class TourLogService {
                 .map(Tour::getUid)
                 .collect(Collectors.toList());
 
-        logs.removeIf(l -> !tourIds.contains(l.getTourID()));
+        List<TourLog> toDelete = logs.stream().filter(l -> !tourIds.contains(l.getTourID())).collect(Collectors.toList());
+        logs.removeAll(toDelete);
+    }
+
+    public void addDemoLogs() {
+        TourLog tourALog1 = toObject("{\"date\":1653343200000,\"comment\":\"Some light traffic on the way there, but still had a great time.\",\"difficulty\":5,\"totalTime\":{\"totalTime\":\"01:04:00\"},\"rating\":5}", TourLog.class);
+        tourALog1.setUid(1);
+        tourALog1.setTourID(1);
+        TourLog tourALog2 = toObject("{\"date\":1653429600000,\"comment\":\"\",\"difficulty\":2,\"totalTime\":{\"totalTime\":\"00:52:00\"},\"rating\":5}", TourLog.class);
+        tourALog2.setUid(2);
+        tourALog2.setTourID(1);
+        TourLog tourALog3 = toObject("{\"date\":1652220000000,\"comment\":\"There's construction on the highway, took us a lot longer to get there than expected.\",\"difficulty\":15,\"totalTime\":{\"totalTime\":\"01:20:00\"},\"rating\":4}", TourLog.class);
+        tourALog3.setUid(3);
+        tourALog3.setTourID(1);
+
+        TourLog tourCLog = toObject("{\"date\":1652479200000,\"comment\":\"Exactly what I needed after a long day of sitting at the office.\",\"difficulty\":50,\"totalTime\":{\"totalTime\":\"00:48:00\"},\"rating\":5}", TourLog.class);
+        tourCLog.setUid(4);
+        tourCLog.setTourID(3);
+
+        TourLog tourDLog1 = toObject("{\"date\":1651788000000,\"comment\":\"The long journey was worth this destination.\",\"difficulty\":40,\"totalTime\":{\"totalTime\":\"07:13:00\"},\"rating\":5}", TourLog.class);
+        tourDLog1.setUid(5);
+        tourDLog1.setTourID(4);
+        TourLog tourDLog2 = toObject("{\"date\":1652997600000,\"comment\":\"There was a lot of traffic, but I also left on a Friday after work so...\",\"difficulty\":37,\"totalTime\":{\"totalTime\":\"07:26:00\"},\"rating\":4}", TourLog.class);
+        tourDLog2.setUid(6);
+        tourDLog2.setTourID(4);
+
+        TourLog tourELog = toObject("{\"date\":1653688800000,\"comment\":\"I drove my car into the water! Because the GPS told me to!\",\"difficulty\":74,\"totalTime\":{\"totalTime\":\"05:30:00\"},\"rating\":1}", TourLog.class);
+        tourELog.setUid(7);
+        tourELog.setTourID(5);
+
+        try {
+            tourLogRepository.addLog(tourALog1);
+            tourLogRepository.addLog(tourALog2);
+            tourLogRepository.addLog(tourALog3);
+            tourLogRepository.addLog(tourCLog);
+            tourLogRepository.addLog(tourDLog1);
+            tourLogRepository.addLog(tourDLog2);
+            tourLogRepository.addLog(tourELog);
+
+            logs.add(tourALog1);
+            logs.add(tourALog2);
+            logs.add(tourALog3);
+            logs.add(tourCLog);
+            logs.add(tourDLog1);
+            logs.add(tourDLog2);
+            logs.add(tourELog);
+            assignLogsToTours();
+        } catch (SQLException e) {
+            logger.error("Error while saving demo logs");
+            e.printStackTrace();
+        }
+
+
     }
 
 }

@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -67,7 +68,6 @@ public class TourLogWindowController {
         this.tours = tourLogViewModel.getTourList();
         this.logs = tourLogViewModel.getLogList();
         this.tours.addListener((ListChangeListener<Tour>) change -> {
-            setTourChooserValues();
             while (change.next()) {
                 if (change.wasReplaced()) {
                     if (selectedLog != -1) {
@@ -102,38 +102,32 @@ public class TourLogWindowController {
         tourChooser.getItems().add("All Tours");
         tourChooser.setValue("All Tours");
         setTourChooserValues();
-        filterTourButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                filterTours(tourChooser.getValue());
-            }
-        });
+        filterTourButton.setOnAction(t -> filterTours(tourChooser.getValue()));
 
     }
 
-    private void setTourChooserValues(){
-        tourChooser.getItems().removeAll(tourLogViewModel.getTourNames());
+    private void setTourChooserValues() {
+        tourChooser.setItems(FXCollections.observableList(new LinkedList<>()));
+        tourChooser.getItems().add("All Tours");
+        tourChooser.setValue("All Tours");
         tourChooser.getItems().addAll(tourLogViewModel.getTourNames());
     }
 
     // update view when new item on the list has been selected
     private void updateListView() {
-        logListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TourLog>() {
-            @Override
-            public void changed(ObservableValue<? extends TourLog> observableValue, TourLog oldLog, TourLog newLog) {
-                if (newLog != null) {
-                    selectedLog = logListView.getSelectionModel().getSelectedIndex();
-                    Tour newTour = tours.stream().filter(t -> t.getUid() == newLog.getTourID()).findFirst().get();
-                    selectedTour = tours.indexOf(newTour);
-                    setValuesToFields(newLog, newTour);
-                    unHideButtons(true);
-                } else {
-                    // there are no more tours left in the database
-                    selectedTour = -1;
-                    selectedLog = -1;
-                    removeValuesFromFields();
-                    unHideButtons(false);
-                }
+        logListView.getSelectionModel().selectedItemProperty().addListener((ChangeListener<TourLog>) (observableValue, oldLog, newLog) -> {
+            if (newLog != null) {
+                selectedLog = logListView.getSelectionModel().getSelectedIndex();
+                Tour newTour = tours.stream().filter(t -> t.getUid() == newLog.getTourID()).findFirst().get();
+                selectedTour = tours.indexOf(newTour);
+                setValuesToFields(newLog, newTour);
+                unHideButtons(true);
+            } else {
+                // there are no more tours left in the database
+                selectedTour = -1;
+                selectedLog = -1;
+                removeValuesFromFields();
+                unHideButtons(false);
             }
         });
     }
@@ -152,23 +146,24 @@ public class TourLogWindowController {
                         super.updateItem(log, empty);
                         if (empty || log == null) {
                             setText(null);
+                        } else if (tours.stream().noneMatch(t -> t.getUid() == log.getTourID())) {
+                            setText(null);
                         } else {
                             Tour tour = tours.stream().filter(t -> t.getUid() == log.getTourID()).findFirst().get();
                             setText(tour.getName() + " - Log: " + log.getUid());
                         }
 
                         // listen if tour has been edited
-                        tours.addListener(new ListChangeListener<Tour>() {
-                            @Override
-                            public void onChanged(Change<? extends Tour> change) {
-                                while (change.next()) {
-                                    if (change.wasReplaced()) {
-                                        if (empty || log == null) {
-                                            setText(null);
-                                        } else {
-                                            Tour tour = tours.stream().filter(t -> t.getUid() == log.getTourID()).findFirst().get();
-                                            setText(tour.getName() + " - Log: " + log.getUid());
-                                        }
+                        tours.addListener((ListChangeListener<Tour>) change -> {
+                            while (change.next()) {
+                                if (change.wasReplaced()) {
+                                    if (empty || log == null) {
+                                        setText(null);
+                                    } else if (tours.stream().noneMatch(t -> t.getUid() == log.getTourID())) {
+                                        setText(null);
+                                    } else {
+                                        Tour tour = tours.stream().filter(t -> t.getUid() == log.getTourID()).findFirst().get();
+                                        setText(tour.getName() + " - Log: " + log.getUid());
                                     }
                                 }
                             }
@@ -178,7 +173,6 @@ public class TourLogWindowController {
             }
         });
     }
-
 
 
     public void unHideButtons(boolean unHideButtons) {
@@ -271,7 +265,7 @@ public class TourLogWindowController {
         tourLogViewModel.deleteLog((TourLog) logListView.getSelectionModel().getSelectedItem());
     }
 
-    public void filterTours(String filteredTour){
+    public void filterTours(String filteredTour) {
         if (filteredTour.equals("All Tours")) {
             logListView.setItems(logs);
         } else {

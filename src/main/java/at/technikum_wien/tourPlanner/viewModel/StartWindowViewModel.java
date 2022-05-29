@@ -28,16 +28,11 @@ public class StartWindowViewModel {
     }
 
     private void addDemoData() {
-        if (!tourService.getTours().isEmpty() || !tourLogService.getTours().isEmpty()) {
-            // there is still test data from the last application call, this needs to be deleted
-            tourService.deleteAllTours();
-            tourLogService.deleteAllLogs();
-        }
+        tourService.resetTourTable();
+        tourLogService.resetLogTable();
 
-        // TODO: change test data so it doesn't have to do an API call every time
-        Tour testTourA = new Tour("Tour A", "Vienna", "Bratislava", TransportMode.BICYCLE, "This is a test description");
-        tourService.addTour(testTourA);
-
+        tourService.addDemoData();
+        tourLogService.addDemoLogs();
     }
 
 }

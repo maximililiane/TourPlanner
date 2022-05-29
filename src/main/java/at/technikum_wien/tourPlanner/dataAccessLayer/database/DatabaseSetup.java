@@ -22,7 +22,7 @@ public class DatabaseSetup {
             createLogTable(connection, TableName.DEMO_TOUR_LOG_TABLE_NAME.getName(), TableName.DEMO_TOUR_TABLE_NAME.getName());
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("An error occured while trying to setup the database; " + e.getMessage());
+            logger.error("An error occurred while trying to setup the database; " + e.getMessage());
         }
         connection.close();
     }
@@ -58,7 +58,7 @@ public class DatabaseSetup {
                 "totalTime VARCHAR(256) NOT NULL, " +
                 "rating INTEGER NOT NULL, " +
                 "PRIMARY KEY(uid), " +
-                "CONSTRAINT tourIdForeignKey FOREIGN KEY(tourId) REFERENCES tours(uid) ON DELETE CASCADE)";
+                "CONSTRAINT tourIdForeignKey FOREIGN KEY(tourId) REFERENCES " + tourTableName + "(uid) ON DELETE CASCADE)";
         statement.executeUpdate(createSql);
         statement.close();
     }

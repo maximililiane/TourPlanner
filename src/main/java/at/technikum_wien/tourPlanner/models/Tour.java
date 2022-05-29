@@ -174,8 +174,6 @@ public class Tour {
     }
 
     public void setLogs(List<TourLog> logs) {
-//        if (this.logs != null && !this.logs.isEmpty())
-//            this.logs = new LinkedList<>();
         this.logs = logs;
     }
 

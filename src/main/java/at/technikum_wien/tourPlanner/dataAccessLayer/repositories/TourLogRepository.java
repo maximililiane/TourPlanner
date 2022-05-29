@@ -113,10 +113,24 @@ public class TourLogRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void deleteAllLogs() throws SQLException {
-        String sql = "DELETE FROM " + TABLE_NAME;
+    public void resetLogTable() throws SQLException {
+        String sql = "DROP TABLE " + TABLE_NAME + " CASCADE";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.executeUpdate();
+
+        Statement statement = connection.createStatement();
+        String createSql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" +
+                "uid SERIAL NOT NULL, " +
+                "tourId INTEGER NOT NULL, " +
+                "date DATE NOT NULL, " +
+                "comment VARCHAR(256), " +
+                "difficulty INTEGER NOT NULL, " +
+                "totalTime VARCHAR(256) NOT NULL, " +
+                "rating INTEGER NOT NULL, " +
+                "PRIMARY KEY(uid), " +
+                "CONSTRAINT tourIdForeignKey FOREIGN KEY(tourId) REFERENCES demo_tours(uid) ON DELETE CASCADE)";
+        statement.executeUpdate(createSql);
+        statement.close();
     }
 
 }

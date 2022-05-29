@@ -41,19 +41,9 @@ public class ListViewController {
     public ListViewController(ListViewViewModel listViewViewModel) {
         this.listViewViewModel = listViewViewModel;
         this.logs = listViewViewModel.getList();
-        this.logs.addListener(new ListChangeListener<TourLog>() {
-            @Override
-            public void onChanged(Change<? extends TourLog> change) {
-                setListToTable(logs);
-            }
-        });
+        this.logs.addListener((ListChangeListener<TourLog>) change -> setListToTable(logs));
         this.tours = listViewViewModel.getTours();
-        this.tours.addListener(new ListChangeListener<Tour>() {
-            @Override
-            public void onChanged(Change<? extends Tour> change) {
-                setListToTable(logs);
-            }
-        });
+        this.tours.addListener((ListChangeListener<Tour>) change -> setListToTable(logs));
     }
 
     @FXML

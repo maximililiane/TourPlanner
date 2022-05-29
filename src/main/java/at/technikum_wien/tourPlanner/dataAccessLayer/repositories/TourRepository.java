@@ -7,10 +7,7 @@ import at.technikum_wien.tourPlanner.models.TransportMode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.LinkedList;
 
 public class TourRepository {
@@ -187,10 +184,27 @@ public class TourRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void deleteAllTours() throws SQLException {
-        String sql = "DELETE FROM " + TABLE_NAME;
+    public void resetTourTable() throws SQLException {
+        String sql = "DROP TABLE " + TABLE_NAME + " CASCADE";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.executeUpdate();
+
+        Statement statement = connection.createStatement();
+        String createSql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "( " +
+                "uid SERIAL NOT NULL, " +
+                "tourName VARCHAR(16) NOT NULL, " +
+                "description TEXT NOT NULL, " +
+                "startingPoint VARCHAR(256) NOT NULL, " +
+                "destination VARCHAR(256) NOT NULL, " +
+                "distance DOUBLE PRECISION NOT NULL, " +
+                "duration VARCHAR(256) NOT NULL, " +
+                "transportType VARCHAR(256) NOT NULL, " +
+                "mapImage VARCHAR(256) NOT NULL, " +
+                "childFriendliness INTEGER NOT NULL, " +
+                "popularity INTEGER NOT NULL, " +
+                "UNIQUE (tourName), " +
+                "PRIMARY KEY(uid))";
+        statement.executeUpdate(createSql);
     }
 
 }

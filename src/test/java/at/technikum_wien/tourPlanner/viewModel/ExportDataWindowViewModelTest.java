@@ -18,10 +18,10 @@ class ExportDataWindowViewModelTest {
     static ExportDataWindowViewModel viewModel;
 
     @BeforeAll
-    static void initialize(){
-        tourService= Mockito.mock(TourService.class);
-        logService= Mockito.mock(TourLogService.class);
-        viewModel= new ExportDataWindowViewModel(tourService, logService);
+    static void initialize() {
+        tourService = Mockito.mock(TourService.class);
+        logService = Mockito.mock(TourLogService.class);
+        viewModel = new ExportDataWindowViewModel(tourService, logService);
     }
 
     @Test
@@ -32,7 +32,7 @@ class ExportDataWindowViewModelTest {
 
     @Test
     void exportData() {
-        Tour tour= Mockito.mock(Tour.class);
+        Tour tour = Mockito.mock(Tour.class);
         viewModel.exportData(tour);
         Mockito.verify(tourService).exportData(tour);
     }

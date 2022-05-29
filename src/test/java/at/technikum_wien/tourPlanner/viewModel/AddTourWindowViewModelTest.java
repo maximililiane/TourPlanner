@@ -16,14 +16,14 @@ class AddTourWindowViewModelTest {
     static AddTourWindowViewModel viewModel;
 
     @BeforeAll
-    static void initialize(){
-        tourService= Mockito.mock(TourService.class);
-        viewModel=new AddTourWindowViewModel(tourService);
+    static void initialize() {
+        tourService = Mockito.mock(TourService.class);
+        viewModel = new AddTourWindowViewModel(tourService);
     }
 
     @Test
     void addTour() {
-        Tour tour= Mockito.mock(Tour.class);
+        Tour tour = Mockito.mock(Tour.class);
         viewModel.addTour(tour);
         Mockito.verify(tourService).addTour(tour);
     }

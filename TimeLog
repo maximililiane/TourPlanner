@@ -30,6 +30,7 @@ Maximiliane:
 3h implement search
 3h add demo tour data, fix bugs
 2h add code comments and missing logger messages, remove editTourWindowController and use addTourWindows instead
+1h add Validation Tests
 
 
 Julian:

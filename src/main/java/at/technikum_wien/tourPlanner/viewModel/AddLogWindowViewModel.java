@@ -42,7 +42,7 @@ public class AddLogWindowViewModel {
 
     public void addLog(int hours, int minutes, LocalDate date, int rating, String tourName, int difficulty) {
         TourLog l = createLog(hours, minutes, date, rating, tourName, difficulty);
-        logger.info("User tries to add log to database; Log: " + l);
+        logger.debug("User tries to add log to database; Log: " + l);
         logService.addTourLog(l);
     }
 
@@ -50,7 +50,7 @@ public class AddLogWindowViewModel {
         TourLog l = createLog(hours, minutes, date, rating, tourName, difficulty);
         if (l != null) {
             l.setUid(oldLog.getUid());
-            logger.info("User tries to edit log in database; LogID: " + l.getUid());
+            logger.debug("User tries to edit log in database; LogID: " + l.getUid());
             logService.editTourLog(l);
         }
     }

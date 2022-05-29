@@ -10,19 +10,20 @@ import java.sql.*;
 
 public class DatabaseSetup {
 
-    private final static LoggerWrapper logger= LoggerFactory.getLogger();
+    private final static LoggerWrapper logger = LoggerFactory.getLogger();
 
     public static void setUp() throws SQLException {
         Configuration conf = Injector.getConfig("app.properties");
         Connection connection = DriverManager.getConnection(conf.get("db.dbLink"), conf.get("db.user"), conf.get("db.password"));
         try {
+            logger.debug("Initialising database.");
             createTourTable(connection, TableName.REGULAR_TOUR_TABLE_NAME.getName());
             createTourTable(connection, TableName.DEMO_TOUR_TABLE_NAME.getName());
             createLogTable(connection, TableName.REGULAR_TOUR_LOG_TABLE_NAME.getName(), TableName.REGULAR_TOUR_TABLE_NAME.getName());
             createLogTable(connection, TableName.DEMO_TOUR_LOG_TABLE_NAME.getName(), TableName.DEMO_TOUR_TABLE_NAME.getName());
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("An error occurred while trying to setup the database; " + e.getMessage());
+            logger.error("An error occurred while trying to set up the database; " + e.getMessage());
         }
         connection.close();
     }

@@ -12,7 +12,7 @@ public class ExportDataWindowViewModel {
     private final TourService tourService;
     private final TourLogService tourLogService;
 
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public ExportDataWindowViewModel(TourService tourService, TourLogService tourLogService) {
         this.tourService = tourService;
@@ -24,7 +24,7 @@ public class ExportDataWindowViewModel {
     }
 
     public void exportData(Tour tour) {
-        logger.info("User tries to export tour; Tourname: " + tour.getName());
+        logger.info("User tries to export tour data for tour: " + tour.getName());
         tour.setLogs(tourLogService.getLogsByTourId(tour.getUid()));
 
         tourService.exportData(tour);

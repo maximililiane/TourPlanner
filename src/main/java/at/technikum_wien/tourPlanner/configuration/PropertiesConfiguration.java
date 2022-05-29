@@ -10,13 +10,13 @@ import java.util.Properties;
 public class PropertiesConfiguration implements Configuration {
 
     private Properties appProperties;
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public PropertiesConfiguration(String fileName) {
         try {
             init(fileName);
         } catch (IOException e) {
-            logger.error("An error occured while initializing the config file;" + e.getMessage());
+            logger.error("An error occurred while initializing the config file;" + e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -26,11 +26,11 @@ public class PropertiesConfiguration implements Configuration {
         appProperties = new Properties();
         appProperties.load(appConfigPath.openStream());
 
-        //appProperties.list(System.out);
     }
 
     public String get(String key) {
         if (!appProperties.containsKey(key)) {
+            logger.fatal(key + "does not exist in properties");
             throw new RuntimeException(key + "does not exist in properties");
         }
         return appProperties.getProperty(key);

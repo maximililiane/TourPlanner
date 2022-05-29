@@ -1,6 +1,8 @@
 package at.technikum_wien.tourPlanner.view;
 
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.viewModel.MainWindowViewModel;
 import javafx.collections.FXCollections;
@@ -25,6 +27,7 @@ public class MainWindowController {
     private final MainWindowViewModel mainViewModel;
     public Button searchButton;
     public TextField searchTextField;
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public MainWindowController(MainWindowViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
@@ -47,6 +50,7 @@ public class MainWindowController {
             stage.setMinHeight(400.0);
             stage.show();
         } catch (IOException e) {
+            logger.error("An error occurred when opening the export window.\n" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -62,6 +66,7 @@ public class MainWindowController {
             stage.setMinHeight(400.0);
             stage.show();
         } catch (IOException e) {
+            logger.error("An error occurred when opening the import window.\n" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -104,6 +109,7 @@ public class MainWindowController {
             searchTextField.setText("");
 
         } catch (IOException e) {
+            logger.error("An error occurred when opening the search window.\n" + e.getMessage());
             e.printStackTrace();
         }
     }

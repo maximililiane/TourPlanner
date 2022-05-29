@@ -2,18 +2,19 @@ package at.technikum_wien.tourPlanner.dataAccessLayer.database;
 
 import at.technikum_wien.tourPlanner.Injector;
 import at.technikum_wien.tourPlanner.configuration.Configuration;
-import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
+
 
 import java.sql.*;
-import java.util.LinkedList;
+
 
 public class DatabaseConnector {
-    private final boolean tablesExist = false;
-    private DatabaseSetup dataBaseSetup;
     private Connection connection;
     private final String DB_URL;
     private final String DB_USER;
     private final String DB_PASSWORD;
+    private static final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public DatabaseConnector() {
         Configuration conf = Injector.getConfig("app.properties");
@@ -23,12 +24,9 @@ public class DatabaseConnector {
     }
 
     public void connect() throws SQLException {
+        logger.debug("Connecting to database");
         this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         DatabaseSetup.setUp();
-    }
-
-    public void disconnect() throws SQLException {
-        this.connection.close();
     }
 
     public Connection getConnection() {

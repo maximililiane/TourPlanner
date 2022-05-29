@@ -19,32 +19,16 @@ public class Route {
         return boundingBox;
     }
 
-    public void setBoundingBox(BoundingBox boundingBox) {
-        this.boundingBox = boundingBox;
-    }
-
     public double getDistance() {
         return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
     }
 
     public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
     public String getFormattedTime() {
         return formattedTime;
-    }
-
-    public void setFormattedTime(String formattedTime) {
-        this.formattedTime = formattedTime;
     }
 
     @Override

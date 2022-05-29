@@ -84,6 +84,7 @@ public class TourLogWindowController {
                 if (change.wasReplaced()) {
                     if (selectedLog != -1) {
                         logListView.getSelectionModel().select(selectedLog);
+                        setValuesToFields(logs.get(selectedLog), tours.get(selectedTour));
                     }
                 }
             }
@@ -241,12 +242,7 @@ public class TourLogWindowController {
             controller.tourNamePicker.setValue(tour.getName());
             controller.setOldLog(log);
 
-            controller.saveLogButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent t) {
-                    controller.editLog();
-                }
-            });
+            controller.saveLogButton.setOnAction(t -> controller.editLog());
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();

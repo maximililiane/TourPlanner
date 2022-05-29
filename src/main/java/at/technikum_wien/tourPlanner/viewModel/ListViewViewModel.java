@@ -10,13 +10,11 @@ import javafx.collections.ObservableList;
 public class ListViewViewModel {
 
     private ObservableList<TourLog> list;
-    private ObservableList<Tour> tours;
-    private TourLogService logService;
-    private TourService tourService;
+    private final ObservableList<Tour> tours;
+    private final TourService tourService;
 
     // public ListViewModel(DBProxy proxy){
     public ListViewViewModel(TourLogService logService, TourService tourService) {
-        this.logService = logService;
         this.list = logService.getObservableLogList();
         this.tours = tourService.getTours();
         this.tourService = tourService;

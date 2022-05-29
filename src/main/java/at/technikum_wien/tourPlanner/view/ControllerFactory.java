@@ -11,12 +11,10 @@ import java.sql.SQLException;
 
 public class ControllerFactory {
     private final MainWindowViewModel mainWindowViewModel;
-    private final SearchBarViewModel searchBarViewModel;
     private final DescriptionViewModel descriptionViewModel;
     private final ListViewViewModel listViewViewModel;
     private final TourLogViewModel tourLogViewModel;
     private final AddTourWindowViewModel addTourWindowViewModel;
-    private final EditTourWindowViewModel editTourWindowViewModel;
     private final ExportDataWindowViewModel exportDataWindowViewModel;
     private final ImportWindowViewModel importWindowViewModel;
     private final AddLogWindowViewModel addLogWindowViewModel;
@@ -28,13 +26,11 @@ public class ControllerFactory {
         setUpDatabase();
         TourService tourService = new TourService(tourRepository);
         TourLogService tourLogService = new TourLogService(tourRepository, tourLogRepository);
-        this.searchBarViewModel = new SearchBarViewModel();
-        this.mainWindowViewModel = new MainWindowViewModel(tourService, tourLogService);
+        this.mainWindowViewModel = new MainWindowViewModel(tourService);
         this.descriptionViewModel = new DescriptionViewModel(tourService);
         this.listViewViewModel = new ListViewViewModel(tourLogService, tourService);
         this.tourLogViewModel = new TourLogViewModel(tourLogService, tourService);
         this.addTourWindowViewModel = new AddTourWindowViewModel(tourService);
-        this.editTourWindowViewModel = new EditTourWindowViewModel(tourService);
         this.exportDataWindowViewModel = new ExportDataWindowViewModel(tourService, tourLogService);
         this.importWindowViewModel = new ImportWindowViewModel(tourService, tourLogService);
         this.addLogWindowViewModel = new AddLogWindowViewModel(tourLogService, tourService);
@@ -59,7 +55,7 @@ public class ControllerFactory {
         if (controllerClass == MainWindowController.class) {
             return new MainWindowController(mainWindowViewModel);
         } else if (controllerClass == SearchViewController.class) {
-            return new SearchViewController(searchBarViewModel);
+            return new SearchViewController();
         } else if (controllerClass == DescriptionWindowController.class) {
             return new DescriptionWindowController(descriptionViewModel);
         } else if (controllerClass == ListViewController.class) {
@@ -68,8 +64,6 @@ public class ControllerFactory {
             return new TourLogWindowController(tourLogViewModel);
         } else if (controllerClass == AddTourWindowController.class) {
             return new AddTourWindowController(addTourWindowViewModel);
-        } else if (controllerClass == EditTourWindowController.class) {
-            return new EditTourWindowController(editTourWindowViewModel);
         } else if (controllerClass == ExportDataWindowController.class) {
             return new ExportDataWindowController(exportDataWindowViewModel);
         } else if (controllerClass == ImportWindowController.class) {

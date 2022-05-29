@@ -26,20 +26,20 @@ public class LogViewRow {
     private SimpleStringProperty tourName;
 
     public LogViewRow(TourLog l, String tourName) {
-        uid= new SimpleIntegerProperty(l.getUid());
-        tourUID= new SimpleIntegerProperty(l.getTourID());
-        comment= new SimpleStringProperty(l.getComment());
-        difficulty= new SimpleIntegerProperty(l.getDifficulty());
-        rating= new SimpleIntegerProperty(l.getRating());
-        this.tourName= new SimpleStringProperty(tourName);
-        totalTime=l.getTotalTime();
-        date=l.getDate();
+        uid = new SimpleIntegerProperty(l.getUid());
+        tourUID = new SimpleIntegerProperty(l.getTourID());
+        comment = new SimpleStringProperty(l.getComment());
+        difficulty = new SimpleIntegerProperty(l.getDifficulty());
+        rating = new SimpleIntegerProperty(l.getRating());
+        this.tourName = new SimpleStringProperty(tourName);
+        totalTime = l.getTotalTime();
+        date = l.getDate();
 
 
     }
 
-    public TourLog getLog(){
-        TourLog l= new TourLog();
+    public TourLog getLog() {
+        TourLog l = new TourLog();
         l.setUid(uid.get());
         l.setTourID(tourUID.get());
         l.setComment(comment.get());

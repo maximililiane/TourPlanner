@@ -1,6 +1,6 @@
 package at.technikum_wien.tourPlanner.view;
 
-import at.technikum_wien.tourPlanner.models.Tour;
+
 import at.technikum_wien.tourPlanner.viewModel.ImportWindowViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,13 +13,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class ImportWindowController {
 
@@ -64,7 +59,7 @@ public class ImportWindowController {
 
     }
 
-    public void importData(ActionEvent actionEvent) {
+    public void importData() {
         importWindowViewModel.importData((File) jsonFileList.getSelectionModel().getSelectedItem());
         closeWindow();
     }

@@ -1,13 +1,18 @@
 package at.technikum_wien.tourPlanner.view;
 
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.models.TransportMode;
 import at.technikum_wien.tourPlanner.viewModel.DescriptionViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,6 +45,7 @@ public class DescriptionWindowController implements Initializable {
     public Label transportTypeLabel;
     public Label descriptionLabel;
     private ObservableList<Tour> tourObservableList;
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
     @FXML
     private int selectedTour;
 
@@ -55,7 +61,6 @@ public class DescriptionWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         this.tourObservableList = getTours();
         this.tourObservableList.addListener(new ListChangeListener<Tour>() {
             @Override
@@ -83,15 +88,9 @@ public class DescriptionWindowController implements Initializable {
     public void openAddTourWindow() {
         try {
             Parent root = FXMLDependencyInjection.load("addTourWindow.fxml", Locale.ENGLISH);
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Tour Planner");
-            stage.setScene(scene);
-            stage.setMinWidth(600.0);
-            stage.setMinHeight(525.0);
-            stage.setMaxHeight(525.0);
-            stage.show();
+            setUpWindow(root);
         } catch (IOException e) {
+            logger.error("An error occurred when opening the add tour window.\n" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -99,28 +98,37 @@ public class DescriptionWindowController implements Initializable {
     public void openEditTourWindow() {
         Tour tour = tourListView.getSelectionModel().getSelectedItem();
         try {
-            FXMLLoader loader = FXMLDependencyInjection.getLoader("editTourWindow.fxml", Locale.ENGLISH);
+            FXMLLoader loader = FXMLDependencyInjection.getLoader("addTourWindow.fxml", Locale.ENGLISH);
             Parent root = loader.load();
-            EditTourWindowController editTourWindowController = loader.getController();
+            AddTourWindowController controller = loader.getController();
 
-            editTourWindowController.tourId.setText(Integer.toString(tour.getUid()));
-            editTourWindowController.tourNameTextField.setText(tour.getName());
-            editTourWindowController.descriptionTextField.setText(tour.getDescription());
-            editTourWindowController.fromTextField.setText(tour.getStartingPoint());
-            editTourWindowController.toTextField.setText(tour.getDestination());
-            editTourWindowController.transportTypeLabel.setText(tour.getTransportType().name() + ")");
+            controller.setTourId(tour.getUid());
+            controller.tourNameTextField.setText(tour.getName());
+            controller.descriptionTextField.setText(tour.getDescription());
+            controller.fromTextField.setText(tour.getStartingPoint());
+            controller.toTextField.setText(tour.getDestination());
+            controller.transportModeCheckBox.setValue(tour.getTransportType());
+            controller.titleLabel.setText("Edit Tour");
+            controller.addTourButton.setText("update tour");
 
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Tour Planner");
-            stage.setScene(scene);
-            stage.setMinWidth(600.0);
-            stage.setMinHeight(525.0);
-            stage.setMaxHeight(525.0);
-            stage.show();
+            controller.addTourButton.setOnAction(t -> controller.editTour());
+
+            setUpWindow(root);
         } catch (IOException e) {
+            logger.error("An error occurred when opening the edit tour window.\n" + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void setUpWindow(Parent root) {
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Tour Planner");
+        stage.setScene(scene);
+        stage.setMinWidth(600.0);
+        stage.setMinHeight(525.0);
+        stage.setMaxHeight(525.0);
+        stage.show();
     }
 
     private void setUpListView() {
@@ -128,7 +136,7 @@ public class DescriptionWindowController implements Initializable {
         tourListView.setItems(tourObservableList);
 
         // rename list cells to only show the name of the tour
-        tourListView.setCellFactory(new Callback<ListView<Tour>, ListCell<Tour>>() {
+        tourListView.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Tour> call(ListView<Tour> tourListView) {
                 return new ListCell<>() {
@@ -157,31 +165,28 @@ public class DescriptionWindowController implements Initializable {
 
     // update view when new item on the list has been selected
     private void updateListView() {
-        tourListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tour>() {
-            @Override
-            public void changed(ObservableValue<? extends Tour> observableValue, Tour oldTour, Tour newTour) {
-                if (newTour != null) {
-                    selectedTour = tourListView.getSelectionModel().getSelectedIndex();
-                    updateLabels(newTour);
-                } else {
-                    // there are no more tours left in the database
-                    selectedTour = -1;
-                    titleLabel.setText("");
-                    popularityLabel.setText("");
-                    childFriendlinessLabel.setText("");
-                    fromLabel.setText("");
-                    toLabel.setText("");
-                    distanceLabel.setText("");
-                    estimatedTimeLabel.setText("");
-                    transportTypeLabel.setText("");
-                    descriptionLabel.setText("");
-                    mapImage.setImage(null);
-                }
+        tourListView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldTour, newTour) -> {
+            if (newTour != null) {
+                selectedTour = tourListView.getSelectionModel().getSelectedIndex();
+                updateLabels(newTour);
+            } else {
+                // there are no more tours left in the database
+                selectedTour = -1;
+                titleLabel.setText("");
+                popularityLabel.setText("");
+                childFriendlinessLabel.setText("");
+                fromLabel.setText("");
+                toLabel.setText("");
+                distanceLabel.setText("");
+                estimatedTimeLabel.setText("");
+                transportTypeLabel.setText("");
+                descriptionLabel.setText("");
+                mapImage.setImage(null);
             }
         });
     }
 
-    public void saveSummaryReport(ActionEvent actionEvent) {
+    public void saveSummaryReport() {
         descriptionViewModel.saveSummaryReport(tourObservableList.get(selectedTour));
     }
 
@@ -206,7 +211,7 @@ public class DescriptionWindowController implements Initializable {
                 tour.getChildFriendly() == 0 ? "N/A" : String.valueOf(tour.getChildFriendly()));
         fromLabel.setText(tour.getStartingPoint());
         toLabel.setText(tour.getDestination());
-        distanceLabel.setText(String.valueOf(tour.getLength()) + " miles");
+        distanceLabel.setText(tour.getLength() + " miles");
         estimatedTimeLabel.setText(tour.getDuration());
         transportTypeLabel.setText(tour.getTransportType().name());
         descriptionLabel.setText(tour.getDescription());
@@ -214,7 +219,6 @@ public class DescriptionWindowController implements Initializable {
     }
 
     private void hideButtonsAndText() {
-        //saveTourButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         editButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         deleteButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());
         saveReportButton.visibleProperty().bind(tourListView.getSelectionModel().selectedItemProperty().isNotNull());

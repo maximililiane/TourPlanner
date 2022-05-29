@@ -39,11 +39,15 @@ public class TourService extends Mapper {
         this.tours = getTours();
     }
 
+    // set tour table name to either "tours" or "demo_tours" according to application
     public void setTourTableName(TableName tableName) {
+        logger.debug("tour database table has been set to: " + tableName.getName());
         tourRepository.setTableName(tableName);
     }
 
+    // search in database, return list of results in the form of "tourName - description - from - to - log comment"
     public LinkedList<String> searchTours(String searchString) {
+        logger.debug("Searching in database for: " + searchString);
         try {
             return tourRepository.searchTours(searchString);
         } catch (SQLException e) {
@@ -55,10 +59,12 @@ public class TourService extends Mapper {
 
     public void resetTourTable() {
         try {
+            logger.debug("Resetting demo_tour table.");
             tourRepository.resetTourTable();
             this.tours.clear();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occurred when resetting the demo_tours database table.\n" + e.getMessage());
         }
     }
 
@@ -81,10 +87,10 @@ public class TourService extends Mapper {
     }
 
     public void addTour(Tour tour) {
+        logger.debug("Adding tour: " + tour);
         // get tourID from database
         try {
             tour.setUid(tourRepository.getNextTourId());
-            System.out.println(tour.getUid());
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to retrieve the next tourID;\n" + e.getMessage());
@@ -115,6 +121,7 @@ public class TourService extends Mapper {
                 .filter(t -> t.getName().equals(name))
                 .findAny()
                 .orElse(null);
+        logger.debug("Deleting tour: " + tour);
 
         if (tour != null) {
             try {
@@ -133,6 +140,7 @@ public class TourService extends Mapper {
                 .filter(t -> t.getUid() == tour.getUid())
                 .findAny().get();
         int index = tours.indexOf(oldTour);
+        logger.debug("Updating tour: " + oldTour + " to: " + tour);
 
         try {
             oldTour.setName(tour.getName());
@@ -156,23 +164,23 @@ public class TourService extends Mapper {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to edit a tour in the database; tourID: " + tour.getUid() + ";\n" + e.getMessage());
-
         }
     }
 
 
     public void saveReport(Tour tour) {
         try {
+            logger.debug("Generating tour report for tour: " + tour);
             PdfGeneration.generateTourReport(tour);
         } catch (IOException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to save a report;\n" + e.getMessage());
-
         }
     }
 
     public void saveSummaryReport(Tour tour) {
         try {
+            logger.debug("Generating tour summary report for tour: " + tour);
             PdfGeneration.generateSummaryReport(tour);
         } catch (IOException e) {
             e.printStackTrace();
@@ -186,8 +194,8 @@ public class TourService extends Mapper {
     }
 
     public void exportData(Tour tour) {
+        logger.debug("Exporting data for tour: " + tour);
         try {
-            // TODO: get data folder from config
             // check if file directory where data should be saved exists
             File imageDirectory = new File("tours/");
             if (!imageDirectory.exists()) {
@@ -209,7 +217,7 @@ public class TourService extends Mapper {
     }
 
     public Tour importData(File file) {
-        logger.debug("Importing Data from file: " + file.getName());
+        logger.debug("Importing tour data from file: " + file.getName());
 
         try {
             String json = FileUtils.readFileToString(file, "UTF-8");
@@ -244,10 +252,8 @@ public class TourService extends Mapper {
             e.printStackTrace();
             logger.error("An error occurred while trying to import data;\n" + e.getMessage());
         }
-
         return null;
     }
-
 
     // write image into images folder, return name of file that image is in
     private Tour saveImage(Tour tour) {
@@ -294,6 +300,7 @@ public class TourService extends Mapper {
     }
 
     public void addDemoData() {
+        logger.debug("Adding demo tour data...");
         Tour tourA = toObject("{\"name\":\"Tour A\",\"startingPoint\":\"Vienna\",\"destination\":\"Eisenstadt\",\"duration\":\"00:41:32\",\"transportType\":\"FASTEST\",\"description\":\"Perfect tour for a short trip out of the city.\",\"popularity\":3,\"length\":33.035,\"childFriendly\":97,\"mapImage\":\"tourA.jpeg\",\"logs\":[{\"date\":1653343200000,\"comment\":\"Some light traffic on the way there, but still had a great time.\",\"difficulty\":5,\"totalTime\":{\"totalTime\":\"01:04:00\"},\"rating\":5},{\"date\":1653429600000,\"comment\":\"\",\"difficulty\":2,\"totalTime\":{\"totalTime\":\"00:52:00\"},\"rating\":5},{\"date\":1652220000000,\"comment\":\"There's construction on the highway, took us a lot longer to get there than expected.\",\"difficulty\":15,\"totalTime\":{\"totalTime\":\"01:20:00\"},\"rating\":4}]}", Tour.class);
         tourA.setUid(1);
         Tour tourB = toObject("{\"name\":\"Tour B\",\"startingPoint\":\"Graz\",\"destination\":\"Venice\",\"duration\":\"04:12:10\",\"transportType\":\"FASTEST\",\"description\":\"Cross the border for a trip to the European boot!\",\"popularity\":0,\"length\":272.139,\"childFriendly\":0,\"mapImage\":\"tourB.jpeg\",\"logs\":[]}", Tour.class);
@@ -305,7 +312,6 @@ public class TourService extends Mapper {
         Tour tourE = toObject("{\"name\":\"Tour E\",\"startingPoint\":\"Wales\",\"destination\":\"Dublin\",\"duration\":\"07:57:54\",\"transportType\":\"FASTEST\",\"description\":\"Experience your own Brexit with this tour.\",\"popularity\":1,\"length\":233.029,\"childFriendly\":62,\"mapImage\":\"tourE.jpeg\",\"logs\":[{\"date\":1653688800000,\"comment\":\"I drove my car into the water! Because the GPS told me to!\",\"difficulty\":74,\"totalTime\":{\"totalTime\":\"05:30:00\"},\"rating\":1}]}", Tour.class);
         tourE.setUid(5);
 
-        System.out.println(tourA);
         try {
             tourRepository.addTour(tourA);
             tourRepository.addTour(tourB);

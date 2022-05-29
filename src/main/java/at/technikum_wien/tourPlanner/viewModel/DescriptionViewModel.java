@@ -26,17 +26,17 @@ public class DescriptionViewModel {
     }
 
     public void deleteTour(String name) {
-        logger.info("User tries to delete tour from database; TourName: " + name);
+        logger.debug("User tries to delete tour from database; TourName: " + name);
         tourService.deleteTour(name);
     }
 
     public void saveReport(Tour tour) {
-        logger.info("User tries to save a report");
+        logger.debug("User tries to save a report");
         tourService.saveReport(tour);
     }
 
     public void saveSummaryReport(Tour tour) {
-        logger.info("User tries to save a summary-report");
+        logger.debug("User tries to save a summary-report");
         tourService.saveSummaryReport(tour);
     }
 

@@ -29,5 +29,7 @@ Maximiliane:
 2h fix import data bug
 3h implement search
 3h add demo tour data, fix bugs
+2h add code comments and missing logger messages, remove editTourWindowController and use addTourWindows instead
+
 
 Julian:

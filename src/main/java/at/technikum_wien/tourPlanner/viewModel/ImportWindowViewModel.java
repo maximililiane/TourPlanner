@@ -14,7 +14,7 @@ public class ImportWindowViewModel {
 
     private TourService tourService;
     private TourLogService tourLogService;
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
 
     public ImportWindowViewModel(TourService tourService, TourLogService tourLogService) {
@@ -23,7 +23,6 @@ public class ImportWindowViewModel {
     }
 
     public List<File> getJsonFileNamesFromDirectory() {
-        //TODO: get path from config?
         File directory = new File("/importData");
 
         if (!directory.exists()) {
@@ -35,8 +34,10 @@ public class ImportWindowViewModel {
 
         if (files != null)
             return Arrays.asList(files);
-        else
+        else {
+            logger.info("There are no JSON files in directory");
             return null;
+        }
     }
 
     public void importData(File file) {
@@ -45,7 +46,7 @@ public class ImportWindowViewModel {
             if (importedTour.getLogs() != null) {
                 // imported tour has logs to be parsed
                 tourLogService.importLogsByTourId(importedTour, importedTour.getLogs());
-                logger.info("User tries to import tour via file; Filepath: " + file.getPath());
+                logger.debug("User tries to import tour via file; Filepath: " + file.getPath());
             }
         }
     }

@@ -17,16 +17,8 @@ public class RouteInfo {
         return statusCode;
     }
 
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
-    }
-
     public String[] getMessages() {
         return messages;
-    }
-
-    public void setMessages(String[] messages) {
-        this.messages = messages;
     }
 
     @Override

@@ -11,10 +11,10 @@ import javafx.collections.ObservableList;
 public class TourLogViewModel {
 
 
-    private TourLogService tourLogService;
-    private TourService tourService;
-    private ObservableList<TourLog> logs;
-    private ObservableList<Tour> tours;
+    private final TourLogService tourLogService;
+    private final TourService tourService;
+    private final ObservableList<TourLog> logs;
+    private final ObservableList<Tour> tours;
     private final LoggerWrapper logger = LoggerFactory.getLogger();
 
 
@@ -34,7 +34,7 @@ public class TourLogViewModel {
     }
 
     public void deleteLog(TourLog log) {
-        logger.info("User tries to delete log from database; LogID: " + log.getUid());
+        logger.debug("User tries to delete log from database; LogID: " + log.getUid());
         tourLogService.deleteLog(log);
     }
 

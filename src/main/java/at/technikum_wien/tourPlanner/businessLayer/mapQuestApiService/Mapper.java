@@ -12,19 +12,16 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.sql.Time;
 
 public abstract class Mapper {
-    //TODO: potentially rename class
 
-    private final ObjectMapper objectMapper;
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public Mapper() {
-        this.objectMapper = new ObjectMapper();
     }
 
+    // format object to json string
     protected String json(Object object) {
         ObjectMapper mapper = new ObjectMapper();
 
-        String json = null;
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -37,11 +34,11 @@ public abstract class Mapper {
     // parser json to Object for responses
     protected <T> T toObject(String json, Class<T> c) {
         ObjectMapper mapper = new ObjectMapper();
+        // this module is needed for (de-)serializing Time.java for the TourLog totalTime attribute
         SimpleModule module = new SimpleModule();
         module.addSerializer(Time.class, new TimeSerializer());
         module.addDeserializer(Time.class, new TimeDeserializer());
         mapper.registerModule(module);
-
 
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -58,7 +55,4 @@ public abstract class Mapper {
         return object;
     }
 
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
-    }
 }

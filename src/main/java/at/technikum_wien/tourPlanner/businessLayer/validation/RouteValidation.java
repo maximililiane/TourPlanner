@@ -9,7 +9,7 @@ public class RouteValidation {
 
     public boolean invalidLocations(String statusCode, String[] messages) {
         if (statusCode.equals("402")) {
-            logger.error(messages[0] + " Please try again.");
+            logger.info(messages[0] + " Please try again.");
             return true;
         }
         return false;
@@ -17,7 +17,7 @@ public class RouteValidation {
 
     public boolean invalidDistance(double distance) {
         if (distance == 0) {
-            logger.error("Invalid location(s). The start & end point need to be existent and different from each other.");
+            logger.info("Invalid location(s). The start & end point need to be existent and different from each other.");
             return true;
         }
         return false;
@@ -25,7 +25,7 @@ public class RouteValidation {
 
     public boolean invalidPedestrianDistance(String statusCode) {
         if (statusCode.equals("607") || statusCode.equals("608")) { // 607 & 608 exceeded maximum gross distance for locations
-            logger.error("Exceeded pedestrian maximum gross distance (200.0 miles) for locations.");
+            logger.info("Exceeded pedestrian maximum gross distance (200.0 miles) for locations.");
             return true;
         }
 
@@ -34,7 +34,7 @@ public class RouteValidation {
 
     public boolean isUnknownError(String statusCode) {
         if (statusCode.equals("500")) {
-            logger.error("An unknown error has occurred while parsing tour data. Please try again with valid data.");
+            logger.info("An unknown error has occurred while parsing tour data. Please try again with valid data.");
             return true;
         }
         return false;

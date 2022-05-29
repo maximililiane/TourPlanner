@@ -1,6 +1,8 @@
 package at.technikum_wien.tourPlanner.view;
 
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
+import at.technikum_wien.tourPlanner.logging.LoggerFactory;
+import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.viewModel.StartWindowViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
@@ -16,18 +18,19 @@ public class StartWindowController {
     private final StartWindowViewModel startWindowViewModel;
     public Button startRegularTourPlannerButton;
     public Button startDemoTourPlannerButton;
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public StartWindowController(StartWindowViewModel startWindowViewModel) {
         this.startWindowViewModel = startWindowViewModel;
     }
 
-    public void startRegularTourPlanner(ActionEvent actionEvent) {
+    public void startRegularTourPlanner() {
         startWindowViewModel.startRegularTourPlanner();
         openMainWindow();
         closeWindow();
     }
 
-    public void startDemoTourPlanner(ActionEvent actionEvent) {
+    public void startDemoTourPlanner() {
         startWindowViewModel.startDemoTourPlanner();
         openMainWindow();
         closeWindow();
@@ -49,6 +52,7 @@ public class StartWindowController {
             stage.setMinWidth(900.0);
             stage.show();
         } catch (IOException e) {
+            logger.error("An error occurred when opening the main tour application window.\n" + e.getMessage());
             e.printStackTrace();
         }
 

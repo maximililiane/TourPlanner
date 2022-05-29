@@ -1,6 +1,5 @@
 package at.technikum_wien.tourPlanner.dataAccessLayer.dto.mapQuest;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RouteResponse {
@@ -14,10 +13,6 @@ public class RouteResponse {
 
     public Route getRoute() {
         return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
     }
 
     public RouteInfo getRouteInfo() {

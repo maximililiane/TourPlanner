@@ -5,16 +5,19 @@ import at.technikum_wien.tourPlanner.businessLayer.validation.TourInputValidatio
 import at.technikum_wien.tourPlanner.logging.LoggerFactory;
 import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
+import at.technikum_wien.tourPlanner.models.TransportMode;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 public class AddTourWindowViewModel {
 
 
     private final TourService tourService;
     private final TourInputValidation tourInputValidation = new TourInputValidation();
+    private final ObservableList<Tour> tours;
 
     private final LoggerWrapper logger = LoggerFactory.getLogger();
 
@@ -28,6 +31,7 @@ public class AddTourWindowViewModel {
 
     public AddTourWindowViewModel(TourService tourService) {
         this.tourService = tourService;
+        this.tours = tourService.getTours();
         nameString.addListener((arg, oldVal, newVal) -> isAddDisabledBinding.invalidate());
         fromString.addListener((arg, oldVal, newVal) -> isAddDisabledBinding.invalidate());
         toString.addListener((arg, oldVal, newVal) -> isAddDisabledBinding.invalidate());
@@ -55,8 +59,19 @@ public class AddTourWindowViewModel {
     }
 
     public void addTour(Tour tour) {
-        logger.info("User tries to add a tour to the database; Tourname: " + tour.getName());
+        logger.debug("User tries to add a tour to the database; Tour name: " + tour.getName());
         tourService.addTour(tour);
+    }
+
+    public void editTour(int tourId, TransportMode transportMode) {
+        Tour oldTour = tours.stream().filter(t -> t.getUid() == tourId).findFirst().get();
+        Tour newTour = new Tour(nameStringProperty().get(), fromStringProperty().get(), toStringProperty().get(),
+                transportMode, descriptionStringProperty().get());
+        newTour.setLogs(oldTour.getLogs());
+        newTour.setPopularity();
+        newTour.setUid(oldTour.getUid());
+        logger.debug("User tries editing a tour in the database; Tour name: " + newTour.getName());
+        tourService.editTour(newTour);
     }
 
     public boolean invalidName() {

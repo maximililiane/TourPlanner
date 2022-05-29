@@ -25,7 +25,7 @@ public class MapQuestApi extends Mapper {
 
     private final String API_KEY;
 
-    private final LoggerWrapper logger= LoggerFactory.getLogger();
+    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     public MapQuestApi() {
         super();
@@ -33,7 +33,6 @@ public class MapQuestApi extends Mapper {
         this.API_KEY = configuration.get("mapQuest.key");
     }
 
-    // TODO: add threading
     // GET route from MapQuest API
     public RouteResponse getRoute(String from, String to, TransportMode transportMode) {
         try {
@@ -62,13 +61,11 @@ public class MapQuestApi extends Mapper {
 
             // parse get request into RouteResponse
             RouteResponse routeResponse = toObject(response.body(), RouteResponse.class);
-            System.out.println(routeResponse);
 
             return routeResponse;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            logger.error("An error occured while retrieving a route;\n" + e.getMessage());
-
+            logger.error("An error occurred while retrieving a route from " + from + " to " + to + ";\n" + e.getMessage());
         }
         return null;
     }
@@ -81,7 +78,6 @@ public class MapQuestApi extends Mapper {
             //prepare URI
             StringBuilder uriBuilder = new StringBuilder();
             uriBuilder.append(baseUri);
-            // TODO: change size?
             uriBuilder.append("&size=640,480");
             uriBuilder.append("&defaultMarker=none");
             uriBuilder.append("&zoom=11");
@@ -110,7 +106,7 @@ public class MapQuestApi extends Mapper {
             return ImageIO.read(new ByteArrayInputStream(byteArray));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            logger.error("An error occured while retrieving a map;\n" + e.getMessage());
+            logger.error("An error occurred while retrieving the map image from the API;\n" + e.getMessage());
 
         }
         return null;

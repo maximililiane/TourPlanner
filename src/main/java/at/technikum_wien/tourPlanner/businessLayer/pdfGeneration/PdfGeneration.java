@@ -19,12 +19,7 @@ import java.io.IOException;
 
 public class PdfGeneration {
 
-    //  private final String REPORT_DIRECTORY;
 
-//    public PdfGeneration() {
-//        Configuration configuration = Injector.getConfig("app.properties");
-//        this.REPORT_DIRECTORY = configuration.get("report.directory");
-//    }
 
     public static void generateTourReport(Tour tour) throws IOException {
         // check if file directory where reports should be saved exists
@@ -39,6 +34,7 @@ public class PdfGeneration {
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
+        // header
         Paragraph tourReportHeader = new Paragraph(tour.getName() + " Report")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(18)
@@ -46,6 +42,7 @@ public class PdfGeneration {
                 .setFontColor(ColorConstants.BLUE);
         document.add(tourReportHeader);
 
+        // attributes
         document.add(new Paragraph("Name: " + tour.getName()));
         document.add(new Paragraph("Description: " + tour.getDescription()));
         document.add(new Paragraph("Starting Point: " + tour.getStartingPoint()));
@@ -54,6 +51,7 @@ public class PdfGeneration {
         document.add(new Paragraph("Tour Distance: " + tour.getLength()));
         document.add(new Paragraph("Estimated Time: " + tour.getDuration()));
 
+        // log table
         Paragraph tourLogsHeader = new Paragraph(tour.getName() + " Logs")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(18)
@@ -84,6 +82,7 @@ public class PdfGeneration {
 
         document.add(new AreaBreak());
 
+        // tour map image
         Paragraph imageHeader = new Paragraph(tour.getName() + " Route")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(18)
@@ -110,6 +109,7 @@ public class PdfGeneration {
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
+        // header
         Paragraph summaryReportHeader = new Paragraph(tour.getName() + " Summary Report")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(18)
@@ -118,9 +118,10 @@ public class PdfGeneration {
         document.add(summaryReportHeader);
 
         if (tour.getLogs().isEmpty()) {
+            // tour has no logs so no data can be generated
             document.add(new Paragraph(tour.getName() + " has no logs. No data can be generated."));
         } else {
-
+            // tour log data
             String[] averages = calculateAverages(tour.getLogs());
             document.add(new Paragraph("Average Time: " + averages[0]));
             document.add(new Paragraph("Average Difficulty: " + averages[1]));
@@ -164,7 +165,7 @@ public class PdfGeneration {
         // parse averageTime from minutes back into hh:mm format
         int hours = averageTime / 60;
         int minutes = averageTime % 60;
-        String returnTime = (Integer.toString(hours) + ":" + Integer.toString(minutes));
+        String returnTime = (hours + ":" + minutes);
 
         returnArray[0] = returnTime;
         returnArray[1] = Integer.toString(averageDifficulty);

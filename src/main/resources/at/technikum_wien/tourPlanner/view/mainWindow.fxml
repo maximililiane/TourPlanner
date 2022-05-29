@@ -25,12 +25,7 @@
                  tabMinWidth="275.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
             <tabs>
-                <Tab text="List">
-                    <content>
-                        <fx:include source="ListWindow.fxml"/>
-                    </content>
-                </Tab>
-                <Tab text="Description">
+                <Tab text="Tour Description">
                     <content>
                         <fx:include source="descriptionWindow.fxml"/>
                     </content>
@@ -38,6 +33,11 @@
                 <Tab text="Logs">
                     <content>
                         <fx:include source="tourLogWindow.fxml"/>
+                    </content>
+                </Tab>
+                <Tab text="Log List">
+                    <content>
+                        <fx:include source="ListWindow.fxml"/>
                     </content>
                 </Tab>
             </tabs>

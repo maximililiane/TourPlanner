@@ -10,7 +10,6 @@ import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class TourLogService extends Mapper {
     private final TourLogRepository tourLogRepository;
     private final TourRepository tourRepository;
     private ObservableList<TourLog> logs;
-    private ObservableList<Tour> tours;
+    private final ObservableList<Tour> tours;
 
     private final LoggerWrapper logger = LoggerFactory.getLogger();
 
@@ -31,39 +30,43 @@ public class TourLogService extends Mapper {
         this.tourRepository = tourRepository;
         this.logs = getLogs();
         this.tours = getTours();
-        this.tours.addListener(new ListChangeListener<Tour>() {
-            @Override
-            public void onChanged(Change<? extends Tour> change) {
-                while (change.next()) {
-                    if (change.wasRemoved()) {
-                        deleteTourLogs();
-                    } else if (change.wasReplaced()) {
-                        tours.forEach(t -> t.setChildFriendly(calculateChildFriendliness(t.getLength(), t.getLogs())));
-                    }
+        this.tours.addListener((ListChangeListener<Tour>) change -> {
+            while (change.next()) {
+                if (change.wasRemoved()) {
+                    // a tour was deleted so the associated tour logs need to be deleted
+                    deleteTourLogs();
+                } else if (change.wasReplaced()) {
+                    // a tour has been updated so the computed attributes need to be updated
+                    tours.forEach(t -> t.setChildFriendly(calculateChildFriendliness(t.getLength(), t.getLogs())));
                 }
             }
         });
     }
 
+    // set the tour log table to either "logs" or "demo_logs" depending on start Window choice
     public void setTourLogTableName(TableName tableName) {
+        logger.debug("Set database logs table name to: " + tableName.getName());
         tourLogRepository.setTableName(tableName);
         this.logs = tourLogRepository.getObservableLogList();
         assignLogsToTours();
     }
 
+    // "demo_logs" table needs to be reset every time "start demo tour planner" is chosen
     public void resetLogTable() {
         try {
+            logger.debug("Resetting demo_logs table.");
             tourLogRepository.resetLogTable();
             this.logs.clear();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("An error occurred while trying to reset the demo_logs table \n" + e.getMessage());
         }
     }
 
+    // add tour log to repository, update associated tour, add new log
     public void addTourLog(TourLog l) {
         try {
             l.setUid(tourLogRepository.getNewestLogId());
-            System.out.println(l.getUid());
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("An error occurred while trying to retrieve the newest LogID; " + e.getMessage());
@@ -77,9 +80,9 @@ public class TourLogService extends Mapper {
 
         addLogToTour(l.getTourID(), l);
         logs.add(l);
-        System.out.println(logs);
     }
 
+    // update tour according to new log, update computed attributes
     public void addLogToTour(int tourId, TourLog log) {
         Tour tour = tours.stream().filter(t -> t.getUid() == tourId).findAny().get();
         int index = tours.indexOf(tour);
@@ -90,6 +93,7 @@ public class TourLogService extends Mapper {
         tours.set(index, tour);
     }
 
+    // calculate the child friendliness of a tour in regard to the length of the tour, average log time & average log difficulty
     private int calculateChildFriendliness(double tourDistance, List<TourLog> tourLogs) {
         if (tourLogs.size() == 0) {
             // there are no tour logs so child friendliness cannot be computed
@@ -121,7 +125,7 @@ public class TourLogService extends Mapper {
 
         }
 
-        // distance difficulty,
+        // distance difficulty
         if (tourDistance < 100) {
             distanceDifficulty = 100;
         } else if (tourDistance > 1000) {
@@ -137,6 +141,7 @@ public class TourLogService extends Mapper {
 
     }
 
+    // edit tour log
     public void editTourLog(TourLog updatedLog) {
         try {
             tourLogRepository.editLog(updatedLog);
@@ -148,9 +153,9 @@ public class TourLogService extends Mapper {
             e.printStackTrace();
             logger.error("An error occurred while trying to edit a log in the database; LogID: " + updatedLog.getUid() + ";\n" + e.getMessage());
         }
-        System.out.println(logs);
     }
 
+    // delete tour log
     public void deleteLog(TourLog log) {
         try {
             tourLogRepository.deleteLog(log.getUid());
@@ -160,10 +165,9 @@ public class TourLogService extends Mapper {
             e.printStackTrace();
             logger.error("An error occurred while trying to delete a log in the database; LogID: " + log.getUid() + ";\n" + e.getMessage());
         }
-        System.out.println(logs);
     }
 
-
+    // when a log is deleted, the associated tour needs to be updated
     private void deleteLogFromTour(int tourId, TourLog log) {
         Tour tour = tours.stream().filter(t -> t.getUid() == tourId).findAny().get();
         int index = tours.indexOf(tour);
@@ -174,6 +178,7 @@ public class TourLogService extends Mapper {
         tours.set(index, tour);
     }
 
+    // when a log is updated, the associated tour needs to be updated
     private void updateLogInTour(int tourId, TourLog log) {
         Tour tour = tours.stream().filter(t -> t.getUid() == tourId).findAny().get();
         int index = tours.indexOf(tour);
@@ -184,6 +189,7 @@ public class TourLogService extends Mapper {
         tours.set(index, tour);
     }
 
+    // update tour in database
     private void updateTour(int tourId, int popularity, int childFriendliness) {
         try {
             tourRepository.updatePopularity(tourId, popularity);
@@ -212,6 +218,7 @@ public class TourLogService extends Mapper {
         return tourRepository.getObservableTourList();
     }
 
+    // when importing a tour, the associated logs also need to be saved to the database
     public void importLogsByTourId(Tour importedTour, List<TourLog> importedLogs) {
         for (TourLog log : importedLogs) {
             log.setTourID(importedTour.getUid());
@@ -232,7 +239,7 @@ public class TourLogService extends Mapper {
         return this.logs;
     }
 
-
+    // add logs to associated tours, also update computed attributes accordingly
     private void assignLogsToTours() {
         for (Tour tour : tours) {
             tour.setLogs(new LinkedList<>());
@@ -246,10 +253,6 @@ public class TourLogService extends Mapper {
         }
     }
 
-    private void resetLogsInTours() {
-        tours.forEach(tour -> tour.setLogs(new LinkedList<>()));
-    }
-
     // a tour was deleted so the associated tour logs also need to be deleted from the observable log list
     private void deleteTourLogs() {
         List<Integer> tourIds = tours.stream()
@@ -260,7 +263,9 @@ public class TourLogService extends Mapper {
         logs.removeAll(toDelete);
     }
 
+    // insert demo log data for demo tour planner
     public void addDemoLogs() {
+        logger.debug("Inserting demo log data...");
         TourLog tourALog1 = toObject("{\"date\":1653343200000,\"comment\":\"Some light traffic on the way there, but still had a great time.\",\"difficulty\":5,\"totalTime\":{\"totalTime\":\"01:04:00\"},\"rating\":5}", TourLog.class);
         tourALog1.setUid(1);
         tourALog1.setTourID(1);
@@ -307,7 +312,6 @@ public class TourLogService extends Mapper {
             logger.error("Error while saving demo logs");
             e.printStackTrace();
         }
-
 
     }
 

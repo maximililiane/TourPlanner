@@ -8,7 +8,7 @@ public class CustomContextMenu {
     MenuItem showLogDetailsItem;
 
     public CustomContextMenu() {
-        cm= new ContextMenu();
+        cm = new ContextMenu();
         showLogDetailsItem = new MenuItem("show Log details");
         cm.getItems().addAll(showLogDetailsItem);
     }

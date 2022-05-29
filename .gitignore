@@ -1,6 +1,6 @@
 /.idea
 /src/main/resources/app.properties
 /reports
-/images
+#/images
 /tours
 /importData

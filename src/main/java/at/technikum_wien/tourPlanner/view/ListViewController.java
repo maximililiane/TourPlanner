@@ -54,6 +54,7 @@ public class ListViewController {
             TableRow<LogViewRow> row = new TableRow<>();
             return row;
         });
+        tourTable.getSortOrder().add(dateColumn);
     }
 
     private void associateColumns() {

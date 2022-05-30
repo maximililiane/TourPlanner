@@ -1,7 +1,5 @@
 package at.technikum_wien.tourPlanner.view;
 
-import at.technikum_wien.tourPlanner.logging.LoggerFactory;
-import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.AddLogWindowViewModel;
 import javafx.collections.FXCollections;
@@ -15,7 +13,6 @@ import java.util.LinkedList;
 public class AddLogWindowController {
 
     private final AddLogWindowViewModel addLogWindowViewModel;
-    private final LoggerWrapper logger = LoggerFactory.getLogger();
 
     @FXML
     public Button saveLogButton;

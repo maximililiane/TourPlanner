@@ -2,24 +2,16 @@ package at.technikum_wien.tourPlanner.viewModel;
 
 import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
-import at.technikum_wien.tourPlanner.businessLayer.validation.TourInputValidation;
 import at.technikum_wien.tourPlanner.logging.LoggerFactory;
 import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
-import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.LinkedList;
 
 public class AddLogWindowViewModel {
 

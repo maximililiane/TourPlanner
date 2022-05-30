@@ -3,9 +3,7 @@ package at.technikum_wien.tourPlanner.view;
 import at.technikum_wien.tourPlanner.FXMLDependencyInjection;
 import at.technikum_wien.tourPlanner.logging.LoggerFactory;
 import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
-import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.viewModel.MainWindowViewModel;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,10 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MainWindowController {
 

@@ -5,12 +5,9 @@ import at.technikum_wien.tourPlanner.models.Tour;
 import at.technikum_wien.tourPlanner.models.TourLog;
 import at.technikum_wien.tourPlanner.viewModel.TourLogViewModel;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -67,6 +64,7 @@ public class TourLogWindowController {
     public void initialize() {
         this.tours = tourLogViewModel.getTourList();
         this.logs = tourLogViewModel.getLogList();
+        //add change listener
         this.tours.addListener((ListChangeListener<Tour>) change -> {
             while (change.next()) {
                 if (change.wasReplaced()) {
@@ -78,7 +76,7 @@ public class TourLogWindowController {
             }
 
         });
-
+        //add change listener
         this.logs.addListener((ListChangeListener<TourLog>) change -> {
             while (change.next()) {
                 if (change.wasReplaced()) {
@@ -92,7 +90,6 @@ public class TourLogWindowController {
         });
 
         setUpListView();
-
         updateListView();
         unHideButtons(false);
         initializeTourChooser();

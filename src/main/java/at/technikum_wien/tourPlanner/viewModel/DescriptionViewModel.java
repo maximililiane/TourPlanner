@@ -1,15 +1,10 @@
 package at.technikum_wien.tourPlanner.viewModel;
 
-
-import at.technikum_wien.tourPlanner.businessLayer.TourLogService;
 import at.technikum_wien.tourPlanner.businessLayer.TourService;
 import at.technikum_wien.tourPlanner.logging.LoggerFactory;
 import at.technikum_wien.tourPlanner.logging.LoggerWrapper;
 import at.technikum_wien.tourPlanner.models.Tour;
 import javafx.collections.ObservableList;
-
-import java.sql.SQLException;
-
 
 public class DescriptionViewModel {
 

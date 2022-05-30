@@ -4,7 +4,6 @@ package at.technikum_wien.tourPlanner.view;
 import at.technikum_wien.tourPlanner.viewModel.ImportWindowViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;

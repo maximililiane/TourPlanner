@@ -21,6 +21,7 @@ public class ControllerFactory {
     private TourRepository tourRepository;
     private TourLogRepository tourLogRepository;
     private final StartWindowViewModel startWindowViewModel;
+    private final ConnectionErrorWindowViewModel connectionErrorWindowViewModel;
 
     public ControllerFactory() {
         setUpDatabase();
@@ -35,6 +36,7 @@ public class ControllerFactory {
         this.importWindowViewModel = new ImportWindowViewModel(tourService, tourLogService);
         this.addLogWindowViewModel = new AddLogWindowViewModel(tourLogService, tourService);
         this.startWindowViewModel = new StartWindowViewModel(tourService, tourLogService);
+        this.connectionErrorWindowViewModel= new ConnectionErrorWindowViewModel();
     }
 
     private void setUpDatabase() {
@@ -72,7 +74,9 @@ public class ControllerFactory {
             return new AddLogWindowController(addLogWindowViewModel);
         } else if (controllerClass == StartWindowController.class) {
             return new StartWindowController(startWindowViewModel);
-        }
+        } else if (controllerClass == ConnectionErrorWindowController.class) {
+            return new ConnectionErrorWindowController(connectionErrorWindowViewModel);
+        } else
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }
 

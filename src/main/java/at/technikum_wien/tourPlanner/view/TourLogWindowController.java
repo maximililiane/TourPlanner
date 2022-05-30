@@ -205,9 +205,11 @@ public class TourLogWindowController {
             stage.setTitle("Tour Planner");
             stage.setScene(scene);
             stage.setMinWidth(600.0);
+            stage.setMaxWidth(600.0);
             stage.setMinHeight(525.0);
             stage.setMaxHeight(525.0);
             stage.show();
+            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -246,6 +248,7 @@ public class TourLogWindowController {
             stage.setTitle("Tour Planner");
             stage.setScene(scene);
             stage.setMinWidth(600.0);
+            stage.setMaxWidth(600.0);
             stage.setMinHeight(525.0);
             stage.setMaxHeight(525.0);
             stage.show();

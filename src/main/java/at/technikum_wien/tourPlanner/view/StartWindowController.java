@@ -51,6 +51,7 @@ public class StartWindowController {
             stage.setMinHeight(600.0);
             stage.setMinWidth(900.0);
             stage.show();
+            stage.setResizable(false);
         } catch (IOException e) {
             logger.error("An error occurred when opening the main tour application window.\n" + e.getMessage());
             e.printStackTrace();

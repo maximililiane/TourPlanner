@@ -210,7 +210,6 @@ public class TourLogWindowController {
             stage.setMinWidth(600.0);
             stage.setMinHeight(525.0);
             stage.setMaxHeight(525.0);
-            stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -252,7 +251,6 @@ public class TourLogWindowController {
             stage.setMinWidth(600.0);
             stage.setMinHeight(525.0);
             stage.setMaxHeight(525.0);
-            stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

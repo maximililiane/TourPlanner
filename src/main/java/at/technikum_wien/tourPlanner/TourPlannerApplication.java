@@ -36,7 +36,7 @@ public class TourPlannerApplication extends Application {
     }
 
     public static void main(String[] args) {
-//        logger.debug("Starting Tour Planner Application.");
+        logger.debug("Starting Tour Planner Application.");
         launch();
     }
 
@@ -45,7 +45,7 @@ public class TourPlannerApplication extends Application {
             new DatabaseConnector().connect();
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Could not connect to the database; " + e.getMessage());
+            logger.fatal("Could not connect to the database; " + e.getMessage());
             return false;
         }
         return true;

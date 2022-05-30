@@ -19,10 +19,10 @@ public class ConnectionErrorWindowController {
 
 
     public ConnectionErrorWindowController(ConnectionErrorWindowViewModel connectionErrorWindowViewModel) {
-        this.connectionErrorWindowViewModel=connectionErrorWindowViewModel;
+        this.connectionErrorWindowViewModel = connectionErrorWindowViewModel;
     }
 
-    public void closeApplication(){
+    public void closeApplication() {
         System.exit(0);
     }
 

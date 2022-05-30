@@ -5,23 +5,22 @@
 
 <AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum_wien.tourPlanner.view.TourLogWindowController">
     <ListView fx:id="logListView" prefHeight="550.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-    <TextArea fx:id="commentField" layoutX="240.0" layoutY="283.0" />
-    <Label layoutX="295.0" layoutY="81.0" prefHeight="17.0" prefWidth="166.0" text="Tour Name:" />
-    <Label layoutX="295.0" layoutY="114.0" prefHeight="17.0" prefWidth="53.0" text="Date:" />
-    <Label layoutX="595.0" layoutY="114.0" prefHeight="17.0" prefWidth="54.0" text="Difficulty:" />
-    <Label layoutX="452.0" layoutY="263.0" text="Comment" />
-    <Label layoutX="295.0" layoutY="146.0" prefHeight="17.0" prefWidth="73.0" text="Time:" />
-    <Button fx:id="addLogButton" layoutX="759.0" layoutY="283.0" mnemonicParsing="false" onAction="#openAddLogWindow" prefHeight="25.0" prefWidth="94.0" text="add Log" />
-    <Button fx:id="editLogButton" layoutX="759.0" layoutY="366.0" mnemonicParsing="false" onAction="#openEditLogWindow" prefHeight="25.0" prefWidth="94.0" text="edit Log" />
-    <Button fx:id="deleteLogButton" layoutX="759.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteLog" prefHeight="25.0" prefWidth="94.0" text="delete Log" />
-    <Label fx:id="tourNameField" layoutX="380.0" layoutY="81.0" prefHeight="17.0" prefWidth="166.0" />
-    <Label fx:id="dateField" layoutX="381.0" layoutY="114.0" prefHeight="17.0" prefWidth="166.0" text=" " />
-    <Label fx:id="timeField" layoutX="379.0" layoutY="146.0" prefHeight="17.0" prefWidth="172.0" text=" " />
-    <Label layoutX="595.0" layoutY="146.0" text="Rating:" />
-    <Label fx:id="difficultyField" layoutX="684.0" layoutY="114.0" prefHeight="17.0" prefWidth="111.0" text=" " />
-    <Label fx:id="ratingField" layoutX="683.0" layoutY="146.0" prefHeight="17.0" prefWidth="111.0" text=" " />
-   <ChoiceBox fx:id="tourChooser" layoutX="622.0" layoutY="14.0" prefHeight="25.0" prefWidth="147.0" />
-   <Button fx:id="filterTourButton" layoutX="806.0" layoutY="14.0" mnemonicParsing="false" text="Filter Tours" />
+    <TextArea fx:id="commentField" layoutX="240.0" layoutY="283.0" prefHeight="239.0" prefWidth="479.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="181.0" />
+    <Label layoutX="295.0" layoutY="81.0" prefHeight="17.0" prefWidth="166.0" text="Tour Name:" AnchorPane.leftAnchor="295.0" AnchorPane.topAnchor="81.0" />
+    <Label layoutX="295.0" layoutY="114.0" prefHeight="17.0" prefWidth="53.0" text="Date:" AnchorPane.leftAnchor="295.0" AnchorPane.topAnchor="114.0" />
+    <Label layoutX="595.0" layoutY="114.0" prefHeight="17.0" prefWidth="54.0" text="Difficulty:" AnchorPane.rightAnchor="251.0" AnchorPane.topAnchor="114.0" />
+    <Label layoutX="295.0" layoutY="146.0" prefHeight="17.0" prefWidth="73.0" text="Time:" AnchorPane.leftAnchor="295.0" AnchorPane.topAnchor="146.0" />
+    <Button fx:id="addLogButton" layoutX="759.0" layoutY="283.0" mnemonicParsing="false" onAction="#openAddLogWindow" prefHeight="25.0" prefWidth="94.0" text="add Log" AnchorPane.bottomAnchor="241.66666666666666" AnchorPane.rightAnchor="47.0" />
+    <Button fx:id="editLogButton" layoutX="759.0" layoutY="389.0" mnemonicParsing="false" onAction="#openEditLogWindow" prefHeight="25.0" prefWidth="94.0" text="edit Log" AnchorPane.bottomAnchor="135.66666666666669" AnchorPane.rightAnchor="47.0" />
+    <Button fx:id="deleteLogButton" layoutX="759.0" layoutY="496.0" mnemonicParsing="false" onAction="#deleteLog" prefHeight="25.0" prefWidth="94.0" text="delete Log" AnchorPane.bottomAnchor="28.66666666666663" AnchorPane.rightAnchor="47.0" />
+    <Label fx:id="tourNameField" layoutX="380.0" layoutY="81.0" prefHeight="17.0" prefWidth="166.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="81.0" />
+    <Label fx:id="dateField" layoutX="381.0" layoutY="114.0" prefHeight="17.0" prefWidth="166.0" text=" " AnchorPane.leftAnchor="381.0" AnchorPane.topAnchor="114.0" />
+    <Label fx:id="timeField" layoutX="379.0" layoutY="146.0" prefHeight="17.0" prefWidth="172.0" text=" " AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="146.0" />
+    <Label layoutX="595.0" layoutY="146.0" prefHeight="17.0" prefWidth="54.0" text="Rating:" AnchorPane.rightAnchor="251.0" AnchorPane.topAnchor="146.0" />
+    <Label fx:id="difficultyField" layoutX="684.0" layoutY="114.0" prefHeight="17.0" prefWidth="111.0" text=" " AnchorPane.rightAnchor="104.66666666666667" AnchorPane.topAnchor="114.0" />
+    <Label fx:id="ratingField" layoutX="684.0" layoutY="146.0" prefHeight="17.0" prefWidth="111.0" text=" " AnchorPane.rightAnchor="104.66666666666667" AnchorPane.topAnchor="146.0" />
+   <ChoiceBox fx:id="tourChooser" layoutX="622.0" layoutY="14.0" prefHeight="25.0" prefWidth="147.0" AnchorPane.rightAnchor="130.66666666666666" AnchorPane.topAnchor="14.0" />
+   <Button fx:id="filterTourButton" layoutX="806.0" layoutY="14.0" mnemonicParsing="false" text="Filter Tours" AnchorPane.rightAnchor="18.66666666666667" AnchorPane.topAnchor="14.0" />
 
     <!--      <SplitPane dividerPositions="0.29378316906747537" layoutX="11.0" prefHeight="550.0" prefWidth="882.0">-->
     <!--         <items>-->
